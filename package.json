@@ -2,8 +2,9 @@
   "name": "@hexlet/code",
   "version": "1.0.0",
   "description": "Slack",
-  "main": "index.js",
+  "main": "index.jsx",
   "type": "module",
+  "workspaces": ["frontend"],
   "scripts": {
     "build": "npm run build --prefix frontend",
     "start": "start-server -s ./frontend/dist",
@@ -21,6 +22,7 @@
   },
   "homepage": "https://github.com/DmitryBalandin/frontend-project-12#readme",
   "dependencies": {
+    "@fastify/static": "^8.2.0",
     "@hexlet/chat-server": "^2.0.4"
   }
 }
