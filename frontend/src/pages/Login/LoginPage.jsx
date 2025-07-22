@@ -1,5 +1,7 @@
 import Navigation from "../../componenets/Navigation/Navigator"
 import Card from "../../componenets/Card/Card"
+import img from "../../assets/avatar-DIE1AEpS.jpg"
+import FormRegisrtation from "../../componenets/FormRegistartion/FormRegistration"
 
 function LoginPage(){
     return (
@@ -7,7 +9,9 @@ function LoginPage(){
         <div className="d-flex flex-column justify-content-between vh-100">
                <Navigation/>
                 <div className="align-self-center text-center col-12 col-md-8 col-xxl-6">
-                    <Card>FG</Card>
+                    <Card image={img} titleImage="Войти" footer>
+                        <FormRegisrtation/>
+                    </Card>
                 </div>
                 <footer>
                     
