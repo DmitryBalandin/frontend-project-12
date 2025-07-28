@@ -25,11 +25,11 @@ export default defineConfig({
   
 
   server: {
-    port: 5002,
+    port: 5001,
     proxy: {
       // Проксируем запросы к API
       '/api': {
-        target: 'http://localhost:5001',
+        target: 'http://localhost:5002',
       },
       // Проксируем WebSocket соединения
       '/socket.io': {

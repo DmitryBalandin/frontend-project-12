@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/DmitryBalandin/frontend-project-12#readme",
   "dependencies": {
-    "@hexlet/chat-server": "^2.0.4"
+    "@hexlet/chat-server": "^2.0.4",
+    "node": "^20.19.4"
   }
 }
