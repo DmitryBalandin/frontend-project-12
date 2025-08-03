@@ -1,4 +1,4 @@
-import { Formik, Form, Field} from 'formik';
+import { Formik, Form, Field } from 'formik';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
@@ -9,6 +9,7 @@ const FormRegisrtation = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
 
+   
     return (
 
         <div className='flex-grow-1 align-self-stretch '>
@@ -17,7 +18,7 @@ const FormRegisrtation = () => {
                 username: '',
                 password: ''
             }}
-                onSubmit={async (values, { setSubmitting }) => {
+                onSubmit={async (values, { setSubmitting, setStatus }) => {
                     const { username, password } = values;
                     try {
                         const responce = await axios.post('./api/v1/login', {
@@ -32,7 +33,7 @@ const FormRegisrtation = () => {
                         }
 
                     } catch (e) {
-
+                        setStatus('Неверные имя пользователя или пароль')
                         toast.dismiss()
                         toast.error('Неверные имя пользователя или пароль', {
                             position: "top-center",
@@ -51,19 +52,20 @@ const FormRegisrtation = () => {
 
                 }}
             >
-                {({ isSubmitting}) => (
+                {({ isSubmitting, status }) => (
                     <Form>
                         <Field
                             className={`form-control mb-3${status ? ' is-invalid' : ''}`}
                             type='username'
                             name='username'
                         />
+
                         <Field
                             className={`form-control mb-3${status ? ' is-invalid' : ''}`}
                             type='password'
                             name='password'
                         />
-                        <ToastContainer />
+                       {status && <div className='invalid-tooltip'>{status}</div>}
                         <button type="submit" className="btn btn-outline-primary w-100" disabled={isSubmitting}> {isSubmitting ? 'Вход...' : 'Войти'}</button>
                     </Form>
 
