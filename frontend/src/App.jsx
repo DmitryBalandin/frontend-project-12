@@ -9,7 +9,7 @@ import NotFoundPage from './pages/NotFoundPage/NotFoundPage';
 import SignUpPage from './pages/Signup/SignupPage';
 
 function App() {
-  const [count, setCount] = useState(0)
+
 
   return (
      <BrowserRouter>
