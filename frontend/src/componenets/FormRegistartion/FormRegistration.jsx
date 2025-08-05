@@ -59,14 +59,16 @@ const FormRegisrtation = () => {
                             type='username'
                             name='username'
                         />
-
+                        <div class="input-group has-validation">
                         <Field
                             className={`form-control mb-3${status ? ' is-invalid' : ''}`}
                             type='password'
                             name='password'
                         />
                        {status && <div className='invalid-tooltip'>{status}</div>}
-                        <button type="submit" className="btn btn-outline-primary w-100" disabled={isSubmitting}> {isSubmitting ? 'Вход...' : 'Войти'}</button>
+                       
+                        <button type="submit" className="btn btn-outline-primary w-100 rounded-1" disabled={isSubmitting}> {isSubmitting ? 'Вход...' : 'Войти'}</button>
+                        </div>
                     </Form>
 
                 )}
