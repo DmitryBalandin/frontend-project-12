@@ -5,7 +5,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { addChannels } from "../../slices/channelsSlice";
 import { selectors } from "../../slices/channelsSlice";
 import Navigation from "../../componenets/Navigation/Navigator";
-import Channels from '../../componenets/Channels/Channels'
+import Channels from '../../componenets/Channels/Channels';
+import MessagesCard from "../../componenets/MessagesCard/MessagesCard";
 function MainPage() {
     const navigator = useNavigate();
     const dispatch = useDispatch();
@@ -46,9 +47,8 @@ function MainPage() {
                         activeChannel={activeChannel}
                         setActiveChannel={setActiveChannel}
                     />
-                    <div className="col p-0 h-100">
-                        sdasd
-                    </div>
+                    <MessagesCard activeChannel={activeChannel}/>
+                    
                 </div>
             </div>
         </div>)

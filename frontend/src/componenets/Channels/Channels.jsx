@@ -1,14 +1,17 @@
+import crossInSquare from '../../assets/cross-in-square-svgrepo-com.svg'
 
-
-const Channels = ({channels, setActiveChannel,activeChannel}) => {
-     const handleClick = (id) => {
+const Channels = ({ channels, setActiveChannel, activeChannel }) => {
+    const handleClick = (id) => {
         setActiveChannel(id)
     }
     return (
 
         <div className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
-            <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
-                addChannels
+            <div className="d-flex mt-1 justify-content-around mb-2 ps-4 pe-2 p-4">
+                <b className='text-muted'>Channels</b>
+                <button type="button" className="p-0 text-primary btn btn-group-vertical ">
+                        <img src={crossInSquare} width="23" height="23" className="bg-secondary" alt="add channels" />
+                </button>
             </div>
             <ul id='channels-box' className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
                 {channels.map(({ id, name, removable }) => {
