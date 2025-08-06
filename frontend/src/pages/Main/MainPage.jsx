@@ -28,12 +28,13 @@ function MainPage() {
     //     }
 
     // }, [])
-
-    // const channels = useSelector(selectors.selectAll)
     const channelSS = [
         { id: '1', name: 'general', removable: false },
         { id: '2', name: 'random', removable: false }
     ]
+    dispatch(addChannels(channelSS));
+    const channels = useSelector(selectors.selectAll)
+
 
     return (
         <div className="d-flex flex-column vh-100">
@@ -43,12 +44,12 @@ function MainPage() {
             <div className="container flex-grow-1  my-4 rounded shadow">
                 <div className="row h-100 bg-white flex-md-row">
                     <Channels
-                        channels={channelSS}
+                        channels={channels}
                         activeChannel={activeChannel}
                         setActiveChannel={setActiveChannel}
                     />
-                    <MessagesCard activeChannel={activeChannel}/>
-                    
+                    <MessagesCard activeChannel={activeChannel} />
+
                 </div>
             </div>
         </div>)

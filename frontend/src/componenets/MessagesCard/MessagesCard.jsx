@@ -1,13 +1,14 @@
 import arrowLeft from '../../assets/right_arrow_icon_238558.svg';
-
-
+import { selectors as selectorsChannels } from '../../slices/channelsSlice';
+import { useSelector } from 'react-redux';
 const MessagesCard = ({ activeChannel }) => {
-    console.log(activeChannel)
+    console.log(typeof activeChannel)
+    const channelSelected = useSelector(state =>selectorsChannels.selectById(state,activeChannel))
     return (
         <div className="col p-0 h-100 flex-column d-flex">
             <div className="bg-light mb-4 p-3 shadow-sm small">
                 <p className="m-0">
-                    <b>{activeChannel}</b>
+                    <b className='display-6'>{`# ${channelSelected.name}`}</b>
                 </p>
                 <span className="text-muted">1 message</span>
             </div>
