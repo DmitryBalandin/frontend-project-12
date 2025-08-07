@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from 'react-redux'
 import { addChannels } from "../../slices/channelsSlice";
-import { selectors } from "../../slices/channelsSlice";
+import { selectors as selectorsChannels } from "../../slices/channelsSlice";
+import { selectors as selectorsMessages , addMessages} from "../../slices/messagesSlice";
 import Navigation from "../../componenets/Navigation/Navigator";
 import Channels from '../../componenets/Channels/Channels';
 import MessagesCard from "../../componenets/MessagesCard/MessagesCard";
@@ -32,8 +33,18 @@ function MainPage() {
         { id: '1', name: 'general', removable: false },
         { id: '2', name: 'random', removable: false }
     ]
+
+    const messages = [
+        { id: '3', body: 'new message', channelId: '1', username: 'admin' },
+        { id: '4', body: 'new ', channelId: '1', username: 'admin' },
+        { id: '5', body: 'message', channelId: '2', username: 'swat' },
+        { id: '6', body: 'new message', channelId: '2', username: 'admin' },
+        { id: '7', body: 'new ', channelId: '2', username: 'vano' }
+    ]
+
     dispatch(addChannels(channelSS));
-    const channels = useSelector(selectors.selectAll)
+    dispatch(addMessages(messages));
+    const channels = useSelector(selectorsChannels.selectAll)
 
 
     return (
