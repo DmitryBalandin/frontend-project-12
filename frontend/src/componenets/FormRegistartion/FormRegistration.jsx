@@ -59,7 +59,7 @@ const FormRegisrtation = () => {
                             type='username'
                             name='username'
                         />
-                        <div class="input-group has-validation">
+                        <div className="input-group has-validation">
                         <Field
                             className={`form-control mb-3${status ? ' is-invalid' : ''}`}
                             type='password'

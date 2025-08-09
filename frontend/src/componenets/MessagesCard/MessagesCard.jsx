@@ -1,27 +1,58 @@
 import arrowLeft from '../../assets/right_arrow_icon_238558.svg';
 import { selectors as selectorsChannels } from '../../slices/channelsSlice';
-import { selectors as selectorsMessages } from '../../slices/messagesSlice';
-import { useSelector } from 'react-redux';
-const MessagesCard = ({ activeChannel }) => {
+import { selectors as selectorsMessages, addMessage } from '../../slices/messagesSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectToken, selectUsername } from '../../slices/autxSlice';
+import store from '../../slices/store';
+import { useEffect, useState } from 'react';
+import socket from '../../socket'
+import axios from 'axios';
 
+const MessagesCard = ({ activeChannel }) => {
+    const [valueMessage, setValueMessage] = useState('')
     const channelSelected = useSelector(state => selectorsChannels.selectById(state, activeChannel));
+
     const messages = useSelector(state => selectorsMessages.selectAll(state))
+    const dispatch = useDispatch();
+    const username = selectUsername(store.getState());
+    // const {token} = selectToken(store.getState());
+   const {token} = JSON.parse(localStorage.getItem('userId'))
+    const printMessage = (payload) => {
+        console.log('socket',payload);
+        dispatch(addMessage(payload))
+    }
+    useEffect(() => {
+        socket.on('newMessage', printMessage);
+        return () => socket.off('newMessage', printMessage)
+    })
+
     const handleSubmit = (e) => {
         e.preventDefault()
-        console.log('addMessages')
-        console.log(messages.filter(({ channelId }) => channelId === activeChannel));
+        
+        console.log(username, token, valueMessage);
+        const newMessage = { body: valueMessage, channelId: activeChannel, username }
+        axios.post('/api/v1/messages', newMessage, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }).then((response) => {
+            console.log('axios',response.data); 
+        });
+        // dispatch(addMessage({ id, body: valueMessage, channelId: activeChannel, username }))
+
+        setValueMessage('')
     }
 
     return (
         <div className="col p-0 h-100 flex-column d-flex">
             <div className="bg-light mb-4 p-3 shadow-sm small">
                 <p className="m-0">
-                    <b className='display-6'>{`# ${channelSelected.name}`}</b>
+                    <b className='display-6'>{`# ${channelSelected?.name}`}</b>
                 </p>
                 <span className="text-muted">
                     {messages
-                    .filter(({ channelId }) => channelId === activeChannel)
-                    .length
+                        .filter(({ channelId }) => channelId === activeChannel)
+                        .length
                     } message</span>
             </div>
             <div className="chat-messages overflow-auto px-5 ">
@@ -45,6 +76,8 @@ const MessagesCard = ({ activeChannel }) => {
                             aria-label="Новое сообщение"
                             placeholder="Введите сообщение..."
                             className="border-0 p-0 ps-2 form-control"
+                            value={valueMessage}
+                            onChange={(e) => setValueMessage(e.target.value)}
                         />
                         <button type="submit" onClick={handleSubmit} className="btn btn-group-vertical" >
                             <img src={arrowLeft} className="img-fluid" alt="arrow send" />
