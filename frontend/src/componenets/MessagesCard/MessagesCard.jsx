@@ -18,7 +18,7 @@ const MessagesCard = ({ activeChannel }) => {
     // const {token} = selectToken(store.getState());
    const {token} = JSON.parse(localStorage.getItem('userId'))
     const printMessage = (payload) => {
-        console.log('socket',payload);
+
         dispatch(addMessage(payload))
     }
     useEffect(() => {
@@ -29,15 +29,15 @@ const MessagesCard = ({ activeChannel }) => {
     const handleSubmit = (e) => {
         e.preventDefault()
         
-        console.log(username, token, valueMessage);
+       
         const newMessage = { body: valueMessage, channelId: activeChannel, username }
         axios.post('/api/v1/messages', newMessage, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
-        }).then((response) => {
-            console.log('axios',response.data); 
-        });
+        }).catch((e)=>{
+            console.log(e)
+        })
         // dispatch(addMessage({ id, body: valueMessage, channelId: activeChannel, username }))
 
         setValueMessage('')

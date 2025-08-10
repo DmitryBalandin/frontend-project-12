@@ -27,7 +27,7 @@ const FormRegisrtation = () => {
                         })
                         if (responce.status === 200) {
                             localStorage.setItem('userId', JSON.stringify(responce.data))
-                            const token = responce.data;
+                            const {token, username} = responce.data;
                             dispatch(setUsersData(({ username, token })))
                             navigate('/')
                         }

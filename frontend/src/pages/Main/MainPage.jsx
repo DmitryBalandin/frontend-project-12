@@ -8,6 +8,10 @@ import { selectors as selectorsMessages , addMessages} from "../../slices/messag
 import Navigation from "../../componenets/Navigation/Navigator";
 import Channels from '../../componenets/Channels/Channels';
 import MessagesCard from "../../componenets/MessagesCard/MessagesCard";
+import store from "../../slices/store";
+import { selectToken, selectUsername } from '../../slices/autxSlice';
+import { setUsersData } from "../../slices/autxSlice";
+
 function MainPage() {
     const navigator = useNavigate();
     const dispatch = useDispatch();
@@ -37,25 +41,21 @@ function MainPage() {
 
     }, [])
 
+    useEffect(()=>{
+        const username = selectUsername(store.getState());
+        const token = selectToken(store.getState());
+        const userId = JSON.parse(localStorage.getItem('userId'))
+        if(userId && token === null && username === null){
+            dispatch(setUsersData(userId))
+        }
+    },[])
+
     const handleLogOut = () =>{
         localStorage.removeItem('userId')
         navigator('/login');
     }
-    const channelSS = [
-        { id: '1', name: 'general', removable: false },
-        { id: '2', name: 'random', removable: false }
-    ]
+  
 
-    const messages = [
-        { id: '3', body: 'new message', channelId: '1', username: 'admin' },
-        { id: '4', body: 'new ', channelId: '1', username: 'admin' },
-        { id: '5', body: 'message', channelId: '2', username: 'swat' },
-        { id: '6', body: 'new message', channelId: '2', username: 'admin' },
-        { id: '7', body: 'new ', channelId: '2', username: 'vano' }
-    ]
-
-    // dispatch(addChannels(channelSS));
-    // dispatch(addMessages(messages));
     const channels = useSelector(selectorsChannels.selectAll)
 
 
