@@ -1,9 +1,9 @@
-
-
 import { useState } from 'react'
 import crossInSquare from '../../assets/cross-in-square-svgrepo-com.svg'
 import AddChanelModal from '../Modals/AddChanelModal'
-
+import Button from 'react-bootstrap/Button';
+import ButtonGroup from 'react-bootstrap/ButtonGroup';
+import Dropdown from 'react-bootstrap/Dropdown';
 
 const Channels = ({ channels, setActiveChannel, activeChannel }) => {
     const [showModal, setShowModal] = useState(true)
@@ -11,17 +11,17 @@ const Channels = ({ channels, setActiveChannel, activeChannel }) => {
     const handleClick = (id) => {
         setActiveChannel(id)
     }
-    const handleAddChannel = () =>{
+    const handleAddChannel = () => {
         setShowModal(true);
         setTypeModal('add');
     }
 
-    const renderModal = ({show,type = null}) =>{
-        switch (type){
+    const renderModal = ({ show, type = null }) => {
+        switch (type) {
             case 'add':
-                return <AddChanelModal show={show} setShow={setShowModal} setActiveChannel={setActiveChannel}/>
+                return <AddChanelModal show={show} setShow={setShowModal} setActiveChannel={setActiveChannel} />
             default:
-                return    
+                return
         }
     }
     return (
@@ -30,24 +30,44 @@ const Channels = ({ channels, setActiveChannel, activeChannel }) => {
             <div className="d-flex mt-1 justify-content-around mb-2 ps-4 pe-2 p-4">
                 <b className='text-muted'>Channels</b>
                 <button type="button" className="p-0 text-primary btn btn-group-vertical" onClick={handleAddChannel}>
-                        <img src={crossInSquare} width="23" height="23" className="bg-secondary" alt="add channels" />
+                    <img src={crossInSquare} width="23" height="23" className="bg-secondary" alt="add channels" />
                 </button>
             </div>
             <ul id='channels-box' className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
                 {channels.map(({ id, name, removable }) => {
+                    if (!removable) {
+                        return (<li key={id} className="nav-item w-100">
+                            <button
+                                type="button"
+                                onClick={() => handleClick(id)}
+                                className={`w-100 rounded-0 text-start btn${activeChannel === id ? ' btn-secondary' : ''}`}
+                            >
+                                <span className="me-1">#</span>
+                                {name}
+                            </button>
+                        </li>)
+                    }
                     return (<li key={id} className="nav-item w-100">
-                        <button
-                            type="button"
-                            onClick={() => handleClick(id)}
-                            className={`w-100 rounded-0 text-start btn${activeChannel === id ? ' btn-secondary' : ''}`}
-                        >
-                            <span className="me-1">#</span>
-                            {name}
-                        </button>
+                        
+                        <Dropdown as={ButtonGroup} className='w-100'>
+                            <Button onClick={() => handleClick(id)} className={`w-100 rounded-0 text-start text-black btn text-truncate${activeChannel === id ? ' btn-secondary text-white' : ''}`}>
+                                <span className="me-1">#</span>
+                                {name}
+                            </Button>
+
+                            <Dropdown.Toggle split  id="dropdown-split-basic" />
+
+                            <Dropdown.Menu>
+                                <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+                                <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+                                <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                            </Dropdown.Menu>
+                        </Dropdown>
+                        
                     </li>)
                 })}
             </ul>
-            {renderModal({show:showModal, type:typeModal})}
+            {renderModal({ show: showModal, type: typeModal })}
         </div>
     )
 }
