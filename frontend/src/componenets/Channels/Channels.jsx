@@ -4,6 +4,8 @@ import AddChanelModal from '../Modals/AddChanelModal'
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
+import RenameModal from '../Modals/RenameModal';
+
 
 const Channels = ({ channels, setActiveChannel, activeChannel }) => {
     const [showModal, setShowModal] = useState(true)
@@ -11,15 +13,17 @@ const Channels = ({ channels, setActiveChannel, activeChannel }) => {
     const handleClick = (id) => {
         setActiveChannel(id)
     }
-    const handleAddChannel = () => {
+    const handleAddChannel = (action) => {
         setShowModal(true);
-        setTypeModal('add');
+        setTypeModal(action);
     }
 
     const renderModal = ({ show, type = null }) => {
         switch (type) {
             case 'add':
                 return <AddChanelModal show={show} setShow={setShowModal} setActiveChannel={setActiveChannel} />
+            case 'rename':
+                return <RenameModal show={show} setShow={setShowModal} indexChannel={activeChannel}/>    
             default:
                 return
         }
@@ -29,7 +33,7 @@ const Channels = ({ channels, setActiveChannel, activeChannel }) => {
         <div className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
             <div className="d-flex mt-1 justify-content-around mb-2 ps-4 pe-2 p-4">
                 <b className='text-muted'>Channels</b>
-                <button type="button" className="p-0 text-primary btn btn-group-vertical" onClick={handleAddChannel}>
+                <button type="button" className="p-0 text-primary btn btn-group-vertical" onClick={() =>handleAddChannel('add')}>
                     <img src={crossInSquare} width="23" height="23" className="bg-secondary" alt="add channels" />
                 </button>
             </div>
@@ -49,18 +53,17 @@ const Channels = ({ channels, setActiveChannel, activeChannel }) => {
                     }
                     return (<li key={id} className="nav-item w-100">
                         
-                        <Dropdown as={ButtonGroup} className='w-100'>
-                            <Button onClick={() => handleClick(id)} className={`w-100 rounded-0 text-start text-black btn text-truncate${activeChannel === id ? ' btn-secondary text-white' : ''}`}>
+                        <Dropdown as={ButtonGroup} className=' w-100'>
+                            <Button onClick={() => handleClick(id)} className={`w-100 rounded-0 text-start text-black border-0 text-truncate${activeChannel === id ? ' btn-secondary text-white' : ' bg-light '}`}>
                                 <span className="me-1">#</span>
                                 {name}
                             </Button>
 
-                            <Dropdown.Toggle split  id="dropdown-split-basic" />
+                            <Dropdown.Toggle className={`border-0 ${activeChannel === id ? ' bg-secondary text-white' : ' bg-light text-black'}`} split  id="dropdown-split-basic" />
 
-                            <Dropdown.Menu>
-                                <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                                <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                                <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                            <Dropdown.Menu >
+                                <Dropdown.Item as={Button} >Удалить</Dropdown.Item>
+                                <Dropdown.Item as={Button} onClick={() => handleAddChannel('rename')}>Переименовать</Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
                         
