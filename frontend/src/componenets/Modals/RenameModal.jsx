@@ -1,21 +1,48 @@
 import { Modal, FormGroup, FormControl } from 'react-bootstrap'
 import { useFormik } from 'formik';
+import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import {  upsertChannel } from '../../slices/channelsSlice';
+import socket from '../../socket';
+import axios from 'axios';
+import { selectToken } from '../../slices/autxSlice';
+import store from '../../slices/store';
+
+
 const RenameModal = ({ show, setShow, indexChannel }) => {
     const closeButton = () => setShow(false)
-    
-
+    const dispatch = useDispatch()
+    console.log("render modal rename")
     const formik = useFormik({
         initialValues: {
             body: '',
         },
         onSubmit: ({ body }) => {
-            console.log(indexChannel, body)
-
-            // formik.formik.resetForm();
-            closeButton();
+            const editerChannel = { name: body };
+            const token = selectToken(store.getState());
+            axios.patch(`/api/v1/channels/${indexChannel}`, editerChannel, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            }).catch((e) => console.log(e))
+            
         },
     });
-    const handleCloseModal = () =>{
+
+   
+
+    const renameChannelFromSocket = (payload) => {
+            console.log(payload);
+            dispatch(upsertChannel(payload)) 
+            formik.resetForm();
+            setShow(false);
+        }
+
+    useEffect(() => {
+        socket.on('renameChannel', renameChannelFromSocket);
+        return () => socket.off('renameChannel', renameChannelFromSocket)
+    })
+    const handleCloseModal = () => {
         closeButton();
         formik.resetForm();
     }

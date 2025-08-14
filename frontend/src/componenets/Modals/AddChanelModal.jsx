@@ -10,7 +10,6 @@ import { addChannel } from '../../slices/channelsSlice';
 
 
 const AddChanelModal = ({ show, setShow, setActiveChannel }) => {
-
     const inputRef = useRef()
     useEffect(() => {
         inputRef.current?.focus()
@@ -37,6 +36,7 @@ const AddChanelModal = ({ show, setShow, setActiveChannel }) => {
 
     const addChannelFormSocket = (payload) => {
         const { id } = payload
+        console.log(payload)
         dispatch(addChannel(payload))
         setShow(false)
         setActiveChannel(id)
