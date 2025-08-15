@@ -17,8 +17,6 @@ const AddChanelModal = ({ show, setShow, setActiveChannel }) => {
 
     const dispatch = useDispatch();
     const closeButton = () => setShow(false);
-
-
     const formik = useFormik({
         initialValues: { body: '' },
         onSubmit: ({ body }) => {
@@ -36,7 +34,6 @@ const AddChanelModal = ({ show, setShow, setActiveChannel }) => {
 
     const addChannelFormSocket = (payload) => {
         const { id } = payload
-        console.log(payload)
         dispatch(addChannel(payload))
         setShow(false)
         setActiveChannel(id)

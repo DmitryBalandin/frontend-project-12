@@ -9,10 +9,9 @@ import { selectToken } from '../../slices/autxSlice';
 import store from '../../slices/store';
 
 
-const RenameModal = ({ show, setShow, indexChannel }) => {
+const RenameModal = ({ show, setShow, indexChannel,setActiveChannel }) => {
     const closeButton = () => setShow(false)
     const dispatch = useDispatch()
-    console.log("render modal rename")
     const formik = useFormik({
         initialValues: {
             body: '',
@@ -32,10 +31,10 @@ const RenameModal = ({ show, setShow, indexChannel }) => {
    
 
     const renameChannelFromSocket = (payload) => {
-            console.log(payload);
             dispatch(upsertChannel(payload)) 
             formik.resetForm();
             setShow(false);
+            setActiveChannel(indexChannel)
         }
 
     useEffect(() => {
