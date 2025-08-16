@@ -7,9 +7,7 @@ import { selectToken } from '../../slices/autxSlice';
 import { removeChannel } from '../../slices/channelsSlice';
 import { useDispatch } from 'react-redux';
 
-
-
-const RemoveModal = ({ show, setShow, indexModal }) => {
+const RemoveModal = ({ show, setShow, indexModal, activeChannel, setActiveChannel}) => {
 
   const closeButton = () => setShow(false);
   const dispatch = useDispatch();
@@ -27,6 +25,10 @@ const RemoveModal = ({ show, setShow, indexModal }) => {
     const {id} = payload;
     dispatch(removeChannel(id));
     closeButton(); 
+    console.log(activeChannel, id)
+    if(activeChannel === id){
+      setActiveChannel('1')
+    }
   }
 
   useEffect(() => {

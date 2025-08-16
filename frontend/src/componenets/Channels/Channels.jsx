@@ -38,6 +38,7 @@ const Channels = ({ channels, setActiveChannel, activeChannel }) => {
                 setShow={setShowModal}
                 setActiveChannel={setActiveChannel}
                 indexModal={id}
+                activeChannel={activeChannel} 
                 />
             }       
             default:
