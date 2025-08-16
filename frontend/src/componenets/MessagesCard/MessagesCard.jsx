@@ -30,7 +30,7 @@ const MessagesCard = ({ activeChannel }) => {
         e.preventDefault()
         const token = selectToken(store.getState());
         const newMessage = { body: valueMessage, channelId: activeChannel, username }
-        axios.post(routes.allMessages(), newMessage, {
+        axios.post(routes.messages.allMessages(), newMessage, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },

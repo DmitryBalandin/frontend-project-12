@@ -21,7 +21,7 @@ const RemoveModal = ({ show, setShow, indexModal, activeChannel, setActiveChanne
     initialValues:'',
     onSubmit: () => {
       const token = selectToken(store.getState());
-
+      inputRef.current.disabled
       axios.delete(routes.channels.channelId(indexModal), {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -39,7 +39,6 @@ const RemoveModal = ({ show, setShow, indexModal, activeChannel, setActiveChanne
     const { id } = payload;
     dispatch(removeChannel(id));
     closeButton();
-    console.log(activeChannel, id)
     if (activeChannel === id) {
       setActiveChannel('1')
     }
@@ -58,7 +57,7 @@ const RemoveModal = ({ show, setShow, indexModal, activeChannel, setActiveChanne
       <Modal.Body>
         <form onSubmit={formik.handleSubmit}>
           <FormGroup className="form-group">
-            <input className="btn btn-danger" type="submit" value="remove" ref={inputRef} />
+            <input className="btn btn-danger" type="submit" value="remove" ref={inputRef} disabled={formik.isSubmitting}/>
           </FormGroup>
         </form>
       </Modal.Body>

@@ -6,11 +6,16 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import Dropdown from 'react-bootstrap/Dropdown';
 import RenameModal from '../Modals/RenameModal';
 import RemoveModal from '../Modals/RemoveModal';
-
+import { selectors as selectorsChannels } from '../../slices/channelsSlice';
+import { useSelector } from 'react-redux';
 
 const Channels = ({ channels, setActiveChannel, activeChannel }) => {
     const [showModal, setShowModal] = useState(true)
     const [dateModal, setDateModal] = useState({ type: null, id: null })
+
+    const listNamesChannels = useSelector(state => selectorsChannels.selectAll(state))
+        .map(({ name }) => name)
+
     const handleClick = (id) => {
         setActiveChannel(id)
     }
@@ -25,22 +30,24 @@ const Channels = ({ channels, setActiveChannel, activeChannel }) => {
                 return <AddChanelModal
                     show={show}
                     setShow={setShowModal}
-                    setActiveChannel={setActiveChannel} />
+                    setActiveChannel={setActiveChannel}
+                    listNamesChannels={listNamesChannels} />
             case 'rename':
                 return <RenameModal
                     show={show}
                     setShow={setShowModal}
                     setActiveChannel={setActiveChannel}
-                    indexChannel={id} />
-            case 'remove':{
+                    indexChannel={id} 
+                    listNamesChannels={listNamesChannels}/>
+            case 'remove': {
                 return <RemoveModal
-                show={show}
-                setShow={setShowModal}
-                setActiveChannel={setActiveChannel}
-                indexModal={id}
-                activeChannel={activeChannel} 
+                    show={show}
+                    setShow={setShowModal}
+                    setActiveChannel={setActiveChannel}
+                    indexModal={id}
+                    activeChannel={activeChannel}
                 />
-            }       
+            }
             default:
                 return
         }
