@@ -6,6 +6,7 @@ import socket from '../../socket';
 import { selectToken } from '../../slices/autxSlice';
 import { removeChannel } from '../../slices/channelsSlice';
 import { useDispatch } from 'react-redux';
+import routes from '../../routes';
 
 const RemoveModal = ({ show, setShow, indexModal, activeChannel, setActiveChannel}) => {
 
@@ -14,7 +15,7 @@ const RemoveModal = ({ show, setShow, indexModal, activeChannel, setActiveChanne
   const removeChannelFromServer = () => {
     const token = selectToken(store.getState());
 
-    axios.delete(`/api/v1/channels/${indexModal}`, {
+    axios.delete(routes.channels.channelId(indexModal), {
       headers: {
         Authorization: `Bearer ${token}`,
       },

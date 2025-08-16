@@ -7,7 +7,7 @@ import socket from '../../socket';
 import axios from 'axios';
 import { selectToken } from '../../slices/autxSlice';
 import store from '../../slices/store';
-
+import routes from '../../routes';
 
 const RenameModal = ({ show, setShow, indexChannel,setActiveChannel }) => {
     const closeButton = () => setShow(false)
@@ -19,7 +19,7 @@ const RenameModal = ({ show, setShow, indexChannel,setActiveChannel }) => {
         onSubmit: ({ body }) => {
             const editerChannel = { name: body };
             const token = selectToken(store.getState());
-            axios.patch(`/api/v1/channels/${indexChannel}`, editerChannel, {
+            axios.patch(routes.channels.channelId(indexChannel), editerChannel, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }

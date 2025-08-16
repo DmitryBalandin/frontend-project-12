@@ -11,6 +11,7 @@ import MessagesCard from "../../componenets/MessagesCard/MessagesCard";
 import store from "../../slices/store";
 import { selectToken, selectUsername } from '../../slices/autxSlice';
 import { setUsersData } from "../../slices/autxSlice";
+import routes from "../../routes";
 
 function MainPage() {
     const navigator = useNavigate();
@@ -22,7 +23,7 @@ function MainPage() {
             navigator('/login');
         } else {
             const { token } = userId;
-            axios.get('/api/v1/channels', {
+            axios.get(routes.channels.allChannels(), {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -30,7 +31,7 @@ function MainPage() {
                 dispatch(addChannels(response.data));
             });
 
-            axios.get('/api/v1/messages', {
+            axios.get(routes.messages.allMessages(), {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },

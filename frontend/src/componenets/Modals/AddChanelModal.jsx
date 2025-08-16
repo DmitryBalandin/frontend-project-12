@@ -7,7 +7,7 @@ import { useDispatch } from 'react-redux';
 import store from '../../slices/store';
 import { selectToken } from '../../slices/autxSlice';
 import { addChannel } from '../../slices/channelsSlice';
-
+import routes from '../../routes';
 
 const AddChanelModal = ({ show, setShow, setActiveChannel }) => {
     const inputRef = useRef()
@@ -23,7 +23,7 @@ const AddChanelModal = ({ show, setShow, setActiveChannel }) => {
             const token = selectToken(store.getState())
             const newChannel = { name: body }
 
-            axios.post('/api/v1/channels', newChannel, {
+            axios.post(routes.channels.allChannels(), newChannel, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },

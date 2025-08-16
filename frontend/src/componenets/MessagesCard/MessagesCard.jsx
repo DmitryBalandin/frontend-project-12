@@ -7,6 +7,8 @@ import store from '../../slices/store';
 import { useEffect, useState } from 'react';
 import socket from '../../socket'
 import axios from 'axios';
+import routes from '../../routes';
+
 
 const MessagesCard = ({ activeChannel }) => {
     const [valueMessage, setValueMessage] = useState('')
@@ -15,8 +17,6 @@ const MessagesCard = ({ activeChannel }) => {
     const messages = useSelector(state => selectorsMessages.selectAll(state))
     const dispatch = useDispatch();
     const username = selectUsername(store.getState());
-    // const {token} = selectToken(store.getState());
-   const {token} = JSON.parse(localStorage.getItem('userId'))
     const printMessage = (payload) => {
 
         dispatch(addMessage(payload))
@@ -28,18 +28,15 @@ const MessagesCard = ({ activeChannel }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        
-       
+        const token = selectToken(store.getState());
         const newMessage = { body: valueMessage, channelId: activeChannel, username }
-        axios.post('/api/v1/messages', newMessage, {
+        axios.post(routes.allMessages(), newMessage, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
         }).catch((e)=>{
             console.log(e)
         })
-        // dispatch(addMessage({ id, body: valueMessage, channelId: activeChannel, username }))
-
         setValueMessage('')
     }
 
