@@ -1,7 +1,7 @@
 import { Modal, FormGroup, FormControl } from 'react-bootstrap'
 import { useFormik } from 'formik';
 import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import {  upsertChannel } from '../../slices/channelsSlice';
 import socket from '../../socket';
 import axios from 'axios';
@@ -12,6 +12,10 @@ import routes from '../../routes';
 const RenameModal = ({ show, setShow, indexChannel,setActiveChannel }) => {
     const closeButton = () => setShow(false)
     const dispatch = useDispatch()
+    const inputRef = useRef()
+    useEffect(() => {
+        inputRef.current?.focus()
+    })
     const formik = useFormik({
         initialValues: {
             body: '',
@@ -57,6 +61,7 @@ const RenameModal = ({ show, setShow, indexChannel,setActiveChannel }) => {
                             className="mb-3"
                             type="text"
                             name="body"
+                            ref={inputRef}
                             onChange={formik.handleChange}
                             value={formik.values.body}
                             required />

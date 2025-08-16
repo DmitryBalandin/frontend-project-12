@@ -13,7 +13,7 @@ const AddChanelModal = ({ show, setShow, setActiveChannel }) => {
     const inputRef = useRef()
     useEffect(() => {
         inputRef.current?.focus()
-    }, [show])
+    })
 
     const dispatch = useDispatch();
     const closeButton = () => setShow(false);
@@ -60,8 +60,9 @@ const AddChanelModal = ({ show, setShow, setActiveChannel }) => {
                             value={formik.values.body}
                             name="body"
                         />
-                    </FormGroup>
                     <input type="submit" className="btn btn-primary mt-2" value="submit" />
+
+                    </FormGroup>
                 </form>
             </Modal.Body>
         </Modal>
