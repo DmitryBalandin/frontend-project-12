@@ -1,13 +1,13 @@
 export default {
   translation: {
     errors: {
-      empty: 'Не должно быть пустым',
-      url: 'Ссылка должна быть валидным URL',
-      existOnList: 'RSS уже существует',
+      tooMin: 'От 3 до 20 символов',
+      tooMax: 'От 3 до 20 символов',
+      requiredField: 'Обязательное поле',
+      existOnList: 'Должно быть уникальным',
+
       network: 'Ошибка сети',
-      rssIsNotValid: 'Ресурс не содержит валидный RSS',
       unknow: 'Неизвестная ошибка',
     },
-    success: 'RSS успешно загружен',
   },
 }

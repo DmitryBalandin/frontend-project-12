@@ -8,9 +8,11 @@ import { selectToken } from '../../slices/autxSlice';
 import store from '../../slices/store';
 import routes from '../../routes';
 import { selectors as selectorsChannels } from '../../slices/channelsSlice';
+import { useTranslation } from 'react-i18next';
 
 
 const RenameModal = ({ show, setShow, indexChannel,listNamesChannels, setIsHost }) => {
+    const { t } = useTranslation();
     const closeButton = () => setShow(false)
     const inputRef = useRef()
     const { name: nameRenamingChannel } = useSelector(state => selectorsChannels.selectById(state, indexChannel))
@@ -23,10 +25,10 @@ const RenameModal = ({ show, setShow, indexChannel,listNamesChannels, setIsHost 
 
   const validationSchema = Yup.object().shape({
         body: Yup.string()
-            .min(3, 'От 3 до 20 символов')
-            .max(20, 'От 3 до 20 символов')
-            .required('Обязательное поле')
-            .notOneOf(listNamesChannels,'Должно быть уникальным')
+            .min(3, ()=>t('errors.tooMin'))
+            .max(20, ()=>t('errors.tooMax'))
+            .required(()=>t('errors.requiredField'))
+            .notOneOf(listNamesChannels,()=>t('errors.existOnList') )
     });
 
     const formik = useFormik({

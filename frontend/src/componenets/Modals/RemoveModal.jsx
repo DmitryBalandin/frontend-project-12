@@ -3,38 +3,35 @@ import axios from 'axios';
 import { useFormik } from 'formik';
 import store from '../../slices/store';
 import { useEffect, useRef } from 'react';
-import socket from '../../socket';
 import { selectToken } from '../../slices/autxSlice';
-import { removeChannel } from '../../slices/channelsSlice';
-import { useDispatch } from 'react-redux';
 import routes from '../../routes';
 
 
 
-const RemoveModal = ({ show, setShow, indexModal, activeChannel, setActiveChannel }) => {
+const RemoveModal = ({ show, setShow, indexModal }) => {
   const inputRef = useRef()
   useEffect(() => {
     inputRef.current?.focus()
   })
-
+  const closeButton = () => setShow(false);
   const formik = useFormik({
-    initialValues:'',
-    onSubmit: (values,{setSubmitting}) => {
+    initialValues: '',
+    onSubmit: (values, { setSubmitting }) => {
       const token = selectToken(store.getState());
       inputRef.current.disabled
       axios.delete(routes.channels.channelId(indexModal), {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      }).then(()=>{
-          closeButton();
+      }).then(() => {
+        closeButton();
       }).catch(e => console.log(e))
-      .finally(()=> setSubmitting(false))
+        .finally(() => setSubmitting(false))
     }
   })
 
-  const closeButton = () => setShow(false);
-  const dispatch = useDispatch();
+
+
 
   return (
     <Modal show={show} onHide={closeButton}  >
@@ -42,9 +39,13 @@ const RemoveModal = ({ show, setShow, indexModal, activeChannel, setActiveChanne
         <Modal.Title>Remove</Modal.Title>
       </Modal.Header>
       <Modal.Body>
+        <p className='lead'>Уверены?</p>
         <form onSubmit={formik.handleSubmit}>
           <FormGroup className="form-group">
-            <input className="btn btn-danger" type="submit" value="remove" ref={inputRef} disabled={formik.isSubmitting}/>
+            <div className='d-flex justify-content-end'>
+              <input className='btn btn-secondary  me-3' value="Отменить" type='button' onClick={closeButton}/>
+              <input className="btn btn-danger" type="submit" value="remove" ref={inputRef} disabled={formik.isSubmitting} />
+            </div>
           </FormGroup>
         </form>
       </Modal.Body>
