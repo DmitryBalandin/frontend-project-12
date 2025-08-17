@@ -19,35 +19,22 @@ const RemoveModal = ({ show, setShow, indexModal, activeChannel, setActiveChanne
 
   const formik = useFormik({
     initialValues:'',
-    onSubmit: () => {
+    onSubmit: (values,{setSubmitting}) => {
       const token = selectToken(store.getState());
       inputRef.current.disabled
       axios.delete(routes.channels.channelId(indexModal), {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      }).catch(e => console.log(e));
-
+      }).then(()=>{
+          closeButton();
+      }).catch(e => console.log(e))
+      .finally(()=> setSubmitting(false))
     }
   })
 
   const closeButton = () => setShow(false);
   const dispatch = useDispatch();
-
-
-  const removeChannelFromStore = (payload) => {
-    const { id } = payload;
-    dispatch(removeChannel(id));
-    closeButton();
-    if (activeChannel === id) {
-      setActiveChannel('1')
-    }
-  }
-
-  useEffect(() => {
-    socket.on('removeChannel', removeChannelFromStore)
-    return () => socket.off('removeChannel', removeChannelFromStore)
-  })
 
   return (
     <Modal show={show} onHide={closeButton}  >

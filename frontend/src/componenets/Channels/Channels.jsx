@@ -9,7 +9,7 @@ import RemoveModal from '../Modals/RemoveModal';
 import { selectors as selectorsChannels } from '../../slices/channelsSlice';
 import { useSelector } from 'react-redux';
 
-const Channels = ({ channels, setActiveChannel, activeChannel }) => {
+const Channels = ({ channels, setActiveChannel, activeChannel,setIsHost }) => {
     const [showModal, setShowModal] = useState(true)
     const [dateModal, setDateModal] = useState({ type: null, id: null })
 
@@ -30,15 +30,15 @@ const Channels = ({ channels, setActiveChannel, activeChannel }) => {
                 return <AddChanelModal
                     show={show}
                     setShow={setShowModal}
-                    setActiveChannel={setActiveChannel}
-                    listNamesChannels={listNamesChannels} />
+                    listNamesChannels={listNamesChannels}
+                    setIsHost={setIsHost} />
             case 'rename':
                 return <RenameModal
                     show={show}
                     setShow={setShowModal}
-                    setActiveChannel={setActiveChannel}
                     indexChannel={id} 
-                    listNamesChannels={listNamesChannels}/>
+                    listNamesChannels={listNamesChannels}
+                    setIsHost={setIsHost}/>
             case 'remove': {
                 return <RemoveModal
                     show={show}

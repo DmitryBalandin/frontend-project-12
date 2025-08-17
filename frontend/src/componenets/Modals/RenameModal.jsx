@@ -1,10 +1,8 @@
 import { Modal, FormGroup, FormControl } from 'react-bootstrap'
 import { useFormik } from 'formik';
-import { useDispatch, useSelector } from 'react-redux';
+import {  useSelector } from 'react-redux';
 import { useEffect, useRef } from 'react';
-import { upsertChannel } from '../../slices/channelsSlice';
 import * as Yup from 'yup';
-import socket from '../../socket';
 import axios from 'axios';
 import { selectToken } from '../../slices/autxSlice';
 import store from '../../slices/store';
@@ -12,9 +10,8 @@ import routes from '../../routes';
 import { selectors as selectorsChannels } from '../../slices/channelsSlice';
 
 
-const RenameModal = ({ show, setShow, indexChannel, setActiveChannel,listNamesChannels }) => {
+const RenameModal = ({ show, setShow, indexChannel,listNamesChannels, setIsHost }) => {
     const closeButton = () => setShow(false)
-    const dispatch = useDispatch()
     const inputRef = useRef()
     const { name: nameRenamingChannel } = useSelector(state => selectorsChannels.selectById(state, indexChannel))
 
@@ -40,27 +37,24 @@ const RenameModal = ({ show, setShow, indexChannel, setActiveChannel,listNamesCh
         onSubmit: ({ body }) => {
             const editerChannel = { name: body };
             const token = selectToken(store.getState());
+            setIsHost(true)
             axios.patch(routes.channels.channelId(indexChannel), editerChannel, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
-            }).catch((e) => console.log(e))
+            }) .then(() => {
+                    formik.resetForm()
+                    setShow(false)
+
+                })
+                .catch((e) => {
+                     console.log(e)
+                     setIsHost(false) 
+                    })
         },
     });
 
 
-
-    const renameChannelFromSocket = (payload) => {
-        dispatch(upsertChannel(payload))
-        formik.resetForm();
-        setShow(false);
-        setActiveChannel(indexChannel)
-    }
-
-    useEffect(() => {
-        socket.on('renameChannel', renameChannelFromSocket);
-        return () => socket.off('renameChannel', renameChannelFromSocket)
-    })
     const handleCloseModal = () => {
         closeButton();
         formik.resetForm();
