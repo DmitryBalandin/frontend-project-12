@@ -1,6 +1,6 @@
 import { Modal, FormGroup, FormControl } from 'react-bootstrap'
 import { useFormik } from 'formik';
-import {  useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useEffect, useRef } from 'react';
 import * as Yup from 'yup';
 import axios from 'axios';
@@ -11,7 +11,7 @@ import { selectors as selectorsChannels } from '../../slices/channelsSlice';
 import { useTranslation } from 'react-i18next';
 
 
-const RenameModal = ({ show, setShow, indexChannel,listNamesChannels, setIsHost }) => {
+const RenameModal = ({ show, setShow, indexChannel, listNamesChannels, setIsHost }) => {
     const { t } = useTranslation();
     const closeButton = () => setShow(false)
     const inputRef = useRef()
@@ -21,14 +21,14 @@ const RenameModal = ({ show, setShow, indexChannel,listNamesChannels, setIsHost 
         inputRef.current.value = nameRenamingChannel
         inputRef.current?.focus();
         inputRef.current?.setSelectionRange(0, inputRef.current.value.length)
-    },[show])
+    }, [show])
 
-  const validationSchema = Yup.object().shape({
+    const validationSchema = Yup.object().shape({
         body: Yup.string()
-            .min(3, ()=>t('errors.tooMin'))
-            .max(20, ()=>t('errors.tooMax'))
-            .required(()=>t('errors.requiredField'))
-            .notOneOf(listNamesChannels,()=>t('errors.existOnList') )
+            .min(3, () => t('errors.tooMin'))
+            .max(20, () => t('errors.tooMax'))
+            .required(() => t('errors.requiredField'))
+            .notOneOf(listNamesChannels, () => t('errors.existOnList'))
     });
 
     const formik = useFormik({
@@ -36,7 +36,7 @@ const RenameModal = ({ show, setShow, indexChannel,listNamesChannels, setIsHost 
             body: '',
         },
         validationSchema,
-        onSubmit: ({ body }) => {
+        onSubmit: ({ body },{setErrors,setSubmitting}) => {
             const editerChannel = { name: body };
             const token = selectToken(store.getState());
             setIsHost(true)
@@ -44,15 +44,20 @@ const RenameModal = ({ show, setShow, indexChannel,listNamesChannels, setIsHost 
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
-            }) .then(() => {
-                    formik.resetForm()
-                    setShow(false)
+            }).then(() => {
+                formik.resetForm()
+                setShow(false)
 
-                })
+            })
                 .catch((e) => {
-                     console.log(e)
-                     setIsHost(false) 
-                    })
+                    if (e.code === "ERR_NETWORK") {
+                        setErrors({ body: t('errors.network') })
+                    } else {
+                        setErrors({ body: t('errors.unknow') })
+                    }
+                    setIsHost(false)
+                })
+                .finally(() => setSubmitting(false))
         },
     });
 
@@ -65,26 +70,26 @@ const RenameModal = ({ show, setShow, indexChannel,listNamesChannels, setIsHost 
     return (
         <Modal show={show} onHide={handleCloseModal}>
             <Modal.Header closeButton>
-                <Modal.Title>Rename</Modal.Title>
+                <Modal.Title>{t('modalActionName.rename')}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <form onSubmit={formik.handleSubmit} >
                     <FormGroup >
                         <FormControl
-                            className={`mb-3 ${formik.touched.body && formik.errors.body ? 'is-invalid':''}`}
+                            className={`mb-3 ${formik.touched.body && formik.errors.body ? 'is-invalid' : ''}`}
                             type="text"
                             name="body"
                             ref={inputRef}
                             onChange={formik.handleChange}
                             value={formik.values.body}
-                            required 
-                            />
+                            required
+                        />
                         <div className='d-flex justify-content-end'>
-                            <input className='btn btn-secondary  me-3' onClick={handleCloseModal} value="Отменить" type='button' />
-                            <input className="btn btn-primary " type="submit" value="Отправить" onClick={formik.handleSubmit} disabled={formik.isSubmitting} />
+                            <input className='btn btn-secondary  me-3' onClick={handleCloseModal} value={t('buttonActionName.cancel')} type='button' />
+                            <input className="btn btn-primary " type="submit" value={t('buttonActionName.submit')}  onClick={formik.handleSubmit} disabled={formik.isSubmitting} />
                         </div>
-                         {formik.touched.body && formik.errors.body ? (
-                            <div style={{color: 'red'}} className='invalid-feedback'>{formik.errors.body}</div>
+                        {formik.touched.body && formik.errors.body ? (
+                            <div className='invalid-feedback'>{formik.errors.body}</div>
                         ) : null}
                     </FormGroup>
                 </form>

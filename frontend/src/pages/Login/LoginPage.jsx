@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom"
 import { useEffect } from "react"
 
 function LoginPage(){
+    
     const navigator = useNavigate()
     useEffect(()=>{
         const userId = JSON.parse(localStorage.getItem('userId'))
@@ -13,6 +14,7 @@ function LoginPage(){
             navigator('/');
         }
     },[])
+
     return (
     <div className="container-fluid p-0">
         <div className="d-flex flex-column justify-content-between vh-100">

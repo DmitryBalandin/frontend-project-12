@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import axios from 'axios';
-import { useFormik, ErrorMessage } from 'formik'
+import { useFormik } from 'formik'
 import { Modal, FormGroup, FormControl } from 'react-bootstrap'
 import { useDispatch } from 'react-redux';
 import store from '../../slices/store';
@@ -19,10 +19,10 @@ const AddChanelModal = ({ show, setShow, listNamesChannels, setIsHost }) => {
 
     const validationSchema = Yup.object().shape({
         body: Yup.string()
-            .min(3, () => t('errors.tooMin'))
-            .max(20, () => t('errors.tooMax'))
-            .required(() => t('errors.requiredField'))
-            .notOneOf(listNamesChannels, () => t('errors.existOnList'))
+            .min(3, t('errors.tooMin'))
+            .max(20, t('errors.tooMax'))
+            .required(t('errors.requiredField'))
+            .notOneOf(listNamesChannels, t('errors.existOnList'))
     });
 
     const dispatch = useDispatch();
@@ -31,7 +31,7 @@ const AddChanelModal = ({ show, setShow, listNamesChannels, setIsHost }) => {
     const formik = useFormik({
         initialValues: { body: '' },
         validationSchema,
-        onSubmit: ({ body }, { setStatus }) => {
+        onSubmit: ({ body }, { setSubmitting, setErrors }) => {
             const token = selectToken(store.getState())
             const newChannel = { name: body }
             setIsHost(true)
@@ -47,12 +47,13 @@ const AddChanelModal = ({ show, setShow, listNamesChannels, setIsHost }) => {
                 })
                 .catch((e) => {
                     if (e.code === "ERR_NETWORK") {
-                        formik.errors.body = 'Ошибка сети'
+                        setErrors({ body:t('errors.network')})
                     } else {
-                        setStatus('Неизветсная ошибка')
+                        setErrors({ body:t('errors.unknow')})
                     }
                     setIsHost(false)
                 })
+                .finally(() => setSubmitting(false))
         },
 
     })
@@ -61,7 +62,7 @@ const AddChanelModal = ({ show, setShow, listNamesChannels, setIsHost }) => {
     return (
         <Modal show={show} onHide={closeButton}>
             <Modal.Header closeButton >
-                <Modal.Title>Add</Modal.Title>
+                <Modal.Title>{t('modalActionName.add')}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <form onSubmit={formik.handleSubmit}>
@@ -73,16 +74,15 @@ const AddChanelModal = ({ show, setShow, listNamesChannels, setIsHost }) => {
                             onBlur={formik.handleBlur}
                             value={formik.values.body}
                             name="body"
-                            className={`${formik.touched.body && formik.errors.body ? 'is-invalid' : ''} mb-3`}
+                            className={`mb-3 ${formik.touched.body && formik.errors.body ? 'is-invalid' : ''}`}
                         />
                         <div className='d-flex justify-content-end'>
-                            <input className='btn btn-secondary  me-3' onClick={closeButton} value="Отменить" type='button' />
-                            <input type="submit" className="btn btn-primary  " value="submit" disabled={formik.isSubmitting} />
-                            {/* <ErrorMessage name="body">{msg => <div className='invalid-feedback'>{msg}</div>}</ErrorMessage> */}
-                            {formik.touched.body && formik.errors.body ? (
-                                <div style={{ color: 'red' }} className='invalid-feedback'>{formik.errors.body}</div>
-                            ) : null}
+                            <input className='btn btn-secondary  me-3' onClick={closeButton} value={t('buttonActionName.cancel')} type='button' />
+                            <input type="submit" className="btn btn-primary " value={t('buttonActionName.submit')} disabled={formik.isSubmitting} />
                         </div>
+                        {formik.touched.body && formik.errors.body ? (
+                            <div className='invalid-feedback'>{formik.errors.body}</div>
+                        ) : null}
                     </FormGroup>
                 </form>
             </Modal.Body>
