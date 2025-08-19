@@ -8,8 +8,10 @@ import RenameModal from '../Modals/RenameModal';
 import RemoveModal from '../Modals/RemoveModal';
 import { selectors as selectorsChannels } from '../../slices/channelsSlice';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
 const Channels = ({ channels, setActiveChannel, activeChannel,setIsHost }) => {
+    const { t } = useTranslation();
     const [showModal, setShowModal] = useState(true)
     const [dateModal, setDateModal] = useState({ type: null, id: null })
 
@@ -56,7 +58,7 @@ const Channels = ({ channels, setActiveChannel, activeChannel,setIsHost }) => {
 
         <div className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
             <div className="d-flex mt-1 justify-content-around mb-2 ps-4 pe-2 p-4">
-                <b className='text-muted'>Channels</b>
+                <b className='text-muted'>{t('phrase.channels')}</b>
                 <button type="button" className="p-0 text-primary btn btn-group-vertical" onClick={() => handleChannel({ type: 'add' })}>
                     <img src={crossInSquare} width="23" height="23" className="bg-secondary" alt="add channels" />
                 </button>
@@ -83,8 +85,8 @@ const Channels = ({ channels, setActiveChannel, activeChannel,setIsHost }) => {
                             </Button>
                             <Dropdown.Toggle className={`border-0 ${activeChannel === id ? ' bg-secondary text-white' : ' bg-light text-black'}`} split id="dropdown-split-basic" />
                             <Dropdown.Menu >
-                                <Dropdown.Item as={Button} onClick={() => handleChannel({ type: 'remove', id })}>Удалить</Dropdown.Item>
-                                <Dropdown.Item as={Button} onClick={() => handleChannel({ type: 'rename', id })}>Переименовать</Dropdown.Item>
+                                <Dropdown.Item as={Button} onClick={() => handleChannel({ type: 'remove', id })}>{t('buttonActionName.remove')}</Dropdown.Item>
+                                <Dropdown.Item as={Button} onClick={() => handleChannel({ type: 'rename', id })}>{t('buttonActionName.rename')}</Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
 

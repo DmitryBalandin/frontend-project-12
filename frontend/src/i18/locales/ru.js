@@ -19,7 +19,10 @@ export default {
       remove:'Удалить',
     },
     phrase:{
-      remove:'Удалить?'
+      remove:'Удалить?',
+      notAccount:'Нет аккаунта',
+      registartion:'регистрация',
+      channels:'Каналы'
     }
   },
 }

@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom"
-
+import { useTranslation } from 'react-i18next';
 
 function Card({ children, image, titleImage, footer }) {
+    const { t } = useTranslation();
     return (
 
         <div className="card">
@@ -13,7 +14,7 @@ function Card({ children, image, titleImage, footer }) {
             {
                 footer && <div className="card-footer p-3">
                     <div className="text-center">
-                        <span>Нет аккаунта </span><Link to="/signup">регистрация</Link>
+                        <span>{t('phrase.notAccount')} </span><Link to="/signup">{t('phrase.remove')}</Link>
                     </div>
                 </div>
             }
