@@ -13,10 +13,13 @@ import { selectToken, selectUsername } from '../../slices/autxSlice';
 import { setUsersData } from "../../slices/autxSlice";
 import routes from "../../routes";
 import socket from "../../socket";
+import { useTranslation } from 'react-i18next';
+
 
 function MainPage() {
     const navigator = useNavigate();
     const dispatch = useDispatch();
+    const { t } = useTranslation();
     const [activeChannel, setActiveChannel] = useState("1");
     const [isHost, setIsHost] = useState(false)
     useEffect(() => {
@@ -107,7 +110,7 @@ function MainPage() {
     return (
         <div className="d-flex flex-column vh-100">
             <Navigation>
-                <button type="button" className="btn btn-primary mx-3" onClick={handleLogOut} >Выйти</button>
+                <button type="button" className="btn btn-primary mx-3" onClick={handleLogOut} >{t('phrase.logOut')}</button>
             </Navigation>
             <div className="container flex-grow-1  my-4 rounded shadow">
                 <div className="row h-100 bg-white flex-md-row">

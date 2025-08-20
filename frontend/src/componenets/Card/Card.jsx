@@ -14,7 +14,7 @@ function Card({ children, image, titleImage, footer }) {
             {
                 footer && <div className="card-footer p-3">
                     <div className="text-center">
-                        <span>{t('phrase.notAccount')} </span><Link to="/signup">{t('phrase.remove')}</Link>
+                        <span>{t('phrase.notAccount')} </span><Link to="/signup">{t('phrase.registration')}</Link>
                     </div>
                 </div>
             }

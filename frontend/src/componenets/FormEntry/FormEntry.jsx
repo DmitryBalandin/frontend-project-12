@@ -4,11 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { setUsersData } from '../../slices/autxSlice';
 import { ToastContainer, toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 
 const FormEntry = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
-
+    const { t } = useTranslation();
 
     return (
 
@@ -66,18 +67,18 @@ const FormEntry = () => {
                             className={`form-control mb-3${status ? ' is-invalid' : ''}`}
                             type='username'
                             name='username'
-                            placeholder='Ваш ник'
+                            placeholder={t('phrase.username')}
                         />
                         <div className="input-group has-validation">
                             <Field
                                 className={`form-control mb-3${status ? ' is-invalid' : ''}`}
                                 type='password'
                                 name='password'
-                                placeholder='Пароль'
+                                placeholder={t('phrase.password')}
                             />
                             {status && <div className='invalid-tooltip'>{status}</div>}
 
-                            <button type="submit" className="btn btn-outline-primary w-100 rounded-1" disabled={isSubmitting}> {isSubmitting ? 'Вход...' : 'Войти'}</button>
+                            <button type="submit" className="btn btn-outline-primary w-100 rounded-1" disabled={isSubmitting}> {isSubmitting ? t('phrase.login') : t('phrase.entrance')}</button>
                         </div>
                     </Form>
 

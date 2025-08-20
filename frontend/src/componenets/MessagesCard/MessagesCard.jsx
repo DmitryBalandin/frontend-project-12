@@ -8,11 +8,12 @@ import { useEffect, useState } from 'react';
 import socket from '../../socket'
 import axios from 'axios';
 import routes from '../../routes';
-
+import { useTranslation } from 'react-i18next';
 
 const MessagesCard = ({ activeChannel }) => {
     const [valueMessage, setValueMessage] = useState('')
     const channelSelected = useSelector(state => selectorsChannels.selectById(state, activeChannel));
+    const { t } = useTranslation();
 
     const messages = useSelector(state => selectorsMessages.selectAll(state))
     const dispatch = useDispatch();
@@ -34,10 +35,26 @@ const MessagesCard = ({ activeChannel }) => {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
-        }).catch((e)=>{
+        }).catch((e) => {
             console.log(e)
         })
         setValueMessage('')
+    }
+    const amountMessage = messages
+        .filter(({ channelId }) => channelId === activeChannel)
+        .length;
+
+    const messagePhrase = (amountMessage) => {
+        if(amountMessage === 1 || amountMessage % 10 === 1){
+            return t('phrase.message')
+        }
+        if(amountMessage > 20 && (amountMessage % 10 === 2 || amountMessage % 10 === 3 || amountMessage % 10 === 4)){
+            return t('phrase.messagia')
+        }
+        if(amountMessage > 1 && amountMessage < 5){
+            return t('phrase.messagia')
+        }
+        return t('phrase.messages')
     }
 
     return (
@@ -47,10 +64,7 @@ const MessagesCard = ({ activeChannel }) => {
                     <b className='display-6'>{`# ${channelSelected?.name}`}</b>
                 </p>
                 <span className="text-muted">
-                    {messages
-                        .filter(({ channelId }) => channelId === activeChannel)
-                        .length
-                    } message</span>
+                    {amountMessage} {messagePhrase(amountMessage)}</span>
             </div>
             <div className="chat-messages overflow-auto px-5 ">
 
@@ -71,7 +85,7 @@ const MessagesCard = ({ activeChannel }) => {
                     <div className="input-group has-validation">
                         <input type="body"
                             aria-label="Новое сообщение"
-                            placeholder="Введите сообщение..."
+                            placeholder={t('phrase.inputMessage')}
                             className="border-0 p-0 ps-2 form-control"
                             value={valueMessage}
                             onChange={(e) => setValueMessage(e.target.value)}

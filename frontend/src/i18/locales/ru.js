@@ -7,6 +7,9 @@ export default {
       existOnList: 'Должно быть уникальным',
       network: 'Ошибка сети',
       unknow: 'Неизвестная ошибка',
+      samePassword:'Пароли должны совпадать',
+      confirmPassword:'Подтвердите пароль',
+      existOnListUser:'Такой пользователь уже существует'
     },
     modalActionName:{
       add:'Добавить канал',
@@ -17,12 +20,29 @@ export default {
       cancel:'Отменить',
       submit:'Отправить',
       remove:'Удалить',
+      rename:'Переименовать',
     },
     phrase:{
       remove:'Удалить?',
       notAccount:'Нет аккаунта',
       registartion:'регистрация',
-      channels:'Каналы'
+      channels:'Каналы',
+      entrance:'Войти',
+      login:'Вход...',
+      password:'Пароль',
+      username:'Ваш ник',
+      inputMessage:'Введите сообщение...',
+      password:'Пароль',
+      registration:'Регистрация',
+      register:'Зарегистрироваться',
+      userName:'Имя пользователя',
+      logOut:'Выйти',
+      pageNotFound:'Страница не найдена',
+      butYouCanGo:'Но вы можете перейти',
+      onMainPage:'на главную страницу', 
+      message:'сообщение',
+      messagia:'сообщения',
+      messages:'сообщений',
     }
   },
 }
