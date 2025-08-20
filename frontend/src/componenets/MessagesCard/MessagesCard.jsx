@@ -64,7 +64,7 @@ const MessagesCard = ({ activeChannel }) => {
                     <b className='display-6'>{`# ${channelSelected?.name}`}</b>
                 </p>
                 <span className="text-muted">
-                    {amountMessage} {messagePhrase(amountMessage)}</span>
+                    {`${amountMessage} ${messagePhrase(amountMessage)}`}</span>
             </div>
             <div className="chat-messages overflow-auto px-5 ">
 

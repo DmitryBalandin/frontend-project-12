@@ -1,3 +1,4 @@
+
 export default {
   translation: {
     errors: {
@@ -43,6 +44,9 @@ export default {
       message:'сообщение',
       messagia:'сообщения',
       messages:'сообщений',
+      addChannel:'Канал создан',
+      removeChannel:'Канал удалён',
+      renameChannel:'Канал переименован'
     }
   },
 }

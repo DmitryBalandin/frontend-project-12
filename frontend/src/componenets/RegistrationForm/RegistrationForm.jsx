@@ -55,17 +55,7 @@ const RegistrationForm = () => {
                              setStatus(t('errors.network'))
                         } else( setStatus(t('errors.unknow')))
 
-                        // toast.dismiss()
-                        // toast.error('Неверные имя пользователя или пароль', {
-                        //     position: "top-center",
-                        //     autoClose: 5000,
-                        //     hideProgressBar: false,
-                        //     closeOnClick: false,
-                        //     pauseOnHover: true,
-                        //     draggable: true,
-                        //     progress: undefined,
-                        //     theme: "light",
-                        // });
+                    
                     } finally {
                         setSubmitting(false);
                     }

@@ -2,7 +2,8 @@ import { useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from 'react-redux'
-import { addChannels, upsertChannel,removeChannel } from "../../slices/channelsSlice";
+import { ToastContainer, toast } from 'react-toastify'
+import { addChannels, upsertChannel, removeChannel } from "../../slices/channelsSlice";
 import { selectors as selectorsChannels, addChannel } from "../../slices/channelsSlice";
 import { selectors as selectorsMessages, addMessages } from "../../slices/messagesSlice";
 import Navigation from "../../componenets/Navigation/Navigator";
@@ -22,6 +23,7 @@ function MainPage() {
     const { t } = useTranslation();
     const [activeChannel, setActiveChannel] = useState("1");
     const [isHost, setIsHost] = useState(false)
+
     useEffect(() => {
         const userId = JSON.parse(localStorage.getItem('userId'))
         if (!userId) {
@@ -46,12 +48,29 @@ function MainPage() {
         }
 
     }, [])
+
+    const setPhraseToast = (phrase) => {
+        return (
+            toast.success(phrase, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            })
+        )
+    }
+
     const addChannelFormSocket = (payload) => {
         const { id } = payload
         dispatch(addChannel(payload))
         if (isHost) {
             setActiveChannel(id)
             setIsHost(false)
+            setPhraseToast(t('phrase.addChannel'))
         }
     }
 
@@ -67,6 +86,7 @@ function MainPage() {
         if (isHost) {
             setActiveChannel(id)
             setIsHost(false)
+            setPhraseToast(t('phrase.renameChannel'))
         }
     }
 
@@ -78,10 +98,11 @@ function MainPage() {
     const removeChannelFromStore = (payload) => {
         const { id } = payload;
         dispatch(removeChannel(id));
-      
+
         if (activeChannel === id) {
             setActiveChannel('1')
         }
+        setPhraseToast(t('phrase.removeChannel'))
     }
 
     useEffect(() => {
@@ -124,6 +145,7 @@ function MainPage() {
 
                 </div>
             </div>
+            <ToastContainer />
         </div>)
 }
 
