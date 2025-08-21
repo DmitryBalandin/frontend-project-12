@@ -2,6 +2,7 @@ import { Modal, FormGroup, FormControl } from 'react-bootstrap'
 import { useFormik } from 'formik';
 import { useSelector } from 'react-redux';
 import { useEffect, useRef } from 'react';
+import { useDispatch } from 'react-redux';
 import * as Yup from 'yup';
 import axios from 'axios';
 import { selectToken } from '../../slices/autxSlice';
@@ -9,11 +10,18 @@ import store from '../../slices/store';
 import routes from '../../routes';
 import { selectors as selectorsChannels } from '../../slices/channelsSlice';
 import { useTranslation } from 'react-i18next';
+import { selectErrorNetworks, setErrorNetwork, clearErrorNetwork } from '../../slices/errorsNetworkSlice';
 
 
 const RenameModal = ({ show, setShow, indexChannel, listNamesChannels, setIsHost }) => {
     const { t } = useTranslation();
-    const closeButton = () => setShow(false)
+    const dispatch = useDispatch();
+    const { isError, error } = selectErrorNetworks(store.getState());
+
+    const closeButton = () => {
+        setShow(false)
+        dispatch(clearErrorNetwork);
+    }
     const inputRef = useRef()
     const { name: nameRenamingChannel } = useSelector(state => selectorsChannels.selectById(state, indexChannel))
 
@@ -36,7 +44,7 @@ const RenameModal = ({ show, setShow, indexChannel, listNamesChannels, setIsHost
             body: '',
         },
         validationSchema,
-        onSubmit: ({ body },{setErrors,setSubmitting}) => {
+        onSubmit: ({ body }, { setSubmitting }) => {
             const editerChannel = { name: body };
             const token = selectToken(store.getState());
             setIsHost(true)
@@ -51,9 +59,9 @@ const RenameModal = ({ show, setShow, indexChannel, listNamesChannels, setIsHost
             })
                 .catch((e) => {
                     if (e.code === "ERR_NETWORK") {
-                        setErrors({ body: t('errors.network') })
+                        dispatch(setErrorNetwork({error:'errors.network'}))
                     } else {
-                        setErrors({ body: t('errors.unknow') })
+                        dispatch(setErrorNetwork({error:'errors.unknow'}))
                     }
                     setIsHost(false)
                 })
@@ -76,7 +84,7 @@ const RenameModal = ({ show, setShow, indexChannel, listNamesChannels, setIsHost
                 <form onSubmit={formik.handleSubmit} >
                     <FormGroup >
                         <FormControl
-                            className={`mb-3 ${formik.touched.body && formik.errors.body ? 'is-invalid' : ''}`}
+                            className={`mb-3 ${(formik.touched.body && formik.errors.body) || isError ? 'is-invalid' : ''}`}
                             type="text"
                             name="body"
                             ref={inputRef}
@@ -86,10 +94,10 @@ const RenameModal = ({ show, setShow, indexChannel, listNamesChannels, setIsHost
                         />
                         <div className='d-flex justify-content-end'>
                             <input className='btn btn-secondary  me-3' onClick={handleCloseModal} value={t('buttonActionName.cancel')} type='button' />
-                            <input className="btn btn-primary " type="submit" value={t('buttonActionName.submit')}  onClick={formik.handleSubmit} disabled={formik.isSubmitting} />
+                            <input className="btn btn-primary " type="submit" value={t('buttonActionName.submit')} onClick={formik.handleSubmit} disabled={formik.isSubmitting} />
                         </div>
-                        {formik.touched.body && formik.errors.body ? (
-                            <div className='invalid-feedback'>{formik.errors.body}</div>
+                        {(formik.touched.body && formik.errors.body) || isError ? (
+                            <div className='invalid-feedback'>{formik.errors.body || t(error)}</div>
                         ) : null}
                     </FormGroup>
                 </form>

@@ -5,22 +5,27 @@ import { useDispatch } from 'react-redux';
 import { setUsersData } from '../../slices/autxSlice';
 import { ToastContainer, toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
+import { selectErrorNetworks, setErrorNetwork, clearErrorNetwork } from '../../slices/errorsNetworkSlice';
+import store from '../../slices/store';
 
 const FormEntry = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const { t } = useTranslation();
+    const { isError, error } = selectErrorNetworks(store.getState());
+    
 
     return (
 
         <div className='flex-grow-1 align-self-stretch '>
-            <h1>Войти</h1>
+            <h1>{t('phrase.entrance')}</h1>
             <Formik initialValues={{
                 username: '',
                 password: ''
             }}
                 onSubmit={async (values, { setSubmitting, setStatus }) => {
                     const { username, password } = values;
+                    dispatch(clearErrorNetwork())
                     try {
                         const responce = await axios.post('./api/v1/login', {
                             username,
@@ -32,28 +37,17 @@ const FormEntry = () => {
                             dispatch(setUsersData(({ username, token })))
                             navigate('/')
                         }
-                        // if(responce.status ===)
                     } catch (e) {
                         console.log(e)
                         if (e.status === 401) {
-                            setStatus('Неверные имя пользователя или пароль')
+                            dispatch(setErrorNetwork({error:'errors.incorrectUserOrPassword'}))
 
                         } else if(e.code === "ERR_NETWORK"){ 
-                            setStatus('Ошибка сети')
+                            dispatch(setErrorNetwork({error:'errors.network'}))
                         } else {
-                            setStatus('Неизветсная ошибка')
+                            dispatch(setErrorNetwork({error:'errors.unknow'}))
                         }
-                        // toast.dismiss()
-                        // toast.error('Неверные имя пользователя или пароль', {
-                        //     position: "top-center",
-                        //     autoClose: 5000,
-                        //     hideProgressBar: false,
-                        //     closeOnClick: false,
-                        //     pauseOnHover: true,
-                        //     draggable: true,
-                        //     progress: undefined,
-                        //     theme: "light",
-                        // });
+                      console.log(isError,error)
                     } finally {
                         setSubmitting(false);
                     }
@@ -64,19 +58,19 @@ const FormEntry = () => {
                 {({ isSubmitting, status }) => (
                     <Form>
                         <Field
-                            className={`form-control mb-3${status ? ' is-invalid' : ''}`}
+                            className={`form-control mb-3${isError ? ' is-invalid' : ''}`}
                             type='username'
                             name='username'
                             placeholder={t('phrase.username')}
                         />
                         <div className="input-group has-validation">
                             <Field
-                                className={`form-control mb-3${status ? ' is-invalid' : ''}`}
+                                className={`form-control mb-3${isError ? ' is-invalid' : ''}`}
                                 type='password'
                                 name='password'
                                 placeholder={t('phrase.password')}
                             />
-                            {status && <div className='invalid-tooltip'>{status}</div>}
+                            {isError && <div className='invalid-tooltip'>{t(error)}</div>}
 
                             <button type="submit" className="btn btn-outline-primary w-100 rounded-1" disabled={isSubmitting}> {isSubmitting ? t('phrase.login') : t('phrase.entrance')}</button>
                         </div>

@@ -5,19 +5,28 @@ import store from '../../slices/store';
 import { useEffect, useRef } from 'react';
 import { selectToken } from '../../slices/autxSlice';
 import routes from '../../routes';
+import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { selectErrorNetworks, setErrorNetwork, clearErrorNetwork } from '../../slices/errorsNetworkSlice';
 
 
 const RemoveModal = ({ show, setShow, indexModal }) => {
-  const inputRef = useRef()
+  const inputRef = useRef();
   const { t } = useTranslation();
+  const dispatch = useDispatch();
+  const { isError, error } = selectErrorNetworks(store.getState());
+
   useEffect(() => {
     inputRef.current?.focus()
   })
-  const closeButton = () => setShow(false);
+  const closeButton = () => {
+    setShow(false)
+    dispatch(clearErrorNetwork())
+
+  };
   const formik = useFormik({
-    initialValues:'',
-    onSubmit: (values, { setSubmitting, setStatus}) => {
+    initialValues: '',
+    onSubmit: (values, { setSubmitting, setStatus }) => {
       const token = selectToken(store.getState());
       inputRef.current.disabled
       axios.delete(routes.channels.channelId(indexModal), {
@@ -28,16 +37,15 @@ const RemoveModal = ({ show, setShow, indexModal }) => {
         closeButton();
       }).catch(e => {
         if (e.code === "ERR_NETWORK") {
-          setStatus(t('errors.network'))
-          
+          dispatch(setErrorNetwork({ error: 'errors.network' }))
         } else {
-          setStatus(t('errors.unknow'))
+          dispatch(setErrorNetwork({ error: 'errors.unknow' }))
         }
       })
         .finally(() => setSubmitting(false))
     }
   })
-  
+
 
   return (
     <Modal show={show} onHide={closeButton}  >
@@ -48,12 +56,12 @@ const RemoveModal = ({ show, setShow, indexModal }) => {
         <p className='lead'>{t('phrase.remove')}</p>
         <form onSubmit={formik.handleSubmit} >
           <FormGroup className='mb-3 form-group'>
-            <div className={`d-flex justify-content-end ${formik.status ? 'is-invalid' : ''}`}>
+            <div className={`d-flex justify-content-end ${formik.status || isError ? 'is-invalid' : ''}`}>
               <input className='btn btn-secondary  me-3' value={t('buttonActionName.cancel')} type='button' onClick={closeButton} />
               <input className="btn btn-danger" type="submit" value={t('buttonActionName.remove')} ref={inputRef} disabled={formik.isSubmitting} />
             </div>
-            {formik.status  ? (
-              <div className='invalid-feedback'>{formik.status}</div>
+            {formik.status || isError ? (
+              <div className='invalid-feedback'>{formik.status || t(error)}</div>
             ) : null}
           </FormGroup>
         </form>

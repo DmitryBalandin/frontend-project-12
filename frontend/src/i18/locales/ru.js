@@ -10,7 +10,8 @@ export default {
       unknow: 'Неизвестная ошибка',
       samePassword:'Пароли должны совпадать',
       confirmPassword:'Подтвердите пароль',
-      existOnListUser:'Такой пользователь уже существует'
+      existOnListUser:'Такой пользователь уже существует',
+      incorrectUserOrPassword:'Неверные имя пользователя или пароль',
     },
     modalActionName:{
       add:'Добавить канал',
