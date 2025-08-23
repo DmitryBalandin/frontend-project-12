@@ -48,6 +48,7 @@ const Channels = ({ channels, setActiveChannel, activeChannel,setIsHost }) => {
                     setActiveChannel={setActiveChannel}
                     indexModal={id}
                     activeChannel={activeChannel}
+                    setIsHost={setIsHost}
                 />
             }
             default:

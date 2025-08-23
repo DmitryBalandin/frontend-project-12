@@ -12,7 +12,6 @@ import { selectors as selectorsChannels } from '../../slices/channelsSlice';
 import { useTranslation } from 'react-i18next';
 import { selectErrorNetworks, setErrorNetwork, clearErrorNetwork } from '../../slices/errorsNetworkSlice';
 
-
 const RenameModal = ({ show, setShow, indexChannel, listNamesChannels, setIsHost }) => {
     const { t } = useTranslation();
     const dispatch = useDispatch();
@@ -20,7 +19,7 @@ const RenameModal = ({ show, setShow, indexChannel, listNamesChannels, setIsHost
 
     const closeButton = () => {
         setShow(false)
-        dispatch(clearErrorNetwork);
+        dispatch(clearErrorNetwork());
     }
     const inputRef = useRef()
     const { name: nameRenamingChannel } = useSelector(state => selectorsChannels.selectById(state, indexChannel))
@@ -48,6 +47,7 @@ const RenameModal = ({ show, setShow, indexChannel, listNamesChannels, setIsHost
             const editerChannel = { name: body };
             const token = selectToken(store.getState());
             setIsHost(true)
+            dispatch(clearErrorNetwork());
             axios.patch(routes.channels.channelId(indexChannel), editerChannel, {
                 headers: {
                     Authorization: `Bearer ${token}`
@@ -59,10 +59,11 @@ const RenameModal = ({ show, setShow, indexChannel, listNamesChannels, setIsHost
             })
                 .catch((e) => {
                     if (e.code === "ERR_NETWORK") {
-                        dispatch(setErrorNetwork({error:'errors.network'}))
+                        dispatch(setErrorNetwork({ error: 'errors.network' }))
                     } else {
-                        dispatch(setErrorNetwork({error:'errors.unknow'}))
+                        dispatch(setErrorNetwork({ error: 'errors.unknow' }))
                     }
+             
                     setIsHost(false)
                 })
                 .finally(() => setSubmitting(false))

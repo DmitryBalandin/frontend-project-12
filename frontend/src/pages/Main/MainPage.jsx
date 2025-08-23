@@ -24,6 +24,22 @@ function MainPage() {
     const { t } = useTranslation();
     const [activeChannel, setActiveChannel] = useState("1");
     const [isHost, setIsHost] = useState(false)
+    const { error } = selectErrorNetworks(store.getState())
+    useEffect(() => {
+        console.log(error)
+        if (error) {
+            toast.error(t(error), {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            })
+        }
+    }, [error])
 
     useEffect(() => {
         const userId = JSON.parse(localStorage.getItem('userId'))

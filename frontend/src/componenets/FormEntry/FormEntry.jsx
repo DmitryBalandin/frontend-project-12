@@ -12,8 +12,8 @@ const FormEntry = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const { t } = useTranslation();
-    
-  
+
+
 
     return (
 
@@ -47,11 +47,21 @@ const FormEntry = () => {
                         } else {
                             dispatch(setErrorNetwork({ error: 'errors.unknow' }))
                         }
-
-
-                    } finally {
                         const { error } = selectErrorNetworks(store.getState());
+                        toast.error(t(error), {
+                            position: "top-right",
+                            autoClose: 3000,
+                            hideProgressBar: false,
+                            closeOnClick: false,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "light",
+                        })
                         setStatus(error)
+                    } finally {
+                        
+                        
                         setSubmitting(false);
                     }
 
@@ -81,7 +91,7 @@ const FormEntry = () => {
                 )}
 
             </Formik>
-
+            <ToastContainer />
         </div>
 
     )

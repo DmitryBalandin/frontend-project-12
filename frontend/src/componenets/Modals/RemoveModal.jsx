@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { selectErrorNetworks, setErrorNetwork, clearErrorNetwork } from '../../slices/errorsNetworkSlice';
 
 
-const RemoveModal = ({ show, setShow, indexModal }) => {
+const RemoveModal = ({ show, setShow, indexModal,setIsHost }) => {
   const inputRef = useRef();
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -27,20 +27,27 @@ const RemoveModal = ({ show, setShow, indexModal }) => {
   const formik = useFormik({
     initialValues: '',
     onSubmit: (values, { setSubmitting, setStatus }) => {
+      dispatch(clearErrorNetwork())
+      setStatus(false)
       const token = selectToken(store.getState());
+
+      setIsHost(true)
       inputRef.current.disabled
+
       axios.delete(routes.channels.channelId(indexModal), {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }).then(() => {
         closeButton();
-      }).catch(e => {
+      }).catch((e) => {
         if (e.code === "ERR_NETWORK") {
+  
           dispatch(setErrorNetwork({ error: 'errors.network' }))
         } else {
           dispatch(setErrorNetwork({ error: 'errors.unknow' }))
         }
+       setIsHost(false)
       })
         .finally(() => setSubmitting(false))
     }

@@ -8,8 +8,14 @@ import { setUsersData } from '../../slices/autxSlice';
 import { useTranslation } from 'react-i18next';
 import store from '../../slices/store';
 import { selectErrorNetworks, setErrorNetwork, clearErrorNetwork } from '../../slices/errorsNetworkSlice';
+import { ToastContainer, toast } from 'react-toastify'
+import { useRef,useEffect } from 'react';
 
 const RegistrationForm = () => {
+    const inputUsernameRef = useRef(null) 
+    useEffect(()=>{
+        console.log(inputUsernameRef.current.value)
+    },[])
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const { t } = useTranslation();
@@ -19,7 +25,7 @@ const RegistrationForm = () => {
             .max(20, t('errors.tooMax'))
             .required(t('errors.requiredField')),
         password: Yup.string()
-            .min(6, t('errors.tooMax'))
+            .min(6, t('errors.tooMinSix'))
             .required(t('errors.requiredField')),
         confirmPassword: Yup.string()
             .oneOf([Yup.ref('password')], t('errors.confirmPassword:'))
@@ -40,8 +46,8 @@ const RegistrationForm = () => {
                 onSubmit={async (values, { setSubmitting, setStatus }) => {
                     const { username, password, confirmPassword } = values;
                     
-                   dispatch(clearErrorNetwork())
-                   setStatus(null)
+                    dispatch(clearErrorNetwork())
+                    setStatus(null)
                     try {
                         const responce = await axios.post(routes.signup(), { username, password })
                         if (responce.status === 201) {
@@ -53,25 +59,37 @@ const RegistrationForm = () => {
                         }
                     } catch (e) {
                         if (e.status === 409) {
-                            dispatch(setErrorNetwork({ error:'errors.existOnListUser'}))
-                         
-                        } else if (e.code === "ERR_NETWORK") {
-                            dispatch(setErrorNetwork({ error:'errors.network'}))
-                           
-                        } else ( dispatch(setErrorNetwork({ error:'errors.unknow'})))
+                            dispatch(setErrorNetwork({ error: 'errors.existOnListUser' }))
 
+                        } else if (e.code === "ERR_NETWORK") {
+                            dispatch(setErrorNetwork({ error: 'errors.network' }))
+
+                        } else (dispatch(setErrorNetwork({ error: 'errors.unknow' })))
+                        
 
                     } finally {
                         const { error } = selectErrorNetworks(store.getState());
-                        console.log(error)
+                        if(error){
+                            toast.error(t(error), {
+                            position: "top-right",
+                            autoClose: 3000,
+                            hideProgressBar: false,
+                            closeOnClick: false,
+                            pauseOnHover: true,
+                            draggable: true,
+                            progress: undefined,
+                            theme: "light",
+                        })
+                        }
                         setStatus(error)
                         setSubmitting(false);
+                        
                     }
 
 
                 }}
             >
-                {({ isSubmitting, status, errors, touched }) => (
+                {({ isSubmitting, status, errors, touched,setStatus }) => (
                     <Form>
                         <div className="input-group has-validation">
                             <Field
@@ -79,10 +97,13 @@ const RegistrationForm = () => {
                                 type='username'
                                 name='username'
                                 placeholder={t('phrase.userName')}
+                                ref={inputUsernameRef}
+                                validate={()=>{setStatus(null)}}
+                                
                             />
                             <ErrorMessage name='username'>{msg => <div className='invalid-tooltip'>{msg}</div>}</ErrorMessage>
-                             {status && <div className='invalid-tooltip'>{t(status)}</div>}
-                           
+                            {!(touched.username && errors.username) && status && <div className='invalid-tooltip'>{t(status)}</div>}
+
                         </div>
                         <div className="input-group has-validation">
                             <Field
@@ -106,7 +127,7 @@ const RegistrationForm = () => {
                     </Form>
                 )}
             </Formik>
-
+            <ToastContainer />
         </div>
 
     )

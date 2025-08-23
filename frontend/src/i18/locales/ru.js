@@ -4,6 +4,7 @@ export default {
     errors: {
       tooMin: 'От 3 до 20 символов',
       tooMax: 'От 3 до 20 символов',
+      tooMinSix:'Не менее 6 символов',
       requiredField: 'Обязательное поле',
       existOnList: 'Должно быть уникальным',
       network: 'Ошибка сети',

@@ -10,6 +10,7 @@ import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import { selectErrorNetworks, setErrorNetwork, clearErrorNetwork } from '../../slices/errorsNetworkSlice';
 
+
 const AddChanelModal = ({ show, setShow, listNamesChannels, setIsHost }) => {
     const { t } = useTranslation();
     const inputRef = useRef()
@@ -37,10 +38,11 @@ const AddChanelModal = ({ show, setShow, listNamesChannels, setIsHost }) => {
         initialValues: { body: '' },
         validationSchema,
         onSubmit: ({ body }, { setSubmitting, setErrors }) => {
+            dispatch(clearErrorNetwork())
             const token = selectToken(store.getState())
             const newChannel = { name: body }
             setIsHost(true)
-            
+
 
 
             axios.post(routes.channels.allChannels(), newChannel, {
@@ -54,11 +56,12 @@ const AddChanelModal = ({ show, setShow, listNamesChannels, setIsHost }) => {
                 })
                 .catch((e) => {
                     if (e.code === "ERR_NETWORK") {
-                        dispatch(setErrorNetwork({error:'errors.network'}))
+                        dispatch(setErrorNetwork({ error: 'errors.network' }))
                     } else {
-                        dispatch(setErrorNetwork({error:'errors.unknow'}))
+                        dispatch(setErrorNetwork({ error: 'errors.unknow' }))
                     }
                     setIsHost(false)
+
                 })
                 .finally(() => setSubmitting(false))
         },
@@ -87,7 +90,7 @@ const AddChanelModal = ({ show, setShow, listNamesChannels, setIsHost }) => {
                             <input className='btn btn-secondary  me-3' onClick={closeButton} value={t('buttonActionName.cancel')} type='button' />
                             <input type="submit" className="btn btn-primary " value={t('buttonActionName.submit')} disabled={formik.isSubmitting} />
                         </div>
-                        {(formik.touched.body && formik.errors.body) || isError  ? (
+                        {(formik.touched.body && formik.errors.body) || isError ? (
                             <div className='invalid-feedback'>{formik.errors.body || t(error)}</div>
                         ) : null}
                     </FormGroup>
