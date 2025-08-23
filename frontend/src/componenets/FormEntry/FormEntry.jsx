@@ -12,8 +12,8 @@ const FormEntry = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const { t } = useTranslation();
-    const { isError, error } = selectErrorNetworks(store.getState());
     
+  
 
     return (
 
@@ -26,6 +26,7 @@ const FormEntry = () => {
                 onSubmit={async (values, { setSubmitting, setStatus }) => {
                     const { username, password } = values;
                     dispatch(clearErrorNetwork())
+                    setStatus(null)
                     try {
                         const responce = await axios.post('./api/v1/login', {
                             username,
@@ -38,39 +39,40 @@ const FormEntry = () => {
                             navigate('/')
                         }
                     } catch (e) {
-                        console.log(e)
                         if (e.status === 401) {
-                            dispatch(setErrorNetwork({error:'errors.incorrectUserOrPassword'}))
+                            dispatch(setErrorNetwork({ error: 'errors.incorrectUserOrPassword' }))
 
-                        } else if(e.code === "ERR_NETWORK"){ 
-                            dispatch(setErrorNetwork({error:'errors.network'}))
+                        } else if (e.code === "ERR_NETWORK") {
+                            dispatch(setErrorNetwork({ error: 'errors.network' }))
                         } else {
-                            dispatch(setErrorNetwork({error:'errors.unknow'}))
+                            dispatch(setErrorNetwork({ error: 'errors.unknow' }))
                         }
-                      console.log(isError,error)
+
+
                     } finally {
+                        const { error } = selectErrorNetworks(store.getState());
+                        setStatus(error)
                         setSubmitting(false);
                     }
-
 
                 }}
             >
                 {({ isSubmitting, status }) => (
                     <Form>
                         <Field
-                            className={`form-control mb-3${isError ? ' is-invalid' : ''}`}
+                            className={`form-control mb-3${status ? ' is-invalid' : ''}`}
                             type='username'
                             name='username'
                             placeholder={t('phrase.username')}
                         />
                         <div className="input-group has-validation">
                             <Field
-                                className={`form-control mb-3${isError ? ' is-invalid' : ''}`}
+                                className={`form-control mb-3${status ? ' is-invalid' : ''}`}
                                 type='password'
                                 name='password'
                                 placeholder={t('phrase.password')}
                             />
-                            {isError && <div className='invalid-tooltip'>{t(error)}</div>}
+                            {status && <div className='invalid-tooltip'>{t(status)}</div>}
 
                             <button type="submit" className="btn btn-outline-primary w-100 rounded-1" disabled={isSubmitting}> {isSubmitting ? t('phrase.login') : t('phrase.entrance')}</button>
                         </div>

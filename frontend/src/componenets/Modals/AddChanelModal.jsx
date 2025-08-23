@@ -51,7 +51,6 @@ const AddChanelModal = ({ show, setShow, listNamesChannels, setIsHost }) => {
                 .then(() => {
                     formik.resetForm()
                     setShow(false)
-
                 })
                 .catch((e) => {
                     if (e.code === "ERR_NETWORK") {

@@ -15,6 +15,7 @@ const errorNetworkSlice = createSlice({
             const { error } = action.payload
             state.isError = true
             state.error = error
+            console.log(error)
         },
         clearErrorNetwork: (state) => {
             state.isError = false;

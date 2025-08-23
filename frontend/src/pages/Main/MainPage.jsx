@@ -15,6 +15,7 @@ import { setUsersData } from "../../slices/autxSlice";
 import routes from "../../routes";
 import socket from "../../socket";
 import { useTranslation } from 'react-i18next';
+import { selectErrorNetworks, setErrorNetwork, clearErrorNetwork } from '../../slices/errorsNetworkSlice';
 
 
 function MainPage() {
@@ -26,25 +27,44 @@ function MainPage() {
 
     useEffect(() => {
         const userId = JSON.parse(localStorage.getItem('userId'))
+        dispatch(clearErrorNetwork())
         if (!userId) {
             navigator('/login');
         } else {
             const { token } = userId;
-            axios.get(routes.channels.allChannels(), {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            }).then((response) => {
-                dispatch(addChannels(response.data));
-            });
+            try {
+                axios.get(routes.channels.allChannels(), {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }).then((response) => {
+                    dispatch(addChannels(response.data));
+                });
 
-            axios.get(routes.messages.allMessages(), {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            }).then((response) => {
-                dispatch(addMessages(response.data));
-            });
+                axios.get(routes.messages.allMessages(), {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }).then((response) => {
+                    dispatch(addMessages(response.data));
+                })
+            } catch (e) {
+                if (e.code === "ERR_NETWORK") {
+                    dispatch(setErrorNetwork({ error: 'errors.network' }))
+
+                } else (dispatch(setErrorNetwork({ error: 'errors.unknow' })))
+                const { error } = selectErrorNetworks(store.getState());
+                toast.error(error, {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: false,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                })
+            }
         }
 
     }, [])
