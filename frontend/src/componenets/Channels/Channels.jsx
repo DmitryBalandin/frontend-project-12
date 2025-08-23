@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState,useEffect } from 'react'
 import crossInSquare from '../../assets/cross-in-square-svgrepo-com.svg'
 import AddChanelModal from '../Modals/AddChanelModal'
 import Button from 'react-bootstrap/Button';
@@ -9,11 +9,16 @@ import RemoveModal from '../Modals/RemoveModal';
 import { selectors as selectorsChannels } from '../../slices/channelsSlice';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import LeoProfanity from 'leo-profanity'
+
 
 const Channels = ({ channels, setActiveChannel, activeChannel,setIsHost }) => {
     const { t } = useTranslation();
     const [showModal, setShowModal] = useState(true)
     const [dateModal, setDateModal] = useState({ type: null, id: null })
+    useEffect(()=>{
+            LeoProfanity.loadDictionary('ru')
+        },[])
 
     const listNamesChannels = useSelector(state => selectorsChannels.selectAll(state))
         .map(({ name }) => name)
@@ -82,7 +87,7 @@ const Channels = ({ channels, setActiveChannel, activeChannel,setIsHost }) => {
                         <Dropdown as={ButtonGroup} className=' w-100'>
                             <Button onClick={() => handleClick(id)} className={`w-100 rounded-0 text-start text-black border-0 text-truncate${activeChannel === id ? ' btn-secondary text-white' : ' bg-light '}`}>
                                 <span className="me-1">#</span>
-                                {name}
+                                {LeoProfanity.clean(name)}
                             </Button>
                             <Dropdown.Toggle className={`border-0 ${activeChannel === id ? ' bg-secondary text-white' : ' bg-light text-black'}`} split id="dropdown-split-basic" />
                             <Dropdown.Menu >

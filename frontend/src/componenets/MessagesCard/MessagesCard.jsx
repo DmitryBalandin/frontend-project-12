@@ -9,9 +9,14 @@ import socket from '../../socket'
 import axios from 'axios';
 import routes from '../../routes';
 import { useTranslation } from 'react-i18next';
+import LeoProfanity from 'leo-profanity'
 
 const MessagesCard = ({ activeChannel }) => {
     const [valueMessage, setValueMessage] = useState('')
+    useEffect(()=>{
+        LeoProfanity.loadDictionary('ru')
+    },[])
+
     const channelSelected = useSelector(state => selectorsChannels.selectById(state, activeChannel));
     const { t } = useTranslation();
 
@@ -29,6 +34,7 @@ const MessagesCard = ({ activeChannel }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
+               if(valueMessage.length ===0) return
         const token = selectToken(store.getState());
         const newMessage = { body: valueMessage, channelId: activeChannel, username }
         axios.post(routes.messages.allMessages(), newMessage, {
@@ -40,6 +46,9 @@ const MessagesCard = ({ activeChannel }) => {
         })
         setValueMessage('')
     }
+
+    
+
     const amountMessage = messages
         .filter(({ channelId }) => channelId === activeChannel)
         .length;
@@ -74,7 +83,7 @@ const MessagesCard = ({ activeChannel }) => {
                         return (
                             <div className="text-break mb-2" key={id}>
                                 <b>{username}</b>
-                                : {body}
+                                : {LeoProfanity.clean(body)}
                             </div>
                         )
                     })
@@ -88,7 +97,7 @@ const MessagesCard = ({ activeChannel }) => {
                             placeholder={t('phrase.inputMessage')}
                             className="border-0 p-0 ps-2 form-control"
                             value={valueMessage}
-                            onChange={(e) => setValueMessage(e.target.value)}
+                            onChange={(e)=>setValueMessage(e.target.value)}
                         />
                         <button type="submit" onClick={handleSubmit} className="btn btn-group-vertical" >
                             <img src={arrowLeft} className="img-fluid" alt="arrow send" />
