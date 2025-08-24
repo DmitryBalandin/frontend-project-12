@@ -7,12 +7,12 @@ const initialState = messagesAdapter.getInitialState()
 const messagesSlice = createSlice({
   name: 'messages',
   initialState,
-  reducers:{
+  reducers: {
     addMessage: messagesAdapter.addOne,
-    addMessages:messagesAdapter.addMany,
+    addMessages: messagesAdapter.addMany,
   },
-  extraReducers:(builder) =>{
-    builder.addCase(removeChannel, (state, { payload })=>{
+  extraReducers: (builder) => {
+    builder.addCase(removeChannel, (state, { payload }) => {
       const messages = Object.values(state.entities)
       const idRemovingChannel = payload
       const idMessagesChanellsRemoving = messages.filter(({ channelId }) => channelId === idRemovingChannel).map(({ id }) => id)
@@ -23,4 +23,4 @@ const messagesSlice = createSlice({
 
 export default messagesSlice.reducer
 export const { addMessage, addMessages } = messagesSlice.actions
-export const selectors = messagesAdapter.getSelectors(state =>state.messagesReducer)
+export const selectors = messagesAdapter.getSelectors(state => state.messagesReducer)

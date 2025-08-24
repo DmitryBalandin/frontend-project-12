@@ -5,7 +5,7 @@ import messagesReducer from './messagesSlice'
 import errorNetworkReducer from './errorsNetworkSlice'
 
 export default configureStore({
-  reducer:{
+  reducer: {
     authReducer,
     channelsReducer,
     messagesReducer,

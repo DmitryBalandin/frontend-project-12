@@ -5,15 +5,15 @@ const initialState = {
   token: null,
 }
 const authSlice = createSlice({
-  name:'auth',
+  name: 'auth',
   initialState,
-  reducers:{
-    setUsersData:(state, action) =>{
+  reducers: {
+    setUsersData: (state, action) => {
       const { username, token } = action.payload
       state.token = token
       state.username = username 
     },
-    clearUser:(state) =>{
+    clearUser: (state) => {
       state.token = null
       state.username = null
     },

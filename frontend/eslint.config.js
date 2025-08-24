@@ -48,6 +48,8 @@ export default defineConfig([
       '@stylistic/js/no-multiple-empty-lines': ['error', { max: 1, maxEOF: 0 }],
       '@stylistic/js/object-curly-spacing': ['error', 'always'],
       '@stylistic/js/keyword-spacing': ['error'],
+      '@stylistic/js/arrow-spacing': ['error', { before: true, after: true }],
+      '@stylistic/js/key-spacing': ['error', { beforeColon: false }], 
     },
   },
 ])
