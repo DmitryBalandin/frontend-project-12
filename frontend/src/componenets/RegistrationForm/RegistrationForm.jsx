@@ -116,6 +116,7 @@ const RegistrationForm = () => {
                                     type='password'
                                     name='password'
                                     placeholder={t('phrase.password')}
+                                    id='password'
                                 />
                                 <label className='form-label' htmlFor="password">{t('phrase.password')}</label>
                                 <ErrorMessage name='password'>{msg => <div className='invalid-tooltip'>{msg}</div>}</ErrorMessage>
@@ -128,6 +129,7 @@ const RegistrationForm = () => {
                                     type='password'
                                     name='confirmPassword'
                                     placeholder={t('errors.confirmPassword')}
+                                    id='confirmPassword'
                                 />
                                 <label className='form-label' htmlFor="confirmPassword">{t('errors.confirmPassword')}</label>
                                 <ErrorMessage name='confirmPassword'>{msg => <div className='invalid-tooltip'>{msg}</div>}</ErrorMessage>
@@ -139,7 +141,6 @@ const RegistrationForm = () => {
 
             </Formik>
             <ToastContainer />
-            <button type='submit'>general</button>
         </div>
 
     )
