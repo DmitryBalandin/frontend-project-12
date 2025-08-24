@@ -1,4 +1,4 @@
-import { useState,useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import crossInSquare from '../../assets/cross-in-square-svgrepo-com.svg'
 import AddChanelModal from '../Modals/AddChanelModal'
 import Button from 'react-bootstrap/Button';
@@ -12,13 +12,13 @@ import { useTranslation } from 'react-i18next';
 import LeoProfanity from 'leo-profanity'
 
 
-const Channels = ({ channels, setActiveChannel, activeChannel,setIsHost }) => {
+const Channels = ({ channels, setActiveChannel, activeChannel, setIsHost }) => {
     const { t } = useTranslation();
     const [showModal, setShowModal] = useState(true)
     const [dateModal, setDateModal] = useState({ type: null, id: null })
-    useEffect(()=>{
-            LeoProfanity.loadDictionary('ru')
-        },[])
+    useEffect(() => {
+        LeoProfanity.loadDictionary('ru')
+    }, [])
 
     const listNamesChannels = useSelector(state => selectorsChannels.selectAll(state))
         .map(({ name }) => name)
@@ -43,9 +43,9 @@ const Channels = ({ channels, setActiveChannel, activeChannel,setIsHost }) => {
                 return <RenameModal
                     show={show}
                     setShow={setShowModal}
-                    indexChannel={id} 
+                    indexChannel={id}
                     listNamesChannels={listNamesChannels}
-                    setIsHost={setIsHost}/>
+                    setIsHost={setIsHost} />
             case 'remove': {
                 return <RemoveModal
                     show={show}
@@ -74,6 +74,7 @@ const Channels = ({ channels, setActiveChannel, activeChannel,setIsHost }) => {
                     if (!removable) {
                         return (<li key={id} className="nav-item w-100">
                             <button
+                                name={name}
                                 type="button"
                                 onClick={() => handleClick(id)}
                                 className={`w-100 rounded-0 text-start btn${activeChannel === id ? ' btn-secondary' : ''}`}

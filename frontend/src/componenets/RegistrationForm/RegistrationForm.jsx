@@ -122,15 +122,15 @@ const RegistrationForm = () => {
                         </div>
                         <div className="input-group has-validation">
                             <div class="form-floating mb-3">
-                            <Field
-                                className={`form-control mb-3${touched.confirmPassword && errors.confirmPassword ? ' is-invalid' : ''}`}
-                                type='password'
-                                name='confirmPassword'
-                                placeholder={t('errors.confirmPassword')}
-                            />
-                             <label className='form-label' htmlFor="confirmPassword">{t('errors.confirmPassword')}</label>
-                            <ErrorMessage name='confirmPassword'>{msg => <div className='invalid-tooltip'>{msg}</div>}</ErrorMessage>
-                        </div>
+                                <Field
+                                    className={`form-control mb-3${touched.confirmPassword && errors.confirmPassword ? ' is-invalid' : ''}`}
+                                    type='password'
+                                    name='confirmPassword'
+                                    placeholder={t('errors.confirmPassword')}
+                                />
+                                <label className='form-label' htmlFor="confirmPassword">{t('errors.confirmPassword')}</label>
+                                <ErrorMessage name='confirmPassword'>{msg => <div className='invalid-tooltip'>{msg}</div>}</ErrorMessage>
+                            </div>
                         </div>
                         <button type="submit" className="btn btn-outline-primary w-100 rounded-1" disabled={isSubmitting}> {isSubmitting ? `${t('phrase.registration')}...` : t('phrase.register')}</button>
                     </Form>
