@@ -2,7 +2,7 @@
   "name": "@hexlet/code",
   "version": "1.0.0",
   "description": "Slack",
-  "main": "index.jsx",
+  "main": "index.js",
   "type": "module",
   "scripts": {
     "build": "npm run build --prefix frontend",
