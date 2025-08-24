@@ -17,7 +17,7 @@ const Channels = ({ channels, setActiveChannel, activeChannel, setIsHost }) => {
     const [showModal, setShowModal] = useState(true)
     const [dateModal, setDateModal] = useState({ type: null, id: null })
     useEffect(() => {
-        LeoProfanity.loadDictionary('ru')
+        LeoProfanity.loadDictionary('en')
     }, [])
 
     const listNamesChannels = useSelector(state => selectorsChannels.selectAll(state))
