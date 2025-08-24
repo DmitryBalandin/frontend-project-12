@@ -63,7 +63,7 @@ const RenameModal = ({ show, setShow, indexChannel, listNamesChannels, setIsHost
                     } else {
                         dispatch(setErrorNetwork({ error: 'errors.unknow' }))
                     }
-             
+
                     setIsHost(false)
                 })
                 .finally(() => setSubmitting(false))
@@ -95,7 +95,9 @@ const RenameModal = ({ show, setShow, indexChannel, listNamesChannels, setIsHost
                         />
                         <div className='d-flex justify-content-end'>
                             <input className='btn btn-secondary  me-3' onClick={handleCloseModal} value={t('buttonActionName.cancel')} type='button' />
-                            <input className="btn btn-primary " type="submit" value={t('buttonActionName.submit')} onClick={formik.handleSubmit} disabled={formik.isSubmitting} />
+                            <input className="btn btn-primary " id='name' type="submit" value={t('buttonActionName.submit')} onClick={formik.handleSubmit} disabled={formik.isSubmitting} />
+                            <label htmlFor="name" className='visually-hidden'>Имя канала</label>
+
                         </div>
                         {(formik.touched.body && formik.errors.body) || isError ? (
                             <div className='invalid-feedback'>{formik.errors.body || t(error)}</div>
