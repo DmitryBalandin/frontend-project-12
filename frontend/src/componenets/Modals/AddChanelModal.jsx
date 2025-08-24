@@ -9,12 +9,16 @@ import routes from '../../routes';
 import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import { selectErrorNetworks, setErrorNetwork, clearErrorNetwork } from '../../slices/errorsNetworkSlice';
-
+import LeoProfanity from 'leo-profanity'
 
 const AddChanelModal = ({ show, setShow, listNamesChannels, setIsHost }) => {
     const { t } = useTranslation();
     const inputRef = useRef()
     const { isError, error } = selectErrorNetworks(store.getState());
+    
+    useEffect(() => {
+        LeoProfanity.loadDictionary('en')
+    }, [])
 
     useEffect(() => {
         inputRef.current?.focus()
@@ -40,7 +44,7 @@ const AddChanelModal = ({ show, setShow, listNamesChannels, setIsHost }) => {
         onSubmit: ({ body }, { setSubmitting, setErrors }) => {
             dispatch(clearErrorNetwork())
             const token = selectToken(store.getState())
-            const newChannel = { name: body }
+            const newChannel = { name: LeoProfanity.clean(body) }
             setIsHost(true)
 
 
