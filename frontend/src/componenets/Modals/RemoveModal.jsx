@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { selectErrorNetworks, setErrorNetwork, clearErrorNetwork } from '../../slices/errorsNetworkSlice';
 
 
-const RemoveModal = ({ show, setShow, indexModal,setIsHost }) => {
+const RemoveModal = ({ show, setShow, indexModal, setIsHost }) => {
   const inputRef = useRef();
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -42,12 +42,12 @@ const RemoveModal = ({ show, setShow, indexModal,setIsHost }) => {
         closeButton();
       }).catch((e) => {
         if (e.code === "ERR_NETWORK") {
-  
+
           dispatch(setErrorNetwork({ error: 'errors.network' }))
         } else {
           dispatch(setErrorNetwork({ error: 'errors.unknow' }))
         }
-       setIsHost(false)
+        setIsHost(false)
       })
         .finally(() => setSubmitting(false))
     }
@@ -65,7 +65,9 @@ const RemoveModal = ({ show, setShow, indexModal,setIsHost }) => {
           <FormGroup className='mb-3 form-group'>
             <div className={`d-flex justify-content-end ${formik.status || isError ? 'is-invalid' : ''}`}>
               <input className='btn btn-secondary  me-3' value={t('buttonActionName.cancel')} type='button' onClick={closeButton} />
-              <input className="btn btn-danger" type="submit" value={t('buttonActionName.remove')} ref={inputRef} disabled={formik.isSubmitting} />
+              <input className="btn btn-danger" id='name' type="submit" value={t('buttonActionName.remove')} ref={inputRef} disabled={formik.isSubmitting} />
+              <label htmlFor="name" className='visually-hidden'></label>
+
             </div>
             {formik.status || isError ? (
               <div className='invalid-feedback'>{formik.status || t(error)}</div>
