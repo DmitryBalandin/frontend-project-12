@@ -1,20 +1,19 @@
-import { Modal, FormGroup } from 'react-bootstrap';
-import axios from 'axios';
-import { useFormik } from 'formik';
-import store from '../../slices/store';
-import { useEffect, useRef } from 'react';
-import { selectToken } from '../../slices/autxSlice';
-import routes from '../../routes';
-import { useDispatch } from 'react-redux';
-import { useTranslation } from 'react-i18next';
-import { selectErrorNetworks, setErrorNetwork, clearErrorNetwork } from '../../slices/errorsNetworkSlice';
-
+import { Modal, FormGroup } from 'react-bootstrap'
+import axios from 'axios'
+import { useFormik } from 'formik'
+import store from '../../slices/store'
+import { useEffect, useRef } from 'react'
+import { selectToken } from '../../slices/autxSlice'
+import routes from '../../routes'
+import { useDispatch } from 'react-redux'
+import { useTranslation } from 'react-i18next'
+import { selectErrorNetworks, setErrorNetwork, clearErrorNetwork } from '../../slices/errorsNetworkSlice'
 
 const RemoveModal = ({ show, setShow, indexModal, setIsHost }) => {
-  const inputRef = useRef();
-  const { t } = useTranslation();
-  const dispatch = useDispatch();
-  const { isError, error } = selectErrorNetworks(store.getState());
+  const inputRef = useRef()
+  const { t } = useTranslation()
+  const dispatch = useDispatch()
+  const { isError, error } = selectErrorNetworks(store.getState())
 
   useEffect(() => {
     inputRef.current?.focus()
@@ -23,13 +22,13 @@ const RemoveModal = ({ show, setShow, indexModal, setIsHost }) => {
     setShow(false)
     dispatch(clearErrorNetwork())
 
-  };
+  }
   const formik = useFormik({
     initialValues: '',
     onSubmit: (values, { setSubmitting, setStatus }) => {
       dispatch(clearErrorNetwork())
       setStatus(false)
-      const token = selectToken(store.getState());
+      const token = selectToken(store.getState())
 
       setIsHost(true)
       inputRef.current.disabled
@@ -39,9 +38,9 @@ const RemoveModal = ({ show, setShow, indexModal, setIsHost }) => {
           Authorization: `Bearer ${token}`,
         },
       }).then(() => {
-        closeButton();
+        closeButton()
       }).catch((e) => {
-        if (e.code === "ERR_NETWORK") {
+        if (e.code === 'ERR_NETWORK') {
 
           dispatch(setErrorNetwork({ error: 'errors.network' }))
         } else {
@@ -50,12 +49,11 @@ const RemoveModal = ({ show, setShow, indexModal, setIsHost }) => {
         setIsHost(false)
       })
         .finally(() => setSubmitting(false))
-    }
+    },
   })
 
-
   return (
-    <Modal show={show} onHide={closeButton}  >
+    <Modal show={show} onHide={closeButton} >
       <Modal.Header closeButton>
         <Modal.Title>{t('modalActionName.remove')}</Modal.Title>
       </Modal.Header>
@@ -65,7 +63,7 @@ const RemoveModal = ({ show, setShow, indexModal, setIsHost }) => {
           <FormGroup className='mb-3 form-group'>
             <div className={`d-flex justify-content-end ${formik.status || isError ? 'is-invalid' : ''}`}>
               <input className='btn btn-secondary  me-3' value={t('buttonActionName.cancel')} type='button' onClick={closeButton} />
-              <button className="btn btn-danger"  type="submit"  ref={inputRef} disabled={formik.isSubmitting} >{t('buttonActionName.remove')}</button>
+              <button className="btn btn-danger" type="submit" ref={inputRef} disabled={formik.isSubmitting} >{t('buttonActionName.remove')}</button>
               
             </div>
             {formik.status || isError ? (

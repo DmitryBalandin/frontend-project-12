@@ -1,6 +1,6 @@
 
 const routes = {
-  login: () => `/api/v1/login`,
+  login: () => '/api/v1/login',
   signup: () => '/api/v1/signup',
   channels: {
     allChannels: () => '/api/v1/channels',
@@ -9,7 +9,7 @@ const routes = {
   messages: {
     allMessages: () => '/api/v1/messages',
 
-  }
-};
+  },
+}
 
-export default routes;
+export default routes

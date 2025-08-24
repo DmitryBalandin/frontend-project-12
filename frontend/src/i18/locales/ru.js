@@ -48,7 +48,7 @@ export default {
       messages:'сообщений',
       addChannel:'Канал создан',
       removeChannel:'Канал удалён',
-      renameChannel:'Канал переименован'
-    }
+      renameChannel:'Канал переименован',
+    },
   },
 }

@@ -24,3 +24,7 @@ build:
 
 dev:
 	make -C frontend dev
+lint:
+	make -C frontend lint
+lintf:
+	make -C frontend lintf
