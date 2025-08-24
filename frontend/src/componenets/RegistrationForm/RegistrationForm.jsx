@@ -29,7 +29,7 @@ const RegistrationForm = () => {
             .min(6, t('errors.tooMinSix'))
             .required(t('errors.requiredField')),
         confirmPassword: Yup.string()
-            .oneOf([Yup.ref('password')], t('errors.confirmPassword:'))
+            .oneOf([Yup.ref('password')], t('errors.samePassword'))
             .required(t('errors.requiredField'))
     })
 
