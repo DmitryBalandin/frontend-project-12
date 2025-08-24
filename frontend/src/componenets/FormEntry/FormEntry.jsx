@@ -77,7 +77,7 @@ const FormEntry = () => {
                             placeholder={t('phrase.username')}
                             id='username'
                         />
-                        <label className='form-label' htmlFor="username">{t('phrase.userName')}</label>
+                        <label className='form-label' htmlFor="username">{t('phrase.username')}</label>
                         </div>
                         <div className="input-group has-validation">
                             <div className="form-floating mb-3">
