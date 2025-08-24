@@ -12,6 +12,7 @@ import { ToastContainer, toast } from 'react-toastify'
 import { useRef, useEffect } from 'react';
 
 const RegistrationForm = () => {
+    console.log('registartion')
     const inputUsernameRef = useRef(null)
     useEffect(() => {
         console.log(inputUsernameRef.current.value)
@@ -29,7 +30,7 @@ const RegistrationForm = () => {
             .required(t('errors.requiredField')),
         confirmPassword: Yup.string()
             .oneOf([Yup.ref('password')], t('errors.confirmPassword:'))
-            .required(t('errors.samePassword'))
+            .required(t('errors.requiredField'))
     })
 
 
@@ -92,7 +93,7 @@ const RegistrationForm = () => {
                 {({ isSubmitting, status, errors, touched, setStatus }) => (
                     <Form>
                         <div className="input-group has-validation">
-                            <div class="form-floating mb-3">
+                            <div className="form-floating mb-3">
                                 <Field
                                     className={`form-control mb-3${(touched.username && errors.username) || status ? ' is-invalid' : ''}`}
                                     type='username'
@@ -109,7 +110,7 @@ const RegistrationForm = () => {
                             </div>
                         </div>
                         <div className="input-group has-validation">
-                            <div class="form-floating mb-3">
+                            <div className="form-floating mb-3">
                                 <Field
                                     className={`form-control mb-3${touched.password && errors.password ? ' is-invalid' : ''}`}
                                     type='password'
@@ -121,7 +122,7 @@ const RegistrationForm = () => {
                             </div>
                         </div>
                         <div className="input-group has-validation">
-                            <div class="form-floating mb-3">
+                            <div className="form-floating mb-3">
                                 <Field
                                     className={`form-control mb-3${touched.confirmPassword && errors.confirmPassword ? ' is-invalid' : ''}`}
                                     type='password'
@@ -135,8 +136,10 @@ const RegistrationForm = () => {
                         <button type="submit" className="btn btn-outline-primary w-100 rounded-1" disabled={isSubmitting}> {isSubmitting ? `${t('phrase.registration')}...` : t('phrase.register')}</button>
                     </Form>
                 )}
+
             </Formik>
             <ToastContainer />
+            <button type='submit'>general</button>
         </div>
 
     )

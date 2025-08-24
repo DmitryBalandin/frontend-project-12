@@ -25,6 +25,7 @@ function MainPage() {
     const [activeChannel, setActiveChannel] = useState("1");
     const [isHost, setIsHost] = useState(false)
     const { error } = selectErrorNetworks(store.getState())
+    console.log('main')
     useEffect(() => {
         console.log(error)
         if (error) {
@@ -138,6 +139,7 @@ function MainPage() {
         if (activeChannel === id) {
             setActiveChannel('1')
         }
+        setIsHost(false)
         setPhraseToast(t('phrase.removeChannel'))
     }
 
