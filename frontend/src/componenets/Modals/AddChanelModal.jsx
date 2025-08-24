@@ -89,7 +89,7 @@ const AddChanelModal = ({ show, setShow, listNamesChannels, setIsHost }) => {
                         <div className='d-flex justify-content-end'>
                             <input className='btn btn-secondary  me-3' onClick={closeButton} value={t('buttonActionName.cancel')} type='button' />
                             <input type="submit" id='name' className="btn btn-primary " value={t('buttonActionName.submit')} disabled={formik.isSubmitting} />
-                            <label htmlFor="name" className='visually-hidden'></label>
+                            <label htmlFor="name" className='visually-hidden'>Имя канала</label>
                         </div>
                         {(formik.touched.body && formik.errors.body) || isError ? (
                             <div className='invalid-feedback'>{formik.errors.body || t(error)}</div>

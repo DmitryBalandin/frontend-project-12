@@ -66,7 +66,7 @@ const RemoveModal = ({ show, setShow, indexModal, setIsHost }) => {
             <div className={`d-flex justify-content-end ${formik.status || isError ? 'is-invalid' : ''}`}>
               <input className='btn btn-secondary  me-3' value={t('buttonActionName.cancel')} type='button' onClick={closeButton} />
               <input className="btn btn-danger" id='name' type="submit" value={t('buttonActionName.remove')} ref={inputRef} disabled={formik.isSubmitting} />
-              <label htmlFor="name" className='visually-hidden'></label>
+              <label htmlFor="name" className='visually-hidden'>Имя канала</label>
 
             </div>
             {formik.status || isError ? (
