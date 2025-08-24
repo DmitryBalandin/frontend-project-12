@@ -92,6 +92,7 @@ const RegistrationForm = () => {
                 {({ isSubmitting, status, errors, touched,setStatus }) => (
                     <Form>
                         <div className="input-group has-validation">
+                            Имя пользователя
                             <Field
                                 className={`form-control mb-3${(touched.username && errors.username) || status ? ' is-invalid' : ''}`}
                                 type='username'
