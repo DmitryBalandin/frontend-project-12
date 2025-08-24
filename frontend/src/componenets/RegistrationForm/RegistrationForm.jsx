@@ -9,13 +9,13 @@ import { useTranslation } from 'react-i18next';
 import store from '../../slices/store';
 import { selectErrorNetworks, setErrorNetwork, clearErrorNetwork } from '../../slices/errorsNetworkSlice';
 import { ToastContainer, toast } from 'react-toastify'
-import { useRef,useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 
 const RegistrationForm = () => {
-    const inputUsernameRef = useRef(null) 
-    useEffect(()=>{
+    const inputUsernameRef = useRef(null)
+    useEffect(() => {
         console.log(inputUsernameRef.current.value)
-    },[])
+    }, [])
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const { t } = useTranslation();
@@ -45,7 +45,7 @@ const RegistrationForm = () => {
                 validationSchema={validationSchema}
                 onSubmit={async (values, { setSubmitting, setStatus }) => {
                     const { username, password, confirmPassword } = values;
-                    
+
                     dispatch(clearErrorNetwork())
                     setStatus(null)
                     try {
@@ -65,64 +65,72 @@ const RegistrationForm = () => {
                             dispatch(setErrorNetwork({ error: 'errors.network' }))
 
                         } else (dispatch(setErrorNetwork({ error: 'errors.unknow' })))
-                        
+
 
                     } finally {
                         const { error } = selectErrorNetworks(store.getState());
-                        if(error){
+                        if (error) {
                             toast.error(t(error), {
-                            position: "top-right",
-                            autoClose: 3000,
-                            hideProgressBar: false,
-                            closeOnClick: false,
-                            pauseOnHover: true,
-                            draggable: true,
-                            progress: undefined,
-                            theme: "light",
-                        })
+                                position: "top-right",
+                                autoClose: 3000,
+                                hideProgressBar: false,
+                                closeOnClick: false,
+                                pauseOnHover: true,
+                                draggable: true,
+                                progress: undefined,
+                                theme: "light",
+                            })
                         }
                         setStatus(error)
                         setSubmitting(false);
-                        
+
                     }
 
 
                 }}
             >
-                {({ isSubmitting, status, errors, touched,setStatus }) => (
+                {({ isSubmitting, status, errors, touched, setStatus }) => (
                     <Form>
                         <div className="input-group has-validation">
-                            Имя пользователя
-                            <Field
-                                className={`form-control mb-3${(touched.username && errors.username) || status ? ' is-invalid' : ''}`}
-                                type='username'
-                                name='username'
-                                placeholder={t('phrase.userName')}
-                                ref={inputUsernameRef}
-                                validate={()=>{setStatus(null)}}
-                                
-                            />
-                            <ErrorMessage name='username'>{msg => <div className='invalid-tooltip'>{msg}</div>}</ErrorMessage>
-                            {!(touched.username && errors.username) && status && <div className='invalid-tooltip'>{t(status)}</div>}
+                            <div class="form-floating mb-3">
+                                <Field
+                                    className={`form-control mb-3${(touched.username && errors.username) || status ? ' is-invalid' : ''}`}
+                                    type='username'
+                                    name='username'
+                                    id='username'
+                                    placeholder={t('phrase.userName')}
+                                    ref={inputUsernameRef}
+                                    validate={() => { setStatus(null) }}
 
+                                />
+                                <label className='form-label' htmlFor="username">{t('phrase.userName')}</label>
+                                <ErrorMessage name='username'>{msg => <div className='invalid-tooltip'>{msg}</div>}</ErrorMessage>
+                                {!(touched.username && errors.username) && status && <div className='invalid-tooltip'>{t(status)}</div>}
+                            </div>
                         </div>
                         <div className="input-group has-validation">
-                            <Field
-                                className={`form-control mb-3${touched.password && errors.password ? ' is-invalid' : ''}`}
-                                type='password'
-                                name='password'
-                                placeholder={t('phrase.password')}
-                            />
-                            <ErrorMessage name='password'>{msg => <div className='invalid-tooltip'>{msg}</div>}</ErrorMessage>
+                            <div class="form-floating mb-3">
+                                <Field
+                                    className={`form-control mb-3${touched.password && errors.password ? ' is-invalid' : ''}`}
+                                    type='password'
+                                    name='password'
+                                    placeholder={t('phrase.password')}
+                                />
+                                <label className='form-label' htmlFor="password">{t('phrase.password')}</label>
+                                <ErrorMessage name='password'>{msg => <div className='invalid-tooltip'>{msg}</div>}</ErrorMessage>
+                            </div>
                         </div>
                         <div className="input-group has-validation">
+                            <div class="form-floating mb-3">
                             <Field
                                 className={`form-control mb-3${touched.confirmPassword && errors.confirmPassword ? ' is-invalid' : ''}`}
                                 type='password'
                                 name='confirmPassword'
-                                placeholder={t('errors.requiredField')}
+                                placeholder={t('errors.confirmPassword')}
                             />
+                             <label className='form-label' htmlFor="confirmPassword">{t('errors.confirmPassword')}</label>
                             <ErrorMessage name='confirmPassword'>{msg => <div className='invalid-tooltip'>{msg}</div>}</ErrorMessage>
+                        </div>
                         </div>
                         <button type="submit" className="btn btn-outline-primary w-100 rounded-1" disabled={isSubmitting}> {isSubmitting ? `${t('phrase.registration')}...` : t('phrase.register')}</button>
                     </Form>
