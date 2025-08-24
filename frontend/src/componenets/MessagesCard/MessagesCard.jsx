@@ -95,7 +95,7 @@ const MessagesCard = ({ activeChannel }) => {
               placeholder={t('phrase.inputMessage')}
               className="border-0 p-0 ps-2 form-control"
               value={valueMessage}
-              onChange={(e) => setValueMessage(e.target.value)}
+              onChange={e => setValueMessage(e.target.value)}
             />
             <button type="submit" onClick={handleSubmit} className="btn btn-group-vertical" >
               <img src={arrowLeft} className="img-fluid" alt="arrow send" />

@@ -15,7 +15,7 @@ const AddChanelModal = ({ show, setShow, listNamesChannels, setIsHost }) => {
   const { t } = useTranslation()
   const inputRef = useRef()
   const { isError, error } = selectErrorNetworks(store.getState())
-    
+
   useEffect(() => {
     LeoProfanity.loadDictionary('en')
   }, [])

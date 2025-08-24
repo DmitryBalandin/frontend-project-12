@@ -58,7 +58,7 @@ const FormEntry = () => {
           })
           setStatus(error)
         } finally {
-                        
+
           setSubmitting(false)
         }
 

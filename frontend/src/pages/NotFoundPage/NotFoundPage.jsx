@@ -16,7 +16,7 @@ function NotFoundPage() {
           <Link to="/">{t('phrase.onMainPage')}</Link>
         </div>
         <footer>
-                    
+
         </footer>
       </div>
     </div>

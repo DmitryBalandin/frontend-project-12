@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
 
 function LoginPage() {
-    
+
   const navigator = useNavigate()
   useEffect(() => {
     const userId = JSON.parse(localStorage.getItem('userId'))
@@ -25,7 +25,7 @@ function LoginPage() {
           </Card>
         </div>
         <footer>
-                    
+
         </footer>
       </div>
     </div>)

@@ -23,4 +23,4 @@ const errorNetworkSlice = createSlice({
 
 export default errorNetworkSlice.reducer
 export const { setErrorNetwork, clearErrorNetwork } = errorNetworkSlice.actions
-export const selectErrorNetworks = (state) => state.errorNetworkReducer
+export const selectErrorNetworks = state => state.errorNetworkReducer

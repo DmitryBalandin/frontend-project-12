@@ -42,7 +42,7 @@ export default {
       logOut: 'Выйти',
       pageNotFound: 'Страница не найдена',
       butYouCanGo: 'Но вы можете перейти',
-      onMainPage: 'на главную страницу', 
+      onMainPage: 'на главную страницу',
       message: 'сообщение',
       messagia: 'сообщения',
       messages: 'сообщений',

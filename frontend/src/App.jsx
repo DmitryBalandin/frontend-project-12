@@ -8,7 +8,7 @@ import store from './slices/store'
 import { selectErrorNetworks } from './slices/errorsNetworkSlice'
 import { useEffect } from 'react'
 function App() {
-  
+
   return (
     <BrowserRouter>
       <Routes>

@@ -23,7 +23,7 @@ export default defineConfig([
         sourceType: 'module',
       },
     },
-    
+
     rules: {
       'no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
     },
@@ -49,7 +49,9 @@ export default defineConfig([
       '@stylistic/js/object-curly-spacing': ['error', 'always'],
       '@stylistic/js/keyword-spacing': ['error'],
       '@stylistic/js/arrow-spacing': ['error', { before: true, after: true }],
-      '@stylistic/js/key-spacing': ['error', { beforeColon: false }], 
+      '@stylistic/js/key-spacing': ['error', { beforeColon: false }],
+      '@stylistic/js/arrow-parens': [2, 'as-needed', { requireForBlockBody: true }],
+      '@stylistic/js/no-trailing-spaces': 'error',
     },
   },
 ])
