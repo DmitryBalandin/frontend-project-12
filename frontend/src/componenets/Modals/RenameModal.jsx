@@ -101,10 +101,10 @@ const RenameModal = ({ show, setShow, indexChannel, listNamesChannels, setIsHost
             </div>
             {(formik.touched.body && formik.errors.body) || isError
               ? (
-                <div className="invalid-feedback">
-                  {formik.errors.body || t(error)}
-                </div>
-              )
+                  <div className="invalid-feedback">
+                    {formik.errors.body || t(error)}
+                  </div>
+                )
               : null}
           </FormGroup>
         </form>

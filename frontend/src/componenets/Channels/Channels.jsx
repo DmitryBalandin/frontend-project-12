@@ -28,27 +28,33 @@ const Channels = ({ channels, setActiveChannel, activeChannel, setIsHost }) => {
   const renderModal = (show, { type = null, id = null }) => {
     switch (type) {
       case 'add':
-        return (<AddChanelModal
-          show={show}
-          setShow={setShowModal}
-          listNamesChannels={listNamesChannels}
-          setIsHost={setIsHost} />)
+        return (
+          <AddChanelModal
+            show={show}
+            setShow={setShowModal}
+            listNamesChannels={listNamesChannels}
+            setIsHost={setIsHost} />
+        )
       case 'rename':
-        return (<RenameModal
-          show={show}
-          setShow={setShowModal}
-          indexChannel={id}
-          listNamesChannels={listNamesChannels}
-          setIsHost={setIsHost} />)
+        return (
+          <RenameModal
+            show={show}
+            setShow={setShowModal}
+            indexChannel={id}
+            listNamesChannels={listNamesChannels}
+            setIsHost={setIsHost} />
+        )
       case 'remove': {
-        return (<RemoveModal
-          show={show}
-          setShow={setShowModal}
-          setActiveChannel={setActiveChannel}
-          indexModal={id}
-          activeChannel={activeChannel}
-          setIsHost={setIsHost}
-        />)
+        return (
+          <RemoveModal
+            show={show}
+            setShow={setShowModal}
+            setActiveChannel={setActiveChannel}
+            indexModal={id}
+            activeChannel={activeChannel}
+            setIsHost={setIsHost}
+          />
+        )
       }
       default:
         return
