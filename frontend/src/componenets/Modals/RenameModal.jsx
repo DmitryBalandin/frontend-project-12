@@ -81,8 +81,8 @@ const RenameModal = ({ show, setShow, indexChannel, listNamesChannels, setIsHost
         <Modal.Title>{t('modalActionName.rename')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <form onSubmit={formik.handleSubmit} >
-          <FormGroup >
+        <form onSubmit={formik.handleSubmit}>
+          <FormGroup>
             <FormControl
               className={`mb-3 ${(formik.touched.body && formik.errors.body) || isError ? 'is-invalid' : ''}`}
               type="text"
@@ -99,9 +99,11 @@ const RenameModal = ({ show, setShow, indexChannel, listNamesChannels, setIsHost
               <input className="btn btn-primary " type="submit" value={t('buttonActionName.submit')} onClick={formik.handleSubmit} disabled={formik.isSubmitting} />
 
             </div>
-            {(formik.touched.body && formik.errors.body) || isError ? (
-              <div className="invalid-feedback">{formik.errors.body || t(error)}</div>
-            ) : null}
+            {(formik.touched.body && formik.errors.body) || isError
+              ?
+              (
+                <div className="invalid-feedback">{formik.errors.body || t(error)}</div>
+              ) : null}
           </FormGroup>
         </form>
       </Modal.Body>
