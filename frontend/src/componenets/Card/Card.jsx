@@ -13,16 +13,18 @@ function Card({ children, image, titleImage, footer }) {
         {children}
       </div>
       {
-        footer && (<div className="card-footer p-3">
-          <div className="text-center">
-            <span>
-              {t('phrase.notAccount')}
-            </span>
-            <Link to="/signup">
-              {t('phrase.registration')}
-            </Link>
+        footer && (
+          <div className="card-footer p-3">
+            <div className="text-center">
+              <span>
+                {t('phrase.notAccount')}
+              </span>
+              <Link to="/signup">
+                {t('phrase.registration')}
+              </Link>
+            </div>
           </div>
-        </div>)
+        )
       }
     </div>
 
