@@ -4,6 +4,7 @@ import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
 import { defineConfig, globalIgnores } from 'eslint/config'
 import stylisticJs from '@stylistic/eslint-plugin-js'
+import { jsx } from 'react/jsx-runtime'
 
 export default defineConfig([
   globalIgnores(['dist']),
@@ -31,6 +32,7 @@ export default defineConfig([
   {
     plugins: {
       '@stylistic/js': stylisticJs,
+
     },
     rules: {
       'no-unused-vars': 'warn',
@@ -54,6 +56,8 @@ export default defineConfig([
       '@stylistic/js/no-trailing-spaces': 'error',
       '@stylistic/js/no-multiple-empty-lines': ['error', { max: 2, maxBOF: 0 }],
       '@stylistic/js/padded-blocks': ['error', 'never'],
+      '@stylistic/js/brace-style': ['error', 'stroustrup'],
+
     },
   },
 ])

@@ -41,7 +41,8 @@ const RemoveModal = ({ show, setShow, indexModal, setIsHost }) => {
       }).catch((e) => {
         if (e.code === 'ERR_NETWORK') {
           dispatch(setErrorNetwork({ error: 'errors.network' }))
-        } else {
+        }
+        else {
           dispatch(setErrorNetwork({ error: 'errors.unknow' }))
         }
         setIsHost(false)

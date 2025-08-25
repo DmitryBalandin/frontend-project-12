@@ -57,13 +57,17 @@ const RegistrationForm = () => {
             dispatch(setUsersData(({ username, token })))
             navigate('/')
           }
-        } catch (e) {
+        }
+        catch (e) {
           if (e.status === 409) {
             dispatch(setErrorNetwork({ error: 'errors.existOnListUser' }))
-          } else if (e.code === 'ERR_NETWORK') {
+          }
+          else if (e.code === 'ERR_NETWORK') {
             dispatch(setErrorNetwork({ error: 'errors.network' }))
-          } else (dispatch(setErrorNetwork({ error: 'errors.unknow' })))
-        } finally {
+          }
+          else (dispatch(setErrorNetwork({ error: 'errors.unknow' })))
+        }
+        finally {
           const { error } = selectErrorNetworks(store.getState())
           if (error) {
             toast.error(t(error), {
@@ -93,7 +97,9 @@ const RegistrationForm = () => {
                   id='username'
                   placeholder={t('phrase.userName')}
                   ref={inputUsernameRef}
-                  validate={() => { setStatus(null) }}
+                  validate={() => {
+                    setStatus(null)
+                  }}
 
                 />
                 <label className='form-label' htmlFor="username">{t('phrase.userName')}</label>

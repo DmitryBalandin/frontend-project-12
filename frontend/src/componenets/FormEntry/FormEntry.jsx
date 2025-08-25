@@ -36,12 +36,15 @@ const FormEntry = () => {
             dispatch(setUsersData(({ username, token })))
             navigate('/')
           }
-        } catch (e) {
+        }
+        catch (e) {
           if (e.status === 401) {
             dispatch(setErrorNetwork({ error: 'errors.incorrectUserOrPassword' }))
-          } else if (e.code === 'ERR_NETWORK') {
+          }
+          else if (e.code === 'ERR_NETWORK') {
             dispatch(setErrorNetwork({ error: 'errors.network' }))
-          } else {
+          }
+          else {
             dispatch(setErrorNetwork({ error: 'errors.unknow' }))
           }
           const { error } = selectErrorNetworks(store.getState())
@@ -56,7 +59,8 @@ const FormEntry = () => {
             theme: 'light',
           })
           setStatus(error)
-        } finally {
+        }
+        finally {
           setSubmitting(false)
         }
       }}

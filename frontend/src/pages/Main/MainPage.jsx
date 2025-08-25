@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { ToastContainer, toast } from 'react-toastify'
 import { addChannels, upsertChannel, removeChannel } from '../../slices/channelsSlice'
 import { selectors as selectorsChannels, addChannel } from '../../slices/channelsSlice'
-import { selectors as selectorsMessages, addMessages } from '../../slices/messagesSlice'
+import { addMessages } from '../../slices/messagesSlice'
 import Navigation from '../../componenets/Navigation/Navigator'
 import Channels from '../../componenets/Channels/Channels'
 import MessagesCard from '../../componenets/MessagesCard/MessagesCard'
@@ -46,7 +46,8 @@ function MainPage() {
     dispatch(clearErrorNetwork())
     if (!userId) {
       navigator('/login')
-    } else {
+    }
+    else {
       const { token } = userId
       try {
         axios.get(routes.channels.allChannels(), {
@@ -64,10 +65,12 @@ function MainPage() {
         }).then((response) => {
           dispatch(addMessages(response.data))
         })
-      } catch (e) {
+      }
+      catch (e) {
         if (e.code === 'ERR_NETWORK') {
           dispatch(setErrorNetwork({ error: 'errors.network' }))
-        } else (dispatch(setErrorNetwork({ error: 'errors.unknow' })))
+        }
+        else (dispatch(setErrorNetwork({ error: 'errors.unknow' })))
         const { error } = selectErrorNetworks(store.getState())
         toast.error(error, {
           position: 'top-right',
@@ -160,25 +163,24 @@ function MainPage() {
 
   const channels = useSelector(selectorsChannels.selectAll)
 
-  return (
-    <div className="d-flex flex-column vh-100">
-      <Navigation>
-        <button type="button" className="btn btn-primary mx-3" onClick={handleLogOut} >{t('phrase.logOut')}</button>
-      </Navigation>
-      <div className="container flex-grow-1  my-4 rounded shadow">
-        <div className="row h-100 bg-white flex-md-row">
-          <Channels
-            channels={channels}
-            activeChannel={activeChannel}
-            setActiveChannel={setActiveChannel}
-            setIsHost={setIsHost}
-          />
-          <MessagesCard activeChannel={activeChannel} />
+  return (<div className="d-flex flex-column vh-100">
+    <Navigation>
+      <button type="button" className="btn btn-primary mx-3" onClick={handleLogOut} >{t('phrase.logOut')}</button>
+    </Navigation>
+    <div className="container flex-grow-1  my-4 rounded shadow">
+      <div className="row h-100 bg-white flex-md-row">
+        <Channels
+          channels={channels}
+          activeChannel={activeChannel}
+          setActiveChannel={setActiveChannel}
+          setIsHost={setIsHost}
+        />
+        <MessagesCard activeChannel={activeChannel} />
 
-        </div>
       </div>
-      <ToastContainer />
-    </div>)
+    </div>
+    <ToastContainer />
+  </div>)
 }
 
 export default MainPage

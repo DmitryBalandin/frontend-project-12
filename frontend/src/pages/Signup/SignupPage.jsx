@@ -21,7 +21,7 @@ function SignUpPage() {
       <div className="d-flex flex-column justify-content-between vh-100">
         <Navigation />
         <div className="align-self-center text-center col-12 col-md-8 col-xxl-6">
-          <Card image={img} titleImage={t('phrase.registration')} >
+          <Card image={img} titleImage={t('phrase.registration')}>
             <RegistrationForm />
           </Card>
         </div>

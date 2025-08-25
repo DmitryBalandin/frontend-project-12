@@ -59,7 +59,8 @@ const RenameModal = ({ show, setShow, indexChannel, listNamesChannels, setIsHost
         .catch((e) => {
           if (e.code === 'ERR_NETWORK') {
             dispatch(setErrorNetwork({ error: 'errors.network' }))
-          } else {
+          }
+          else {
             dispatch(setErrorNetwork({ error: 'errors.unknow' }))
           }
 
