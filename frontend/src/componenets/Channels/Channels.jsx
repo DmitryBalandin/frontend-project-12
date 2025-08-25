@@ -72,7 +72,7 @@ const Channels = ({ channels, setActiveChannel, activeChannel, setIsHost }) => {
           <div className="visually-hidden">
             +
           </div>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="20" height="20" fill="currentColor" class="bi bi-plus-square">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="20" height="20" fill="currentColor" className="bi bi-plus-square">
             <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z">
             </path>
             <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4">
@@ -83,34 +83,41 @@ const Channels = ({ channels, setActiveChannel, activeChannel, setIsHost }) => {
       <ul id="channels-box" className="nav flex-column nav-pills nav-fill px-2 mb-3 overflow-auto h-100 d-block">
         {channels.map(({ id, name, removable }) => {
           if (!removable) {
-            return (<li key={id} className="nav-item w-100">
-              <button
-                name={name}
-                type="button"
-                onClick={() => handleClick(id)}
-                className={`w-100 rounded-0 text-start btn${activeChannel === id ? ' btn-secondary' : ''}`}
-              >
-                <span className="me-1">#</span>
-                {name}
-              </button>
-            </li>)
-          }
-          return (<li key={id} className="nav-item w-100">
-            <Dropdown as={ButtonGroup} className=" w-100">
-              <Button onClick={() => handleClick(id)} className={`w-100 rounded-0 text-start text-black border-0 text-truncate${activeChannel === id ? ' btn-secondary text-white' : ' bg-light '}`}>
-                <span className="me-1">#</span>
-                {name}
-              </Button>
-              <Dropdown.Toggle className={`border-0 ${activeChannel === id ? ' bg-secondary text-white' : ' bg-light text-black'}`} split id="dropdown-split-basic" >
-                <span className="visually-hidden">Управление каналом</span>
-              </Dropdown.Toggle >
-              <Dropdown.Menu >
-                <Dropdown.Item as={Button} onClick={() => handleChannel({ type: 'remove', id })}>{t('buttonActionName.remove')}</Dropdown.Item>
-                <Dropdown.Item as={Button} onClick={() => handleChannel({ type: 'rename', id })}>{t('buttonActionName.rename')}</Dropdown.Item>
-              </Dropdown.Menu>
-            </Dropdown>
+            return (
 
-          </li>)
+              <li key={id} className="nav-item w-100">
+                <button
+                  name={name}
+                  type="button"
+                  onClick={() => handleClick(id)}
+                  className={`w-100 rounded-0 text-start btn${activeChannel === id ? ' btn-secondary' : ''}`}
+                >
+                  <span className="me-1">#</span>
+                  {name}
+                </button>
+              </li>
+
+            )
+          }
+          return (
+
+            <li key={id} className="nav-item w-100">
+              <Dropdown as={ButtonGroup} className=" w-100">
+                <Button onClick={() => handleClick(id)} className={`w-100 rounded-0 text-start text-black border-0 text-truncate${activeChannel === id ? ' btn-secondary text-white' : ' bg-light '}`}>
+                  <span className="me-1">#</span>
+                  {name}
+                </Button>
+                <Dropdown.Toggle className={`border-0 ${activeChannel === id ? ' bg-secondary text-white' : ' bg-light text-black'}`} split id="dropdown-split-basic">
+                  <span className="visually-hidden">Управление каналом</span>
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  <Dropdown.Item as={Button} onClick={() => handleChannel({ type: 'remove', id })}>{t('buttonActionName.remove')}</Dropdown.Item>
+                  <Dropdown.Item as={Button} onClick={() => handleChannel({ type: 'rename', id })}>{t('buttonActionName.rename')}</Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </li>
+
+          )
         })}
       </ul>
       {renderModal(showModal, dateModal)}
