@@ -5,7 +5,6 @@ import reactRefresh from 'eslint-plugin-react-refresh'
 import { defineConfig, globalIgnores } from 'eslint/config'
 import stylistic from '@stylistic/eslint-plugin-js'
 
-
 export default defineConfig([
   globalIgnores(['dist']),
   {
@@ -54,13 +53,9 @@ export default defineConfig([
       '@stylistic/jsx/key-spacing': ['error', { beforeColon: false }],
       '@stylistic/jsx/arrow-parens': [2, 'as-needed', { requireForBlockBody: true }],
       '@stylistic/jsx/no-trailing-spaces': 'error',
-      '@stylistic/jsx/no-multiple-empty-lines': ['error', { max: 2, maxBOF: 0 }],
       '@stylistic/jsx/padded-blocks': ['error', 'never'],
       '@stylistic/jsx/brace-style': ['error', 'stroustrup'],
       '@stylistic/jsx/jsx-quotes': ['error', 'prefer-double'],
-  
-
     },
   },
-
 ])

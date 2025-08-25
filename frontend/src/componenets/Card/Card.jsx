@@ -13,7 +13,7 @@ function Card({ children, image, titleImage, footer }) {
         {children}
       </div>
       {
-        (footer && <div className="card-footer p-3">
+        footer && (<div className="card-footer p-3">
           <div className="text-center">
             <span>
               {t('phrase.notAccount')}
