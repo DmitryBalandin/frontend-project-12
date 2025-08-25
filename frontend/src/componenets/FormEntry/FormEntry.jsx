@@ -17,53 +17,54 @@ const FormEntry = () => {
 
     <div className="flex-grow-1 align-self-stretch ">
       <h1>{t('phrase.entrance')}</h1>
-      <Formik initialValues={{
-        username: '',
-        password: '',
-      }}
-      onSubmit={async (values, { setSubmitting, setStatus }) => {
-        const { username, password } = values
-        dispatch(clearErrorNetwork())
-        setStatus(null)
-        try {
-          const responce = await axios.post('./api/v1/login', {
-            username,
-            password,
-          })
-          if (responce.status === 200) {
-            localStorage.setItem('userId', JSON.stringify(responce.data))
-            const { token, username } = responce.data
-            dispatch(setUsersData(({ username, token })))
-            navigate('/')
+      <Formik
+        initialValues={{
+          username: '',
+          password: '',
+        }}
+        onSubmit={async (values, { setSubmitting, setStatus }) => {
+          const { username, password } = values
+          dispatch(clearErrorNetwork())
+          setStatus(null)
+          try {
+            const responce = await axios.post('./api/v1/login', {
+              username,
+              password,
+            })
+            if (responce.status === 200) {
+              localStorage.setItem('userId', JSON.stringify(responce.data))
+              const { token, username } = responce.data
+              dispatch(setUsersData(({ username, token })))
+              navigate('/')
+            }
           }
-        }
-        catch (e) {
-          if (e.status === 401) {
-            dispatch(setErrorNetwork({ error: 'errors.incorrectUserOrPassword' }))
+          catch (e) {
+            if (e.status === 401) {
+              dispatch(setErrorNetwork({ error: 'errors.incorrectUserOrPassword' }))
+            }
+            else if (e.code === 'ERR_NETWORK') {
+              dispatch(setErrorNetwork({ error: 'errors.network' }))
+            }
+            else {
+              dispatch(setErrorNetwork({ error: 'errors.unknow' }))
+            }
+            const { error } = selectErrorNetworks(store.getState())
+            toast.error(t(error), {
+              position: 'top-right',
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: false,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: 'light',
+            })
+            setStatus(error)
           }
-          else if (e.code === 'ERR_NETWORK') {
-            dispatch(setErrorNetwork({ error: 'errors.network' }))
+          finally {
+            setSubmitting(false)
           }
-          else {
-            dispatch(setErrorNetwork({ error: 'errors.unknow' }))
-          }
-          const { error } = selectErrorNetworks(store.getState())
-          toast.error(t(error), {
-            position: 'top-right',
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: false,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: 'light',
-          })
-          setStatus(error)
-        }
-        finally {
-          setSubmitting(false)
-        }
-      }}
+        }}
       >
         {({ isSubmitting, status }) => (
           <Form>
@@ -89,7 +90,9 @@ const FormEntry = () => {
                 {status && <div className="invalid-tooltip">{t(status)}</div>}
                 <label className="form-label" htmlFor="password">{t('phrase.password')}</label>
               </div>
-              <button type="submit" className="btn btn-outline-primary w-100 rounded-1" disabled={isSubmitting}> {isSubmitting ? t('phrase.login') : t('phrase.entrance')}</button>
+              <button type="submit" className="btn btn-outline-primary w-100 rounded-1" disabled={isSubmitting}>
+                {isSubmitting ? t('phrase.login') : t('phrase.entrance')}
+              </button>
             </div>
           </Form>
 
