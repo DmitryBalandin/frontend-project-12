@@ -163,24 +163,26 @@ function MainPage() {
 
   const channels = useSelector(selectorsChannels.selectAll)
 
-  return (<div className="d-flex flex-column vh-100">
-    <Navigation>
-      <button type="button" className="btn btn-primary mx-3" onClick={handleLogOut} >{t('phrase.logOut')}</button>
-    </Navigation>
-    <div className="container flex-grow-1  my-4 rounded shadow">
-      <div className="row h-100 bg-white flex-md-row">
-        <Channels
-          channels={channels}
-          activeChannel={activeChannel}
-          setActiveChannel={setActiveChannel}
-          setIsHost={setIsHost}
-        />
-        <MessagesCard activeChannel={activeChannel} />
+  return (
+    <div className="d-flex flex-column vh-100">
+      <Navigation>
+        <button type="button" className="btn btn-primary mx-3" onClick={handleLogOut} >{t('phrase.logOut')}</button>
+      </Navigation>
+      <div className="container flex-grow-1  my-4 rounded shadow">
+        <div className="row h-100 bg-white flex-md-row">
+          <Channels
+            channels={channels}
+            activeChannel={activeChannel}
+            setActiveChannel={setActiveChannel}
+            setIsHost={setIsHost}
+          />
+          <MessagesCard activeChannel={activeChannel} />
 
+        </div>
       </div>
+      <ToastContainer />
     </div>
-    <ToastContainer />
-  </div>)
+  )
 }
 
 export default MainPage

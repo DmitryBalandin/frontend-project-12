@@ -29,7 +29,8 @@ function SignUpPage() {
 
         </footer>
       </div>
-    </div>)
+    </div>
+  )
 }
 
 export default SignUpPage

@@ -3,7 +3,7 @@ import globals from 'globals'
 import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
 import { defineConfig, globalIgnores } from 'eslint/config'
-import stylisticJs from '@stylistic/eslint-plugin-js'
+import stylistic from '@stylistic/eslint-plugin-js'
 import { jsx } from 'react/jsx-runtime'
 
 export default defineConfig([
@@ -31,32 +31,33 @@ export default defineConfig([
   },
   {
     plugins: {
-      '@stylistic/js': stylisticJs,
+      '@stylistic': stylistic,
 
     },
     rules: {
       'no-unused-vars': 'warn',
       'no-undef': 'warn',
-      '@stylistic/js/no-multi-spaces': 'error',
-      '@stylistic/js/no-extra-semi': 'error',
-      '@stylistic/js/indent': ['error', 2, { SwitchCase: 1 }],
-      '@stylistic/js/semi': ['error', 'never'],
-      '@stylistic/js/quotes': ['error', 'single'],
-      '@stylistic/js/comma-dangle': ['error', 'always-multiline'],
-      '@stylistic/js/quote-props': ['error', 'as-needed'],
-      '@stylistic/js/comma-spacing': ['error', { before: false, after: true }],
-      '@stylistic/js/eol-last': ['error', 'always'],
-      '@stylistic/js/space-before-blocks': 'error',
-      '@stylistic/js/no-multiple-empty-lines': ['error', { max: 1, maxEOF: 0 }],
-      '@stylistic/js/object-curly-spacing': ['error', 'always'],
-      '@stylistic/js/keyword-spacing': ['error'],
-      '@stylistic/js/arrow-spacing': ['error', { before: true, after: true }],
-      '@stylistic/js/key-spacing': ['error', { beforeColon: false }],
-      '@stylistic/js/arrow-parens': [2, 'as-needed', { requireForBlockBody: true }],
-      '@stylistic/js/no-trailing-spaces': 'error',
-      '@stylistic/js/no-multiple-empty-lines': ['error', { max: 2, maxBOF: 0 }],
-      '@stylistic/js/padded-blocks': ['error', 'never'],
-      '@stylistic/js/brace-style': ['error', 'stroustrup'],
+      '@stylistic/no-multi-spaces': 'error',
+      '@stylistic/no-extra-semi': 'error',
+      '@stylistic/indent': ['error', 2, { SwitchCase: 1 }],
+      '@stylistic/semi': ['error', 'never'],
+      '@stylistic/quotes': ['error', 'single'],
+      '@stylistic/comma-dangle': ['error', 'always-multiline'],
+      '@stylistic/quote-props': ['error', 'as-needed'],
+      '@stylistic/comma-spacing': ['error', { before: false, after: true }],
+      '@stylistic/eol-last': ['error', 'always'],
+      '@stylistic/space-before-blocks': 'error',
+      '@stylistic/no-multiple-empty-lines': ['error', { max: 1, maxEOF: 0 }],
+      '@stylistic/object-curly-spacing': ['error', 'always'],
+      '@stylistic/keyword-spacing': ['error'],
+      '@stylistic/arrow-spacing': ['error', { before: true, after: true }],
+      '@stylistic/key-spacing': ['error', { beforeColon: false }],
+      '@stylistic/arrow-parens': [2, 'as-needed', { requireForBlockBody: true }],
+      '@stylistic/no-trailing-spaces': 'error',
+      '@stylistic/no-multiple-empty-lines': ['error', { max: 2, maxBOF: 0 }],
+      '@stylistic/padded-blocks': ['error', 'never'],
+      '@stylistic/brace-style': ['error', 'stroustrup'],
+      '@stylistic/jsx-closing-tag-location': "error" 
 
     },
   },
