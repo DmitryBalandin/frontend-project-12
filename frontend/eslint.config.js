@@ -58,7 +58,7 @@ export default defineConfig([
       '@stylistic/jsx/padded-blocks': ['error', 'never'],
       '@stylistic/jsx/brace-style': ['error', 'stroustrup'],
       '@stylistic/jsx/jsx-quotes': ['error', 'prefer-double'],
-
+  
 
     },
   },

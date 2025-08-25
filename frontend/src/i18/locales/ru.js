@@ -34,7 +34,6 @@ export default {
       password: 'Пароль',
       username: 'Ваш ник',
       inputMessage: 'Введите сообщение...',
-      password: 'Пароль',
       registration: 'Регистрация',
       register: 'Зарегистрироваться',
       userName: 'Имя пользователя',

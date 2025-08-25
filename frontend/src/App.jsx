@@ -4,9 +4,7 @@ import LoginPage from './pages/Login/LoginPage'
 import MainPage from './pages/Main/MainPage'
 import NotFoundPage from './pages/NotFoundPage/NotFoundPage'
 import SignUpPage from './pages/Signup/SignupPage'
-import store from './slices/store'
-import { selectErrorNetworks } from './slices/errorsNetworkSlice'
-import { useEffect } from 'react'
+
 function App() {
   return (
     <BrowserRouter>
