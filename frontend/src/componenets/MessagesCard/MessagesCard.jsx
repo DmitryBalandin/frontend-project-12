@@ -33,7 +33,7 @@ const MessagesCard = ({ activeChannel }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    if (valueMessage.length ===0) return
+    if (valueMessage.length === 0) return
     const token = selectToken(store.getState())
     const newMessage = { body: valueMessage, channelId: activeChannel, username }
     axios.post(routes.messages.allMessages(), newMessage, {
@@ -70,7 +70,8 @@ const MessagesCard = ({ activeChannel }) => {
           <b className="display-6">{`# ${channelSelected?.name}`}</b>
         </p>
         <span className="text-muted">
-          {`${amountMessage} ${messagePhrase(amountMessage)}`}</span>
+          {`${amountMessage} ${messagePhrase(amountMessage)}`}
+        </span>
       </div>
       <div className="chat-messages overflow-auto px-5 ">
 
@@ -80,23 +81,24 @@ const MessagesCard = ({ activeChannel }) => {
             return (
               <div className="text-break mb-2" key={id}>
                 <b>{username}</b>
-                : {LeoProfanity.clean(body)}
+                :
+                {LeoProfanity.clean(body)}
               </div>
             )
-          })
-        }
+          })}
       </div>
       <div className="mt-auto px-5 py-3">
         <form noValidate className="py-1 border rounded-2">
           <div className="input-group has-validation">
-            <input type="body"
+            <input
+              type="body"
               aria-label="Новое сообщение"
               placeholder={t('phrase.inputMessage')}
               className="border-0 p-0 ps-2 form-control"
               value={valueMessage}
               onChange={e => setValueMessage(e.target.value)}
             />
-            <button type="submit" onClick={handleSubmit} className="btn btn-group-vertical" >
+            <button type="submit" onClick={handleSubmit} className="btn btn-group-vertical">
               <img src={arrowLeft} className="img-fluid" alt="arrow send" />
             </button>
           </div>
