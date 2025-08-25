@@ -4,7 +4,7 @@ import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
 import { defineConfig, globalIgnores } from 'eslint/config'
 import stylistic from '@stylistic/eslint-plugin-js'
-import { jsx } from 'react/jsx-runtime'
+
 
 export default defineConfig([
   globalIgnores(['dist']),
@@ -57,8 +57,9 @@ export default defineConfig([
       '@stylistic/no-multiple-empty-lines': ['error', { max: 2, maxBOF: 0 }],
       '@stylistic/padded-blocks': ['error', 'never'],
       '@stylistic/brace-style': ['error', 'stroustrup'],
-      '@stylistic/jsx-closing-tag-location': "error" 
+
 
     },
   },
+
 ])

@@ -28,7 +28,7 @@ function LoginPage() {
         </footer>
       </div>
     </div>
-    )
+  )
 }
 
 export default LoginPage
