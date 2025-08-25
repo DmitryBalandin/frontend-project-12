@@ -65,13 +65,13 @@ const RemoveModal = ({ show, setShow, indexModal, setIsHost }) => {
               <button className="btn btn-danger" type="submit" ref={inputRef} disabled={formik.isSubmitting}>{t('buttonActionName.remove')}</button>
 
             </div>
-            {
-              formik.status || isError
-                ?
-                (
-                  <div className="invalid-feedback">{formik.status || t(error)}</div>
-                ) : null
-            }
+            {formik.status || isError
+              ? (
+                <div className="invalid-feedback">
+                  {formik.status || t(error)}
+                </div>
+              )
+              : null}
           </FormGroup>
         </form>
       </Modal.Body>
