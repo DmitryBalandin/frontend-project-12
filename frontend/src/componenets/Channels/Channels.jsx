@@ -14,7 +14,6 @@ const Channels = ({ channels, setActiveChannel, activeChannel, setIsHost }) => {
   const [showModal, setShowModal] = useState(true)
   const [dateModal, setDateModal] = useState({ type: null, id: null })
 
-
   const listNamesChannels = useSelector(state => selectorsChannels.selectAll(state))
     .map(({ name }) => name)
 
@@ -29,27 +28,27 @@ const Channels = ({ channels, setActiveChannel, activeChannel, setIsHost }) => {
   const renderModal = (show, { type = null, id = null }) => {
     switch (type) {
       case 'add':
-        return <AddChanelModal
+        return (<AddChanelModal
           show={show}
           setShow={setShowModal}
           listNamesChannels={listNamesChannels}
-          setIsHost={setIsHost} />
+          setIsHost={setIsHost} />)
       case 'rename':
-        return <RenameModal
+        return (<RenameModal
           show={show}
           setShow={setShowModal}
           indexChannel={id}
           listNamesChannels={listNamesChannels}
-          setIsHost={setIsHost} />
+          setIsHost={setIsHost} />)
       case 'remove': {
-        return <RemoveModal
+        return (<RemoveModal
           show={show}
           setShow={setShowModal}
           setActiveChannel={setActiveChannel}
           indexModal={id}
           activeChannel={activeChannel}
           setIsHost={setIsHost}
-        />
+        />)
       }
       default:
         return
