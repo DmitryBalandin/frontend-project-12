@@ -52,6 +52,8 @@ export default defineConfig([
       '@stylistic/js/key-spacing': ['error', { beforeColon: false }],
       '@stylistic/js/arrow-parens': [2, 'as-needed', { requireForBlockBody: true }],
       '@stylistic/js/no-trailing-spaces': 'error',
+      '@stylistic/js/no-multiple-empty-lines': ['error', { max: 2, maxBOF: 0 }],
+      '@stylistic/js/padded-blocks': ['error', 'never'],
     },
   },
 ])

@@ -67,7 +67,6 @@ function MainPage() {
       } catch (e) {
         if (e.code === 'ERR_NETWORK') {
           dispatch(setErrorNetwork({ error: 'errors.network' }))
-
         } else (dispatch(setErrorNetwork({ error: 'errors.unknow' })))
         const { error } = selectErrorNetworks(store.getState())
         toast.error(error, {
@@ -82,7 +81,6 @@ function MainPage() {
         })
       }
     }
-
   }, [])
 
   const setPhraseToast = (phrase) => {

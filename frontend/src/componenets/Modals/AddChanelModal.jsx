@@ -63,7 +63,6 @@ const AddChanelModal = ({ show, setShow, listNamesChannels, setIsHost }) => {
             dispatch(setErrorNetwork({ error: 'errors.unknow' }))
           }
           setIsHost(false)
-
         })
         .finally(() => setSubmitting(false))
     },

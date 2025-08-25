@@ -24,7 +24,6 @@ const MessagesCard = ({ activeChannel }) => {
   const dispatch = useDispatch()
   const username = selectUsername(store.getState())
   const printMessage = (payload) => {
-
     dispatch(addMessage(payload))
   }
   useEffect(() => {
@@ -105,7 +104,6 @@ const MessagesCard = ({ activeChannel }) => {
       </div>
     </div>
   )
-
 }
 
 export default MessagesCard

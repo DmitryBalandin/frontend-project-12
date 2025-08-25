@@ -39,7 +39,6 @@ const FormEntry = () => {
         } catch (e) {
           if (e.status === 401) {
             dispatch(setErrorNetwork({ error: 'errors.incorrectUserOrPassword' }))
-
           } else if (e.code === 'ERR_NETWORK') {
             dispatch(setErrorNetwork({ error: 'errors.network' }))
           } else {
@@ -58,10 +57,8 @@ const FormEntry = () => {
           })
           setStatus(error)
         } finally {
-
           setSubmitting(false)
         }
-
       }}
       >
         {({ isSubmitting, status }) => (

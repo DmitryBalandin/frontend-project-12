@@ -21,7 +21,6 @@ const RemoveModal = ({ show, setShow, indexModal, setIsHost }) => {
   const closeButton = () => {
     setShow(false)
     dispatch(clearErrorNetwork())
-
   }
   const formik = useFormik({
     initialValues: '',
@@ -41,7 +40,6 @@ const RemoveModal = ({ show, setShow, indexModal, setIsHost }) => {
         closeButton()
       }).catch((e) => {
         if (e.code === 'ERR_NETWORK') {
-
           dispatch(setErrorNetwork({ error: 'errors.network' }))
         } else {
           dispatch(setErrorNetwork({ error: 'errors.unknow' }))

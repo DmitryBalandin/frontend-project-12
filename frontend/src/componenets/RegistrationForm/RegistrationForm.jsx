@@ -60,12 +60,9 @@ const RegistrationForm = () => {
         } catch (e) {
           if (e.status === 409) {
             dispatch(setErrorNetwork({ error: 'errors.existOnListUser' }))
-
           } else if (e.code === 'ERR_NETWORK') {
             dispatch(setErrorNetwork({ error: 'errors.network' }))
-
           } else (dispatch(setErrorNetwork({ error: 'errors.unknow' })))
-
         } finally {
           const { error } = selectErrorNetworks(store.getState())
           if (error) {
@@ -82,9 +79,7 @@ const RegistrationForm = () => {
           }
           setStatus(error)
           setSubmitting(false)
-
         }
-
       }}
       >
         {({ isSubmitting, status, errors, touched, setStatus }) => (
