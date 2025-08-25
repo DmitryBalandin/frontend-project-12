@@ -57,16 +57,16 @@ const RemoveModal = ({ show, setShow, indexModal, setIsHost }) => {
         <Modal.Title>{t('modalActionName.remove')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p className='lead'>{t('phrase.remove')}</p>
+        <p className="lead">{t('phrase.remove')}</p>
         <form onSubmit={formik.handleSubmit} >
-          <FormGroup className='mb-3 form-group'>
+          <FormGroup className="mb-3 form-group">
             <div className={`d-flex justify-content-end ${formik.status || isError ? 'is-invalid' : ''}`}>
-              <input className='btn btn-secondary  me-3' value={t('buttonActionName.cancel')} type='button' onClick={closeButton} />
+              <input className="btn btn-secondary  me-3" value={t('buttonActionName.cancel')} type="button" onClick={closeButton} />
               <button className="btn btn-danger" type="submit" ref={inputRef} disabled={formik.isSubmitting} >{t('buttonActionName.remove')}</button>
 
             </div>
             {formik.status || isError ? (
-              <div className='invalid-feedback'>{formik.status || t(error)}</div>
+              <div className="invalid-feedback">{formik.status || t(error)}</div>
             ) : null}
           </FormGroup>
         </form>

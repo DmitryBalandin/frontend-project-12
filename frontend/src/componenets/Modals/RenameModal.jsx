@@ -91,16 +91,16 @@ const RenameModal = ({ show, setShow, indexChannel, listNamesChannels, setIsHost
               onChange={formik.handleChange}
               value={formik.values.body}
               required
-              id='name'
+              id="name"
             />
-            <label htmlFor="name" className='visually-hidden'>Имя канала</label>
-            <div className='d-flex justify-content-end'>
-              <input className='btn btn-secondary  me-3' onClick={handleCloseModal} value={t('buttonActionName.cancel')} type='button' />
+            <label htmlFor="name" className="visually-hidden">Имя канала</label>
+            <div className="d-flex justify-content-end">
+              <input className="btn btn-secondary  me-3" onClick={handleCloseModal} value={t('buttonActionName.cancel')} type="button" />
               <input className="btn btn-primary " type="submit" value={t('buttonActionName.submit')} onClick={formik.handleSubmit} disabled={formik.isSubmitting} />
 
             </div>
             {(formik.touched.body && formik.errors.body) || isError ? (
-              <div className='invalid-feedback'>{formik.errors.body || t(error)}</div>
+              <div className="invalid-feedback">{formik.errors.body || t(error)}</div>
             ) : null}
           </FormGroup>
         </form>

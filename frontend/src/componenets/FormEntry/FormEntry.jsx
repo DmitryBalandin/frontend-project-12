@@ -15,7 +15,7 @@ const FormEntry = () => {
 
   return (
 
-    <div className='flex-grow-1 align-self-stretch '>
+    <div className="flex-grow-1 align-self-stretch ">
       <h1>{t('phrase.entrance')}</h1>
       <Formik initialValues={{
         username: '',
@@ -70,24 +70,24 @@ const FormEntry = () => {
             <div className="form-floating mb-3">
               <Field
                 className={`form-control mb-3${status ? ' is-invalid' : ''}`}
-                type='username'
-                name='username'
+                type="username"
+                name="username"
                 placeholder={t('phrase.username')}
-                id='username'
+                id="username"
               />
-              <label className='form-label' htmlFor="username">{t('phrase.username')}</label>
+              <label className="form-label" htmlFor="username">{t('phrase.username')}</label>
             </div>
             <div className="input-group has-validation">
               <div className="form-floating mb-3">
                 <Field
                   className={`form-control mb-3${status ? ' is-invalid' : ''}`}
-                  type='password'
-                  name='password'
+                  type="password"
+                  name="password"
                   placeholder={t('phrase.password')}
-                  id='password'
+                  id="password"
                 />
-                {status && <div className='invalid-tooltip'>{t(status)}</div>}
-                <label className='form-label' htmlFor="password">{t('phrase.password')}</label>
+                {status && <div className="invalid-tooltip">{t(status)}</div>}
+                <label className="form-label" htmlFor="password">{t('phrase.password')}</label>
               </div>
               <button type="submit" className="btn btn-outline-primary w-100 rounded-1" disabled={isSubmitting}> {isSubmitting ? t('phrase.login') : t('phrase.entrance')}</button>
             </div>

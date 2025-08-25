@@ -67,7 +67,7 @@ const MessagesCard = ({ activeChannel }) => {
     <div className="col p-0 h-100 flex-column d-flex">
       <div className="bg-light mb-4 p-3 shadow-sm small">
         <p className="m-0">
-          <b className='display-6'>{`# ${channelSelected?.name}`}</b>
+          <b className="display-6">{`# ${channelSelected?.name}`}</b>
         </p>
         <span className="text-muted">
           {`${amountMessage} ${messagePhrase(amountMessage)}`}</span>

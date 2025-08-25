@@ -35,7 +35,7 @@ const RegistrationForm = () => {
 
   return (
 
-    <div className='flex-grow-1 align-self-stretch '>
+    <div className="flex-grow-1 align-self-stretch ">
       <h1>{t('phrase.registration')}</h1>
       <Formik initialValues={{
         username: '',
@@ -92,9 +92,9 @@ const RegistrationForm = () => {
               <div className="form-floating mb-3">
                 <Field
                   className={`form-control mb-3${(touched.username && errors.username) || status ? ' is-invalid' : ''}`}
-                  type='username'
-                  name='username'
-                  id='username'
+                  type="username"
+                  name="username"
+                  id="username"
                   placeholder={t('phrase.userName')}
                   ref={inputUsernameRef}
                   validate={() => {
@@ -102,35 +102,35 @@ const RegistrationForm = () => {
                   }}
 
                 />
-                <label className='form-label' htmlFor="username">{t('phrase.userName')}</label>
-                <ErrorMessage name='username'>{msg => <div className='invalid-tooltip'>{msg}</div>}</ErrorMessage>
-                {!(touched.username && errors.username) && status && <div className='invalid-tooltip'>{t(status)}</div>}
+                <label className="form-label" htmlFor="username">{t('phrase.userName')}</label>
+                <ErrorMessage name="username">{msg => <div className="invalid-tooltip">{msg}</div>}</ErrorMessage>
+                {!(touched.username && errors.username) && status && <div className="invalid-tooltip">{t(status)}</div>}
               </div>
             </div>
             <div className="input-group has-validation">
               <div className="form-floating mb-3">
                 <Field
                   className={`form-control mb-3${touched.password && errors.password ? ' is-invalid' : ''}`}
-                  type='password'
-                  name='password'
+                  type="password"
+                  name="password"
                   placeholder={t('phrase.password')}
-                  id='password'
+                  id="password"
                 />
-                <label className='form-label' htmlFor="password">{t('phrase.password')}</label>
-                <ErrorMessage name='password'>{msg => <div className='invalid-tooltip'>{msg}</div>}</ErrorMessage>
+                <label className="form-label" htmlFor="password">{t('phrase.password')}</label>
+                <ErrorMessage name="password">{msg => <div className="invalid-tooltip">{msg}</div>}</ErrorMessage>
               </div>
             </div>
             <div className="input-group has-validation">
               <div className="form-floating mb-3">
                 <Field
                   className={`form-control mb-3${touched.confirmPassword && errors.confirmPassword ? ' is-invalid' : ''}`}
-                  type='password'
-                  name='confirmPassword'
+                  type="password"
+                  name="confirmPassword"
                   placeholder={t('errors.confirmPassword')}
-                  id='confirmPassword'
+                  id="confirmPassword"
                 />
-                <label className='form-label' htmlFor="confirmPassword">{t('errors.confirmPassword')}</label>
-                <ErrorMessage name='confirmPassword'>{msg => <div className='invalid-tooltip'>{msg}</div>}</ErrorMessage>
+                <label className="form-label" htmlFor="confirmPassword">{t('errors.confirmPassword')}</label>
+                <ErrorMessage name="confirmPassword">{msg => <div className="invalid-tooltip">{msg}</div>}</ErrorMessage>
               </div>
             </div>
             <button type="submit" className="btn btn-outline-primary w-100 rounded-1" disabled={isSubmitting}> {isSubmitting ? `${t('phrase.registration')}...` : t('phrase.register')}</button>
