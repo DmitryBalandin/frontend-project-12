@@ -13,48 +13,48 @@ const FormEntry = () => {
   const dispatch = useDispatch()
   const { t } = useTranslation()
   const handleSubmit = async (values, { setSubmitting, setStatus }) => {
-          const { username, password } = values
-          dispatch(clearErrorNetwork())
-          setStatus(null)
-          try {
-            const responce = await axios.post('./api/v1/login', {
-              username,
-              password,
-            })
-            if (responce.status === 200) {
-              localStorage.setItem('userId', JSON.stringify(responce.data))
-              const { token, username } = responce.data
-              dispatch(setUsersData(({ username, token })))
-              navigate('/')
-            }
-          }
-          catch (e) {
-            if (e.status === 401) {
-              dispatch(setErrorNetwork({ error: 'errors.incorrectUserOrPassword' }))
-            }
-            else if (e.code === 'ERR_NETWORK') {
-              dispatch(setErrorNetwork({ error: 'errors.network' }))
-            }
-            else {
-              dispatch(setErrorNetwork({ error: 'errors.unknow' }))
-            }
-            const { error } = selectErrorNetworks(store.getState())
-            toast.error(t(error), {
-              position: 'top-right',
-              autoClose: 3000,
-              hideProgressBar: false,
-              closeOnClick: false,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: 'light',
-            })
-            setStatus(error)
-          }
-          finally {
-            setSubmitting(false)
-          }
-        }
+    const { username, password } = values
+    dispatch(clearErrorNetwork())
+    setStatus(null)
+    try {
+      const responce = await axios.post('./api/v1/login', {
+        username,
+        password,
+      })
+      if (responce.status === 200) {
+        localStorage.setItem('userId', JSON.stringify(responce.data))
+        const { token, username } = responce.data
+        dispatch(setUsersData(({ username, token })))
+        navigate('/')
+      }
+    }
+    catch (e) {
+      if (e.status === 401) {
+        dispatch(setErrorNetwork({ error: 'errors.incorrectUserOrPassword' }))
+      }
+      else if (e.code === 'ERR_NETWORK') {
+        dispatch(setErrorNetwork({ error: 'errors.network' }))
+      }
+      else {
+        dispatch(setErrorNetwork({ error: 'errors.unknow' }))
+      }
+      const { error } = selectErrorNetworks(store.getState())
+      toast.error(t(error), {
+        position: 'top-right',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      })
+      setStatus(error)
+    }
+    finally {
+      setSubmitting(false)
+    }
+  }
 
   return (
 

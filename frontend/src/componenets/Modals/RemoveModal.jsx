@@ -67,10 +67,10 @@ const RemoveModal = ({ show, setShow, indexModal, setIsHost }) => {
             </div>
             {formik.status || isError
               ? (
-                  <div className="invalid-feedback">
-                    {formik.status || t(error)}
-                  </div>
-                )
+                <div className="invalid-feedback">
+                  {formik.status || t(error)}
+                </div>
+              )
               : null}
           </FormGroup>
         </form>

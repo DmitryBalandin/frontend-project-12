@@ -34,46 +34,46 @@ const RegistrationForm = () => {
   })
 
   const handleSubmit = async (values, { setSubmitting, setStatus }) => {
-          const { username, password } = values
-          dispatch(clearErrorNetwork())
-          setStatus(null)
-          try {
-            const responce = await axios.post(routes.signup(), { username, password })
-            if (responce.status === 201) {
-              console.log('login')
-              localStorage.setItem('userId', JSON.stringify(responce.data))
-              const { token, username } = responce.data
-              dispatch(setUsersData(({ username, token })))
-              navigate('/')
-            }
-          }
-          catch (e) {
-            if (e.status === 409) {
-              dispatch(setErrorNetwork({ error: 'errors.existOnListUser' }))
-            }
-            else if (e.code === 'ERR_NETWORK') {
-              dispatch(setErrorNetwork({ error: 'errors.network' }))
-            }
-            else (dispatch(setErrorNetwork({ error: 'errors.unknow' })))
-          }
-          finally {
-            const { error } = selectErrorNetworks(store.getState())
-            if (error) {
-              toast.error(t(error), {
-                position: 'top-right',
-                autoClose: 3000,
-                hideProgressBar: false,
-                closeOnClick: false,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: 'light',
-              })
-            }
-            setStatus(error)
-            setSubmitting(false)
-          }
-        }
+    const { username, password } = values
+    dispatch(clearErrorNetwork())
+    setStatus(null)
+    try {
+      const responce = await axios.post(routes.signup(), { username, password })
+      if (responce.status === 201) {
+        console.log('login')
+        localStorage.setItem('userId', JSON.stringify(responce.data))
+        const { token, username } = responce.data
+        dispatch(setUsersData(({ username, token })))
+        navigate('/')
+      }
+    }
+    catch (e) {
+      if (e.status === 409) {
+        dispatch(setErrorNetwork({ error: 'errors.existOnListUser' }))
+      }
+      else if (e.code === 'ERR_NETWORK') {
+        dispatch(setErrorNetwork({ error: 'errors.network' }))
+      }
+      else (dispatch(setErrorNetwork({ error: 'errors.unknow' })))
+    }
+    finally {
+      const { error } = selectErrorNetworks(store.getState())
+      if (error) {
+        toast.error(t(error), {
+          position: 'top-right',
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: 'light',
+        })
+      }
+      setStatus(error)
+      setSubmitting(false)
+    }
+  }
 
   return (
 
