@@ -33,18 +33,7 @@ const RegistrationForm = () => {
       .required(t('errors.requiredField')),
   })
 
-  return (
-
-    <div className="flex-grow-1 align-self-stretch ">
-      <h1>{t('phrase.registration')}</h1>
-      <Formik
-        initialValues={{
-          username: '',
-          password: '',
-          confirmPassword: '',
-        }}
-        validationSchema={validationSchema}
-        onSubmit={async (values, { setSubmitting, setStatus }) => {
+  const handleSubmit = async (values, { setSubmitting, setStatus }) => {
           const { username, password } = values
           dispatch(clearErrorNetwork())
           setStatus(null)
@@ -84,7 +73,20 @@ const RegistrationForm = () => {
             setStatus(error)
             setSubmitting(false)
           }
+        }
+
+  return (
+
+    <div className="flex-grow-1 align-self-stretch ">
+      <h1>{t('phrase.registration')}</h1>
+      <Formik
+        initialValues={{
+          username: '',
+          password: '',
+          confirmPassword: '',
         }}
+        validationSchema={validationSchema}
+        onSubmit={handleSubmit}
       >
         {({ isSubmitting, status, errors, touched, setStatus }) => (
           <Form>

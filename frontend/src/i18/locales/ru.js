@@ -26,7 +26,7 @@ export default {
     },
     phrase: {
       remove: 'Удалить?',
-      notAccount: 'Нет аккаунта',
+      notAccount: 'Нет аккаунта ',
       registartion: 'регистрация',
       channels: 'Каналы',
       entrance: 'Войти',

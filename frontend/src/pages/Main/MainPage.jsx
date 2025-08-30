@@ -24,9 +24,8 @@ function MainPage() {
   const [activeChannel, setActiveChannel] = useState('1')
   const [isHost, setIsHost] = useState(false)
   const { error } = selectErrorNetworks(store.getState())
-  console.log('main')
+
   useEffect(() => {
-    console.log(error)
     if (error) {
       toast.error(t(error), {
         position: 'top-right',
