@@ -16,6 +16,7 @@
     "@stylistic/eslint-plugin-js": "^4.4.1",
     "axios": "^1.11.0",
     "bootstrap": "^5.3.7",
+    "dayjs": "^1.11.18",
     "formik": "^2.4.6",
     "i18next": "^25.3.6",
     "leo-profanity": "^1.8.0",

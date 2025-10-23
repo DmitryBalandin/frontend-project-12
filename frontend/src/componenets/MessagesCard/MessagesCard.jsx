@@ -10,12 +10,21 @@ import axios from 'axios'
 import routes from '../../routes'
 import { useTranslation } from 'react-i18next'
 import LeoProfanity from 'leo-profanity'
+import dayjs from 'dayjs'
+
 
 const MessagesCard = ({ activeChannel }) => {
   const [valueMessage, setValueMessage] = useState('')
   useEffect(() => {
     LeoProfanity.loadDictionary('ru')
   }, [])
+
+  const handleTime = (e)=>{
+    e.preventDefault()
+    const now = dayjs()
+    console.log(now.format('HH mm ss'))
+    console.log('Hello')
+  }
 
   const channelSelected = useSelector(state => selectorsChannels.selectById(state, activeChannel))
   const { t } = useTranslation()
@@ -34,8 +43,14 @@ const MessagesCard = ({ activeChannel }) => {
   const handleSubmit = (e) => {
     e.preventDefault()
     if (valueMessage.length === 0) return
+     const now = dayjs()
+    console.log(now.format('HH mm ss'))
+    const bodyMessage = {
+      data:now.format('HH mm ss'),
+      valueMessage
+    }
     const token = selectToken(store.getState())
-    const newMessage = { body: valueMessage, channelId: activeChannel, username }
+    const newMessage = { body: bodyMessage, channelId: activeChannel, username }
     axios.post(routes.messages.allMessages(), newMessage, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -82,7 +97,8 @@ const MessagesCard = ({ activeChannel }) => {
               <div className="text-break mb-2" key={id}>
                 <b>{username}</b>
                 :
-                {LeoProfanity.clean(body)}
+                {LeoProfanity.clean(body.valueMessage)}
+                <p>{body.data}</p>
               </div>
             )
           })}
@@ -98,6 +114,7 @@ const MessagesCard = ({ activeChannel }) => {
               value={valueMessage}
               onChange={e => setValueMessage(e.target.value)}
             />
+            <button onClick={handleTime}>Day</button>
             <button type="submit" onClick={handleSubmit} className="btn btn-group-vertical">
               <img src={arrowLeft} className="img-fluid" alt="arrow send" />
             </button>
