@@ -11,7 +11,8 @@ import routes from '../../routes'
 import { useTranslation } from 'react-i18next'
 import LeoProfanity from 'leo-profanity'
 import dayjs from 'dayjs'
-
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
 
 const MessagesCard = ({ activeChannel }) => {
   const [valueMessage, setValueMessage] = useState('')
@@ -19,11 +20,18 @@ const MessagesCard = ({ activeChannel }) => {
     LeoProfanity.loadDictionary('ru')
   }, [])
 
-  const handleTime = (e)=>{
+  const handleTime = (e) => {
     e.preventDefault()
     const now = dayjs()
-    console.log(now.format('HH mm ss'))
+    console.log(now)
     console.log('Hello')
+    dayjs.extend(timezone)
+    console.log(
+
+      dayjs.tz.guess()
+      // dayjs().extend(utc),
+      // now.extend(timezone)
+    )
   }
 
   const channelSelected = useSelector(state => selectorsChannels.selectById(state, activeChannel))
@@ -43,10 +51,10 @@ const MessagesCard = ({ activeChannel }) => {
   const handleSubmit = (e) => {
     e.preventDefault()
     if (valueMessage.length === 0) return
-     const now = dayjs()
-    console.log(now.format('HH mm ss'))
+    const now = dayjs()
+    console.log(now)
     const bodyMessage = {
-      data:now.format('HH mm ss'),
+      date: now,
       valueMessage
     }
     const token = selectToken(store.getState())
@@ -93,12 +101,19 @@ const MessagesCard = ({ activeChannel }) => {
         {messages
           .filter(({ channelId }) => channelId === activeChannel)
           .map(({ body, username, id }) => {
+            console.log(body.date)
+            dayjs.extend(utc)
+            dayjs.extend(timezone)
+            const newDAte = dayjs(body.date).tz(dayjs.tz.guess())
+            console.log(newDAte.format('HH mm'))
             return (
-              <div className="text-break mb-2" key={id}>
-                <b>{username}</b>
-                :
-                {LeoProfanity.clean(body.valueMessage)}
-                <p>{body.data}</p>
+              <div className="flex-grow-1  mb-2" key={id}>
+                <div className="bg-light rounded p-3">
+                  <b>{username}</b>
+                  :&nbsp;
+                  {LeoProfanity.clean(body.valueMessage)}
+                  <div className="message-time text-end small mt-1">{body.date}</div>
+                </div>
               </div>
             )
           })}
