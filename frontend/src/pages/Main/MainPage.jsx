@@ -11,11 +11,14 @@ import Channels from '../../componenets/Channels/Channels'
 import MessagesCard from '../../componenets/MessagesCard/MessagesCard'
 import store from '../../slices/store'
 import { selectToken, selectUsername } from '../../slices/autxSlice'
-import { setUsersData } from '../../slices/autxSlice'
+import { setUsersData,setTimeZona } from '../../slices/autxSlice'
 import routes from '../../routes'
 import socket from '../../socket'
 import { useTranslation } from 'react-i18next'
 import { selectErrorNetworks, setErrorNetwork, clearErrorNetwork } from '../../slices/errorsNetworkSlice'
+import dayjs from 'dayjs'
+import utc from "dayjs/plugin/utc"
+import timezone from "dayjs/plugin/timezone"
 
 function MainPage() {
   const navigator = useNavigate()
@@ -24,6 +27,8 @@ function MainPage() {
   const [activeChannel, setActiveChannel] = useState('1')
   const [isHost, setIsHost] = useState(false)
   const { error } = selectErrorNetworks(store.getState())
+  dayjs.extend(utc);
+  dayjs.extend(timezone);
 
   useEffect(() => {
     if (error) {
@@ -150,6 +155,10 @@ function MainPage() {
     const username = selectUsername(store.getState())
     const token = selectToken(store.getState())
     const userId = JSON.parse(localStorage.getItem('userId'))
+    const timeZona = dayjs.tz.guess()
+    console.log(timeZona)
+    dispatch(setTimeZona(timeZona))
+    console.log(userId)
     if (userId && token === null && username === null) {
       dispatch(setUsersData(userId))
     }
