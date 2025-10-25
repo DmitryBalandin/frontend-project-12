@@ -156,9 +156,7 @@ function MainPage() {
     const token = selectToken(store.getState())
     const userId = JSON.parse(localStorage.getItem('userId'))
     const timeZona = dayjs.tz.guess()
-    console.log(timeZona)
     dispatch(setTimeZona(timeZona))
-    console.log(userId)
     if (userId && token === null && username === null) {
       dispatch(setUsersData(userId))
     }

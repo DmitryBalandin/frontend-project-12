@@ -16,7 +16,6 @@ const authSlice = createSlice({
       state.username = username
     },
     setTimeZona: (state, action) => {
-      console.log('timeZona', action.payload)
       const  timeZona = action.payload
       state.timeZona = timeZona
     },
