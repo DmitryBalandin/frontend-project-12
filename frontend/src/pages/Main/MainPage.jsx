@@ -19,6 +19,7 @@ import { selectErrorNetworks, setErrorNetwork, clearErrorNetwork } from '../../s
 import dayjs from 'dayjs'
 import utc from "dayjs/plugin/utc"
 import timezone from "dayjs/plugin/timezone"
+import { setIdActiveChannel } from '../../slices/activeChannelSlice'
 
 function MainPage() {
   const navigator = useNavigate()
@@ -29,6 +30,10 @@ function MainPage() {
   const { error } = selectErrorNetworks(store.getState())
   dayjs.extend(utc);
   dayjs.extend(timezone);
+  
+  useEffect(() =>{
+    dispatch(setIdActiveChannel('1'))
+  },[])
 
   useEffect(() => {
     if (error) {

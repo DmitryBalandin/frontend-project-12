@@ -6,9 +6,12 @@ import Dropdown from 'react-bootstrap/Dropdown'
 import RenameModal from '../Modals/RenameModal'
 import RemoveModal from '../Modals/RemoveModal'
 import { selectors as selectorsChannels } from '../../slices/channelsSlice'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import svgCross from '../../assets/cross.svg'
+import { openModal } from '../../slices/modalSlice'
+import Modal from '../Modals/Modal'
+
 
 const Channels = ({ channels, setActiveChannel, activeChannel, setIsHost }) => {
   const { t } = useTranslation()
@@ -21,9 +24,18 @@ const Channels = ({ channels, setActiveChannel, activeChannel, setIsHost }) => {
   const handleClick = (id) => {
     setActiveChannel(id)
   }
-  const handleChannel = (action) => {
+  
+  const dispatch = useDispatch()
+  const handleChannel = (data) => {
+    const { type, id } = data
+    dispatch(openModal({
+      type,
+      data: {
+        id
+      }
+    }))
     setShowModal(true)
-    setDateModal(action)
+    setDateModal(data)
   }
 
   const renderModal = (show, { type = null, id = null }) => {
@@ -116,7 +128,9 @@ const Channels = ({ channels, setActiveChannel, activeChannel, setIsHost }) => {
           )
         })}
       </ul>
-      {renderModal(showModal, dateModal)}
+      
+      {/* {renderModal(showModal, dateModal)} */}
+      {<Modal  />}
     </div>
   )
 }

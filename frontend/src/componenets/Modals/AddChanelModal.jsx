@@ -10,6 +10,8 @@ import * as Yup from 'yup'
 import { useTranslation } from 'react-i18next'
 import { selectErrorNetworks, setErrorNetwork, clearErrorNetwork } from '../../slices/errorsNetworkSlice'
 import LeoProfanity from 'leo-profanity'
+import { closeModal } from '../../slices/modalSlice'
+
 
 const AddChanelModal = ({ show, setShow, listNamesChannels, setIsHost }) => {
   const { t } = useTranslation()
@@ -34,7 +36,9 @@ const AddChanelModal = ({ show, setShow, listNamesChannels, setIsHost }) => {
 
   const dispatch = useDispatch()
   const closeButton = () => {
-    setShow(false)
+    // setShow(false)
+    dispatch(closeModal({type:'add'}))
+
     dispatch(clearErrorNetwork())
   }
 
@@ -45,7 +49,7 @@ const AddChanelModal = ({ show, setShow, listNamesChannels, setIsHost }) => {
       dispatch(clearErrorNetwork())
       const token = selectToken(store.getState())
       const newChannel = { name: LeoProfanity.clean(body) }
-      setIsHost(true)
+      // setIsHost(true)
 
       axios.post(routes.channels.allChannels(), newChannel, {
         headers: {
@@ -54,7 +58,8 @@ const AddChanelModal = ({ show, setShow, listNamesChannels, setIsHost }) => {
       })
         .then(() => {
           formik.resetForm()
-          setShow(false)
+          // setShow(false)
+          dispatch(closeModal({type:'add'}))
         })
         .catch((e) => {
           if (e.code === 'ERR_NETWORK') {
@@ -63,7 +68,7 @@ const AddChanelModal = ({ show, setShow, listNamesChannels, setIsHost }) => {
           else {
             dispatch(setErrorNetwork({ error: 'errors.unknow' }))
           }
-          setIsHost(false)
+          // setIsHost(false)
         })
         .finally(() => setSubmitting(false))
     },
@@ -71,7 +76,7 @@ const AddChanelModal = ({ show, setShow, listNamesChannels, setIsHost }) => {
   })
 
   return (
-    <Modal show={show} onHide={closeButton}>
+    <Modal show onHide={closeButton}>
       <Modal.Header closeButton>
         <Modal.Title>{t('modalActionName.add')}</Modal.Title>
       </Modal.Header>

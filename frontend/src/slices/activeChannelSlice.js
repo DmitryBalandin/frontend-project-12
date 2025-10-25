@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit"
 
 const initialState = {
-    id:null,
+    id:'1',
     name:null,
 }
 
@@ -9,10 +9,10 @@ const activeChannelSlice = createSlice({
   name: 'activeChannel',
   initialState,
   reducers: {
-    setActiveChannel: (state, { payload }) => {
+    setIdActiveChannel: (state, { payload }) => {
       const { id, name } = payload
       state.id = id
-      state.name = name
+      // state.name = name
     },
     clearActiveChannel: (state) => {
       state.id = null
@@ -25,7 +25,7 @@ const activeChannelSlice = createSlice({
 })
 
 export default activeChannelSlice.reducer
-export const {setActiveChannel, clearActiveChannel, updateNameActiveChannelName} = activeChannelSlice.actions
+export const {setIdActiveChannel, clearActiveChannel, updateNameActiveChannelName} = activeChannelSlice.actions
 export const selectIdActiveChannel = state => state.activeChannelReducer.id
 export const selectNameActiveChannel = state => state.activeChannelReducer.name
 
