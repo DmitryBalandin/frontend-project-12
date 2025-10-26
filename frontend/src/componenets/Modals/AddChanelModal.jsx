@@ -13,7 +13,7 @@ import LeoProfanity from 'leo-profanity'
 import { closeModal } from '../../slices/modalSlice'
 
 
-const AddChanelModal = ({ show, setShow, listNamesChannels, setIsHost }) => {
+const AddChanelModal = ({ listNamesChannels}) => {
   const { t } = useTranslation()
   const inputRef = useRef()
   const { isError, error } = selectErrorNetworks(store.getState())
@@ -36,9 +36,7 @@ const AddChanelModal = ({ show, setShow, listNamesChannels, setIsHost }) => {
 
   const dispatch = useDispatch()
   const closeButton = () => {
-    // setShow(false)
     dispatch(closeModal({type:'add'}))
-
     dispatch(clearErrorNetwork())
   }
 
@@ -49,7 +47,6 @@ const AddChanelModal = ({ show, setShow, listNamesChannels, setIsHost }) => {
       dispatch(clearErrorNetwork())
       const token = selectToken(store.getState())
       const newChannel = { name: LeoProfanity.clean(body) }
-      // setIsHost(true)
 
       axios.post(routes.channels.allChannels(), newChannel, {
         headers: {
@@ -58,7 +55,6 @@ const AddChanelModal = ({ show, setShow, listNamesChannels, setIsHost }) => {
       })
         .then(() => {
           formik.resetForm()
-          // setShow(false)
           dispatch(closeModal({type:'add'}))
         })
         .catch((e) => {
@@ -68,7 +64,6 @@ const AddChanelModal = ({ show, setShow, listNamesChannels, setIsHost }) => {
           else {
             dispatch(setErrorNetwork({ error: 'errors.unknow' }))
           }
-          // setIsHost(false)
         })
         .finally(() => setSubmitting(false))
     },

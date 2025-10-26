@@ -13,13 +13,12 @@ import { useTranslation } from 'react-i18next'
 import { selectErrorNetworks, setErrorNetwork, clearErrorNetwork } from '../../slices/errorsNetworkSlice'
 import { closeModal } from '../../slices/modalSlice'
 
-const RenameModal = ({ show, setShow, indexChannel, listNamesChannels, setIsHost }) => {
+const RenameModal = ({ indexChannel, listNamesChannels }) => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const { isError, error } = selectErrorNetworks(store.getState())
   console.log(indexChannel)
   const closeButton = () => {
-    // setShow(false)
     dispatch(closeModal({type:'rename'}))
     dispatch(clearErrorNetwork())
   }
@@ -48,7 +47,6 @@ const RenameModal = ({ show, setShow, indexChannel, listNamesChannels, setIsHost
     onSubmit: ({ body }, { setSubmitting }) => {
       const editerChannel = { name: body }
       const token = selectToken(store.getState())
-      // setIsHost(true)
       dispatch(clearErrorNetwork())
       axios.patch(routes.channels.channelId(indexChannel), editerChannel, {
         headers: {
@@ -57,7 +55,6 @@ const RenameModal = ({ show, setShow, indexChannel, listNamesChannels, setIsHost
       }).then(() => {
         formik.resetForm()
          dispatch(closeModal({type:'rename'}))
-        // setShow(false)
       })
         .catch((e) => {
           if (e.code === 'ERR_NETWORK') {
@@ -67,7 +64,6 @@ const RenameModal = ({ show, setShow, indexChannel, listNamesChannels, setIsHost
             dispatch(setErrorNetwork({ error: 'errors.unknow' }))
           }
 
-          // setIsHost(false)
         })
         .finally(() => setSubmitting(false))
     },

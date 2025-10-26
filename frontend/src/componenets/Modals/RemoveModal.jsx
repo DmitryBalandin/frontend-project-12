@@ -11,7 +11,7 @@ import { selectErrorNetworks, setErrorNetwork, clearErrorNetwork } from '../../s
 import { closeModal } from '../../slices/modalSlice'
 
 
-const RemoveModal = ({ show, setShow, indexModal, setIsHost }) => {
+const RemoveModal = ({ indexModal }) => {
   const inputRef = useRef()
   const { t } = useTranslation()
   const dispatch = useDispatch()
@@ -21,9 +21,7 @@ const RemoveModal = ({ show, setShow, indexModal, setIsHost }) => {
     inputRef.current?.focus()
   })
   const closeButton = () => {
-    // setShow(false)
-    console.log('close')
-    dispatch(closeModal({type:'remove'}))
+    dispatch(closeModal({ type: 'remove' }))
     dispatch(clearErrorNetwork())
   }
   const formik = useFormik({
@@ -33,7 +31,6 @@ const RemoveModal = ({ show, setShow, indexModal, setIsHost }) => {
       setStatus(false)
       const token = selectToken(store.getState())
 
-      // setIsHost(true)
       inputRef.current.disabled
 
       axios.delete(routes.channels.channelId(indexModal), {
@@ -49,14 +46,13 @@ const RemoveModal = ({ show, setShow, indexModal, setIsHost }) => {
         else {
           dispatch(setErrorNetwork({ error: 'errors.unknow' }))
         }
-        // setIsHost(false)
       })
         .finally(() => setSubmitting(false))
     },
   })
 
   return (
-    <Modal show onHide={closeButton}  backdrop="static">
+    <Modal show onHide={closeButton} backdrop="static">
       <Modal.Header closeButton>
         <Modal.Title>{t('modalActionName.remove')}</Modal.Title>
       </Modal.Header>
@@ -67,14 +63,13 @@ const RemoveModal = ({ show, setShow, indexModal, setIsHost }) => {
             <div className={`d-flex justify-content-end ${formik.status || isError ? 'is-invalid' : ''}`}>
               <input className="btn btn-secondary  me-3" value={t('buttonActionName.cancel')} type="button" onClick={closeButton} />
               <button className="btn btn-danger" type="submit" ref={inputRef} disabled={formik.isSubmitting}>{t('buttonActionName.remove')}</button>
-
             </div>
             {formik.status || isError
               ? (
-                  <div className="invalid-feedback">
-                    {formik.status || t(error)}
-                  </div>
-                )
+                <div className="invalid-feedback">
+                  {formik.status || t(error)}
+                </div>
+              )
               : null}
           </FormGroup>
         </form>

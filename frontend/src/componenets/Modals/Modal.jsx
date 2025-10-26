@@ -5,8 +5,10 @@ import RenameModal from "./RenameModal"
 import AddChanelModal from "./AddChanelModal"
 import { selectors as selectorsChannels } from '../../slices/channelsSlice'
 const Modal = () => {
+
     const modalsState = useSelector(state => selectModalState(state))
     const { types, data } = modalsState;
+
     const listNamesChannels = useSelector(state => selectorsChannels.selectAll(state))
         .map(({ name }) => name)
 
