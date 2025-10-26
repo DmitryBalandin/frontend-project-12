@@ -11,17 +11,18 @@ import { selectErrorNetworks, setErrorNetwork, clearErrorNetwork } from '../../s
 import { closeModal } from '../../slices/modalSlice'
 
 
-const RemoveModal = ({ indexModal }) => {
+const RemoveModal = ({data}) => {
   const inputRef = useRef()
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const { isError, error } = selectErrorNetworks(store.getState())
-
+  const indexChannel = data.id
+ 
   useEffect(() => {
     inputRef.current?.focus()
   })
   const closeButton = () => {
-    dispatch(closeModal({ type: 'remove' }))
+    dispatch(closeModal({type:'remove'}))
     dispatch(clearErrorNetwork())
   }
   const formik = useFormik({
@@ -33,7 +34,7 @@ const RemoveModal = ({ indexModal }) => {
 
       inputRef.current.disabled
 
-      axios.delete(routes.channels.channelId(indexModal), {
+      axios.delete(routes.channels.channelId(indexChannel), {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -46,13 +47,14 @@ const RemoveModal = ({ indexModal }) => {
         else {
           dispatch(setErrorNetwork({ error: 'errors.unknow' }))
         }
+
       })
         .finally(() => setSubmitting(false))
     },
   })
 
   return (
-    <Modal show onHide={closeButton} backdrop="static">
+    <Modal show onHide={closeButton}  backdrop="static">
       <Modal.Header closeButton>
         <Modal.Title>{t('modalActionName.remove')}</Modal.Title>
       </Modal.Header>
@@ -66,10 +68,10 @@ const RemoveModal = ({ indexModal }) => {
             </div>
             {formik.status || isError
               ? (
-                <div className="invalid-feedback">
-                  {formik.status || t(error)}
-                </div>
-              )
+                  <div className="invalid-feedback">
+                    {formik.status || t(error)}
+                  </div>
+                )
               : null}
           </FormGroup>
         </form>

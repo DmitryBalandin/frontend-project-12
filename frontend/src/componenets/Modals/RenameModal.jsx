@@ -13,18 +13,22 @@ import { useTranslation } from 'react-i18next'
 import { selectErrorNetworks, setErrorNetwork, clearErrorNetwork } from '../../slices/errorsNetworkSlice'
 import { closeModal } from '../../slices/modalSlice'
 
-const RenameModal = ({ indexChannel, listNamesChannels }) => {
+const RenameModal = ({ data }) => {
+  const indexChannel = data.id
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const { isError, error } = selectErrorNetworks(store.getState())
-  console.log(indexChannel)
+  const listNamesChannels = useSelector(state => selectorsChannels.selectAll(state))
+    .map(({ name }) => name)
+
   const closeButton = () => {
-    dispatch(closeModal({type:'rename'}))
+    dispatch(closeModal({ type: 'rename' }))
     dispatch(clearErrorNetwork())
   }
+
   const inputRef = useRef()
-  const {name:nameRenamingChannel} = useSelector(state => selectorsChannels.selectById(state, indexChannel))
-  console.log(nameRenamingChannel)
+  const { name: nameRenamingChannel } = useSelector(state => selectorsChannels.selectById(state, indexChannel))
+
   useEffect(() => {
     inputRef.current.value = nameRenamingChannel
     inputRef.current?.focus()
@@ -54,7 +58,7 @@ const RenameModal = ({ indexChannel, listNamesChannels }) => {
         },
       }).then(() => {
         formik.resetForm()
-         dispatch(closeModal({type:'rename'}))
+        dispatch(closeModal({ type: 'rename' }))
       })
         .catch((e) => {
           if (e.code === 'ERR_NETWORK') {
@@ -75,9 +79,9 @@ const RenameModal = ({ indexChannel, listNamesChannels }) => {
   }
 
   return (
-    <Modal show 
-    onHide={handleCloseModal}
-    backdrop="static"
+    <Modal show
+      onHide={handleCloseModal}
+      backdrop="static"
     >
       <Modal.Header closeButton>
         <Modal.Title>{t('modalActionName.rename')}</Modal.Title>
@@ -103,10 +107,10 @@ const RenameModal = ({ indexChannel, listNamesChannels }) => {
             </div>
             {(formik.touched.body && formik.errors.body) || isError
               ? (
-                  <div className="invalid-feedback">
-                    {formik.errors.body || t(error)}
-                  </div>
-                )
+                <div className="invalid-feedback">
+                  {formik.errors.body || t(error)}
+                </div>
+              )
               : null}
           </FormGroup>
         </form>

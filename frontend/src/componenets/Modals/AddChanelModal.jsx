@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react'
 import axios from 'axios'
 import { useFormik } from 'formik'
 import { Modal, FormGroup, FormControl } from 'react-bootstrap'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import store from '../../slices/store'
 import { selectToken } from '../../slices/autxSlice'
 import routes from '../../routes'
@@ -11,9 +11,9 @@ import { useTranslation } from 'react-i18next'
 import { selectErrorNetworks, setErrorNetwork, clearErrorNetwork } from '../../slices/errorsNetworkSlice'
 import LeoProfanity from 'leo-profanity'
 import { closeModal } from '../../slices/modalSlice'
+import { selectors as selectorsChannels } from '../../slices/channelsSlice'
 
-
-const AddChanelModal = ({ listNamesChannels}) => {
+const AddChanelModal = ({data}) => {
   const { t } = useTranslation()
   const inputRef = useRef()
   const { isError, error } = selectErrorNetworks(store.getState())
@@ -25,6 +25,9 @@ const AddChanelModal = ({ listNamesChannels}) => {
   useEffect(() => {
     inputRef.current?.focus()
   })
+  const listNamesChannels = useSelector(state => selectorsChannels.selectAll(state))
+        .map(({ name }) => name)
+
 
   const validationSchema = Yup.object().shape({
     body: Yup.string()
@@ -46,7 +49,7 @@ const AddChanelModal = ({ listNamesChannels}) => {
     onSubmit: ({ body }, { setSubmitting }) => {
       dispatch(clearErrorNetwork())
       const token = selectToken(store.getState())
-      const newChannel = { name: LeoProfanity.clean(body) }
+      const newChannel = { name: LeoProfanity.clean(body), }
 
       axios.post(routes.channels.allChannels(), newChannel, {
         headers: {
@@ -54,6 +57,7 @@ const AddChanelModal = ({ listNamesChannels}) => {
         },
       })
         .then(() => {
+      
           formik.resetForm()
           dispatch(closeModal({type:'add'}))
         })

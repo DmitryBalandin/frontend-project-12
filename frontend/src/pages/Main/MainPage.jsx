@@ -19,21 +19,21 @@ import { selectErrorNetworks, setErrorNetwork, clearErrorNetwork } from '../../s
 import dayjs from 'dayjs'
 import utc from "dayjs/plugin/utc"
 import timezone from "dayjs/plugin/timezone"
-import { setIdActiveChannel } from '../../slices/activeChannelSlice'
+import { channelsAPI } from '../../API'
+// import { setIdActiveChannel } from '../../slices/activeChannelSlice'
 
 function MainPage() {
   const navigator = useNavigate()
   const dispatch = useDispatch()
   const { t } = useTranslation()
   const [activeChannel, setActiveChannel] = useState('1')
-  const [isHost, setIsHost] = useState(false)
   const { error } = selectErrorNetworks(store.getState())
   dayjs.extend(utc);
   dayjs.extend(timezone);
   
-  useEffect(() =>{
-    dispatch(setIdActiveChannel('1'))
-  },[])
+  // useEffect(() =>{
+  //   dispatch(setIdActiveChannel('1'))
+  // },[])
 
   useEffect(() => {
     if (error) {
@@ -59,6 +59,10 @@ function MainPage() {
     else {
       const { token } = userId
       try {
+        channelsAPI.getAll()
+         .then((res) =>{
+          console.log(res)
+         })
         axios.get(routes.channels.allChannels(), {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -111,16 +115,15 @@ function MainPage() {
   }
 
   const addChannelFormSocket = (payload) => {
+    console.log(payload)
     const { id } = payload
     dispatch(addChannel(payload))
-    if (isHost) {
       setActiveChannel(id)
-      setIsHost(false)
       setPhraseToast(t('phrase.addChannel'))
-    }
   }
 
   useEffect(() => {
+    
     socket.on('newChannel', addChannelFormSocket)
     return () => socket.off('newChannel', addChannelFormSocket)
   })
@@ -128,11 +131,10 @@ function MainPage() {
   const renameChannelFromSocket = (payload) => {
     const { id } = payload
     dispatch(upsertChannel(payload))
-    if (isHost) {
+    
       setActiveChannel(id)
-      setIsHost(false)
       setPhraseToast(t('phrase.renameChannel'))
-    }
+  
   }
 
   useEffect(() => {
@@ -147,7 +149,6 @@ function MainPage() {
     if (activeChannel === id) {
       setActiveChannel('1')
     }
-    setIsHost(false)
     setPhraseToast(t('phrase.removeChannel'))
   }
 
@@ -185,10 +186,8 @@ function MainPage() {
             channels={channels}
             activeChannel={activeChannel}
             setActiveChannel={setActiveChannel}
-            setIsHost={setIsHost}
           />
           <MessagesCard activeChannel={activeChannel} />
-
         </div>
       </div>
       <ToastContainer />
