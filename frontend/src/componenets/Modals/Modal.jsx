@@ -11,34 +11,29 @@ const Modal = () => {
         .map(({ name }) => name)
 
     return (<>
-        {types.map((type) => {
+        {types.map((type, index) => {
+            const { id } = data[type];
             switch (type) {
                 case 'add':
                     return (
                         <AddChanelModal
+                            key={index}
                             listNamesChannels={listNamesChannels}
                         />
                     )
                 case 'rename':
                     return (
                         <RenameModal
-                            show={show}
-                            setShow={setShowModal}
+                            key={index}
                             indexChannel={id}
                             listNamesChannels={listNamesChannels}
-                            setIsHost={setIsHost}
                         />
                     )
                 case 'remove': {
                     return (
                         <RemoveModal
-                            show={show}
-                            setShow={setShowModal}
-                            setActiveChannel={setActiveChannel}
+                            key={index}
                             indexModal={id}
-                            activeChannel={activeChannel}
-                            setIsHost={setIsHost}
-
                         />
                     )
                 }

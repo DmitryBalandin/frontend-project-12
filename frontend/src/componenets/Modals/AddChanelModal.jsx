@@ -76,7 +76,7 @@ const AddChanelModal = ({ show, setShow, listNamesChannels, setIsHost }) => {
   })
 
   return (
-    <Modal show onHide={closeButton}>
+    <Modal show onHide={closeButton} backdrop="static">
       <Modal.Header closeButton>
         <Modal.Title>{t('modalActionName.add')}</Modal.Title>
       </Modal.Header>

@@ -11,24 +11,26 @@ import routes from '../../routes'
 import { selectors as selectorsChannels } from '../../slices/channelsSlice'
 import { useTranslation } from 'react-i18next'
 import { selectErrorNetworks, setErrorNetwork, clearErrorNetwork } from '../../slices/errorsNetworkSlice'
+import { closeModal } from '../../slices/modalSlice'
 
 const RenameModal = ({ show, setShow, indexChannel, listNamesChannels, setIsHost }) => {
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const { isError, error } = selectErrorNetworks(store.getState())
-
+  console.log(indexChannel)
   const closeButton = () => {
-    setShow(false)
+    // setShow(false)
+    dispatch(closeModal({type:'rename'}))
     dispatch(clearErrorNetwork())
   }
   const inputRef = useRef()
-  const { name: nameRenamingChannel } = useSelector(state => selectorsChannels.selectById(state, indexChannel))
-
+  const {name:nameRenamingChannel} = useSelector(state => selectorsChannels.selectById(state, indexChannel))
+  console.log(nameRenamingChannel)
   useEffect(() => {
     inputRef.current.value = nameRenamingChannel
     inputRef.current?.focus()
     inputRef.current?.setSelectionRange(0, inputRef.current.value.length)
-  }, [show])
+  }, [])
 
   const validationSchema = Yup.object().shape({
     body: Yup.string()
@@ -46,7 +48,7 @@ const RenameModal = ({ show, setShow, indexChannel, listNamesChannels, setIsHost
     onSubmit: ({ body }, { setSubmitting }) => {
       const editerChannel = { name: body }
       const token = selectToken(store.getState())
-      setIsHost(true)
+      // setIsHost(true)
       dispatch(clearErrorNetwork())
       axios.patch(routes.channels.channelId(indexChannel), editerChannel, {
         headers: {
@@ -54,7 +56,8 @@ const RenameModal = ({ show, setShow, indexChannel, listNamesChannels, setIsHost
         },
       }).then(() => {
         formik.resetForm()
-        setShow(false)
+         dispatch(closeModal({type:'rename'}))
+        // setShow(false)
       })
         .catch((e) => {
           if (e.code === 'ERR_NETWORK') {
@@ -64,7 +67,7 @@ const RenameModal = ({ show, setShow, indexChannel, listNamesChannels, setIsHost
             dispatch(setErrorNetwork({ error: 'errors.unknow' }))
           }
 
-          setIsHost(false)
+          // setIsHost(false)
         })
         .finally(() => setSubmitting(false))
     },
@@ -76,7 +79,10 @@ const RenameModal = ({ show, setShow, indexChannel, listNamesChannels, setIsHost
   }
 
   return (
-    <Modal show={show} onHide={handleCloseModal}>
+    <Modal show 
+    onHide={handleCloseModal}
+    backdrop="static"
+    >
       <Modal.Header closeButton>
         <Modal.Title>{t('modalActionName.rename')}</Modal.Title>
       </Modal.Header>

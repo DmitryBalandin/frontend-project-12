@@ -8,6 +8,8 @@ import routes from '../../routes'
 import { useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { selectErrorNetworks, setErrorNetwork, clearErrorNetwork } from '../../slices/errorsNetworkSlice'
+import { closeModal } from '../../slices/modalSlice'
+
 
 const RemoveModal = ({ show, setShow, indexModal, setIsHost }) => {
   const inputRef = useRef()
@@ -19,7 +21,9 @@ const RemoveModal = ({ show, setShow, indexModal, setIsHost }) => {
     inputRef.current?.focus()
   })
   const closeButton = () => {
-    setShow(false)
+    // setShow(false)
+    console.log('close')
+    dispatch(closeModal({type:'remove'}))
     dispatch(clearErrorNetwork())
   }
   const formik = useFormik({
@@ -29,7 +33,7 @@ const RemoveModal = ({ show, setShow, indexModal, setIsHost }) => {
       setStatus(false)
       const token = selectToken(store.getState())
 
-      setIsHost(true)
+      // setIsHost(true)
       inputRef.current.disabled
 
       axios.delete(routes.channels.channelId(indexModal), {
@@ -45,14 +49,14 @@ const RemoveModal = ({ show, setShow, indexModal, setIsHost }) => {
         else {
           dispatch(setErrorNetwork({ error: 'errors.unknow' }))
         }
-        setIsHost(false)
+        // setIsHost(false)
       })
         .finally(() => setSubmitting(false))
     },
   })
 
   return (
-    <Modal show={show} onHide={closeButton}>
+    <Modal show onHide={closeButton}  backdrop="static">
       <Modal.Header closeButton>
         <Modal.Title>{t('modalActionName.remove')}</Modal.Title>
       </Modal.Header>
