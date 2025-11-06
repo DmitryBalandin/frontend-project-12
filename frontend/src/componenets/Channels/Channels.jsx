@@ -12,12 +12,10 @@ import Modal from '../Modals/Modal'
 const Channels = ({ channels, setActiveChannel, activeChannel }) => {
   const { t } = useTranslation()
 
-
-
   const handleClick = (id) => {
     setActiveChannel(id)
   }
-  
+
   const dispatch = useDispatch()
   const handleChannel = (data) => {
     const { type, id } = data
@@ -27,7 +25,6 @@ const Channels = ({ channels, setActiveChannel, activeChannel }) => {
         id
       }
     }))
-
   }
 
 
@@ -83,8 +80,7 @@ const Channels = ({ channels, setActiveChannel, activeChannel }) => {
           )
         })}
       </ul>
-
-      <Modal  />
+      <Modal />
     </div>
   )
 }

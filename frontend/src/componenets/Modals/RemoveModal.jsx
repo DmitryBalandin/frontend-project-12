@@ -2,17 +2,18 @@ import { Modal, FormGroup } from 'react-bootstrap'
 import axios from 'axios'
 import { useFormik } from 'formik'
 import store from '../../slices/store'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef,useContext } from 'react'
 import { selectToken } from '../../slices/autxSlice'
 import routes from '../../routes'
 import { useDispatch } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { selectErrorNetworks, setErrorNetwork, clearErrorNetwork } from '../../slices/errorsNetworkSlice'
 import { closeModal } from '../../slices/modalSlice'
-
+import { HostContext } from '../../context'
 
 const RemoveModal = ({data}) => {
   const inputRef = useRef()
+   const { setHostInTrue,setHostInFalse } = useContext(HostContext)
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const { isError, error } = selectErrorNetworks(store.getState())
@@ -31,7 +32,7 @@ const RemoveModal = ({data}) => {
       dispatch(clearErrorNetwork())
       setStatus(false)
       const token = selectToken(store.getState())
-
+      setHostInTrue()
       inputRef.current.disabled
 
       axios.delete(routes.channels.channelId(indexChannel), {
@@ -41,6 +42,7 @@ const RemoveModal = ({data}) => {
       }).then(() => {
         closeButton()
       }).catch((e) => {
+        setHostInFalse()
         if (e.code === 'ERR_NETWORK') {
           dispatch(setErrorNetwork({ error: 'errors.network' }))
         }

@@ -1,7 +1,7 @@
 import { Modal, FormGroup, FormControl } from 'react-bootstrap'
 import { useFormik } from 'formik'
 import { useSelector } from 'react-redux'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useContext} from 'react'
 import { useDispatch } from 'react-redux'
 import * as Yup from 'yup'
 import axios from 'axios'
@@ -12,12 +12,15 @@ import { selectors as selectorsChannels } from '../../slices/channelsSlice'
 import { useTranslation } from 'react-i18next'
 import { selectErrorNetworks, setErrorNetwork, clearErrorNetwork } from '../../slices/errorsNetworkSlice'
 import { closeModal } from '../../slices/modalSlice'
+import { HostContext } from '../../context'
+
 
 const RenameModal = ({ data }) => {
   const indexChannel = data.id
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const { isError, error } = selectErrorNetworks(store.getState())
+  const { setHostInTrue, setHostInFalse } = useContext(HostContext)
   const listNamesChannels = useSelector(state => selectorsChannels.selectAll(state))
     .map(({ name }) => name)
 
@@ -49,8 +52,9 @@ const RenameModal = ({ data }) => {
     },
     validationSchema,
     onSubmit: ({ body }, { setSubmitting }) => {
-      const editerChannel = { name: body }
       const token = selectToken(store.getState())
+      setHostInTrue()
+      const editerChannel = { name: body }
       dispatch(clearErrorNetwork())
       axios.patch(routes.channels.channelId(indexChannel), editerChannel, {
         headers: {
@@ -61,6 +65,7 @@ const RenameModal = ({ data }) => {
         dispatch(closeModal({ type: 'rename' }))
       })
         .catch((e) => {
+          setHostInTrue()
           if (e.code === 'ERR_NETWORK') {
             dispatch(setErrorNetwork({ error: 'errors.network' }))
           }

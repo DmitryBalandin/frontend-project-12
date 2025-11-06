@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useContext } from 'react'
 import axios from 'axios'
 import { useFormik } from 'formik'
 import { Modal, FormGroup, FormControl } from 'react-bootstrap'
@@ -12,11 +12,14 @@ import { selectErrorNetworks, setErrorNetwork, clearErrorNetwork } from '../../s
 import LeoProfanity from 'leo-profanity'
 import { closeModal } from '../../slices/modalSlice'
 import { selectors as selectorsChannels } from '../../slices/channelsSlice'
+import { HostContext } from '../../context'
+
 
 const AddChanelModal = ({data}) => {
   const { t } = useTranslation()
   const inputRef = useRef()
   const { isError, error } = selectErrorNetworks(store.getState())
+  const { setHostInTrue,setHostInFalse } = useContext(HostContext)
 
   useEffect(() => {
     LeoProfanity.loadDictionary('en')
@@ -49,19 +52,20 @@ const AddChanelModal = ({data}) => {
     onSubmit: ({ body }, { setSubmitting }) => {
       dispatch(clearErrorNetwork())
       const token = selectToken(store.getState())
-      const newChannel = { name: LeoProfanity.clean(body), }
-
+      const newChannel = { name: LeoProfanity.clean(body)}
+        setHostInTrue()
       axios.post(routes.channels.allChannels(), newChannel, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
         .then(() => {
-      
+        
           formik.resetForm()
           dispatch(closeModal({type:'add'}))
         })
         .catch((e) => {
+          setHostInFalse()
           if (e.code === 'ERR_NETWORK') {
             dispatch(setErrorNetwork({ error: 'errors.network' }))
           }
