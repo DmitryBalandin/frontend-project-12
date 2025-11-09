@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
 
-
 const initialState = {
   username: null,
   token: null,
@@ -16,7 +15,7 @@ const authSlice = createSlice({
       state.username = username
     },
     setTimeZona: (state, action) => {
-      const  timeZona = action.payload
+      const timeZona = action.payload
       state.timeZona = timeZona
     },
     clearUser: (state) => {

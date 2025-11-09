@@ -1,69 +1,31 @@
-import { useState } from 'react'
-import AddChanelModal from '../Modals/AddChanelModal'
 import Button from 'react-bootstrap/Button'
 import ButtonGroup from 'react-bootstrap/ButtonGroup'
 import Dropdown from 'react-bootstrap/Dropdown'
-import RenameModal from '../Modals/RenameModal'
-import RemoveModal from '../Modals/RemoveModal'
 import { selectors as selectorsChannels } from '../../slices/channelsSlice'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import svgCross from '../../assets/cross.svg'
+import { openModal } from '../../slices/modalSlice'
+import Modal from '../Modals/Modal'
 
-const Channels = ({ channels, setActiveChannel, activeChannel, setIsHost }) => {
+const Channels = ({ channels, setActiveChannel, activeChannel }) => {
   const { t } = useTranslation()
-  const [showModal, setShowModal] = useState(true)
-  const [dateModal, setDateModal] = useState({ type: null, id: null })
-
-  const listNamesChannels = useSelector(state => selectorsChannels.selectAll(state))
-    .map(({ name }) => name)
 
   const handleClick = (id) => {
     setActiveChannel(id)
   }
-  const handleChannel = (action) => {
-    setShowModal(true)
-    setDateModal(action)
+
+  const dispatch = useDispatch()
+  const handleChannel = (data) => {
+    const { type, id } = data
+    dispatch(openModal({
+      type,
+      data: {
+        id,
+      },
+    }))
   }
 
-  const renderModal = (show, { type = null, id = null }) => {
-    switch (type) {
-      case 'add':
-        return (
-          <AddChanelModal
-            show={show}
-            setShow={setShowModal}
-            listNamesChannels={listNamesChannels}
-            setIsHost={setIsHost}
-          />
-        )
-      case 'rename':
-        return (
-          <RenameModal
-            show={show}
-            setShow={setShowModal}
-            indexChannel={id}
-            listNamesChannels={listNamesChannels}
-            setIsHost={setIsHost}
-          />
-        )
-      case 'remove': {
-        return (
-          <RemoveModal
-            show={show}
-            setShow={setShowModal}
-            setActiveChannel={setActiveChannel}
-            indexModal={id}
-            activeChannel={activeChannel}
-            setIsHost={setIsHost}
-
-          />
-        )
-      }
-      default:
-        return
-    }
-  }
   return (
 
     <div className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
@@ -116,7 +78,7 @@ const Channels = ({ channels, setActiveChannel, activeChannel, setIsHost }) => {
           )
         })}
       </ul>
-      {renderModal(showModal, dateModal)}
+      <Modal />
     </div>
   )
 }

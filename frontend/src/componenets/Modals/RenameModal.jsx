@@ -1,7 +1,7 @@
 import { Modal, FormGroup, FormControl } from 'react-bootstrap'
 import { useFormik } from 'formik'
 import { useSelector } from 'react-redux'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useContext } from 'react'
 import { useDispatch } from 'react-redux'
 import * as Yup from 'yup'
 import axios from 'axios'
@@ -11,16 +11,23 @@ import routes from '../../routes'
 import { selectors as selectorsChannels } from '../../slices/channelsSlice'
 import { useTranslation } from 'react-i18next'
 import { selectErrorNetworks, setErrorNetwork, clearErrorNetwork } from '../../slices/errorsNetworkSlice'
+import { closeModal } from '../../slices/modalSlice'
+import { HostContext } from '../../context'
 
-const RenameModal = ({ show, setShow, indexChannel, listNamesChannels, setIsHost }) => {
+const RenameModal = ({ data }) => {
+  const indexChannel = data.id
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const { isError, error } = selectErrorNetworks(store.getState())
+  const { setHostInTrue, setHostInFalse } = useContext(HostContext)
+  const listNamesChannels = useSelector(state => selectorsChannels.selectAll(state))
+    .map(({ name }) => name)
 
   const closeButton = () => {
-    setShow(false)
+    dispatch(closeModal({ type: 'rename' }))
     dispatch(clearErrorNetwork())
   }
+
   const inputRef = useRef()
   const { name: nameRenamingChannel } = useSelector(state => selectorsChannels.selectById(state, indexChannel))
 
@@ -28,7 +35,7 @@ const RenameModal = ({ show, setShow, indexChannel, listNamesChannels, setIsHost
     inputRef.current.value = nameRenamingChannel
     inputRef.current?.focus()
     inputRef.current?.setSelectionRange(0, inputRef.current.value.length)
-  }, [show])
+  }, [])
 
   const validationSchema = Yup.object().shape({
     body: Yup.string()
@@ -44,9 +51,9 @@ const RenameModal = ({ show, setShow, indexChannel, listNamesChannels, setIsHost
     },
     validationSchema,
     onSubmit: ({ body }, { setSubmitting }) => {
-      const editerChannel = { name: body }
       const token = selectToken(store.getState())
-      setIsHost(true)
+      setHostInTrue()
+      const editerChannel = { name: body }
       dispatch(clearErrorNetwork())
       axios.patch(routes.channels.channelId(indexChannel), editerChannel, {
         headers: {
@@ -54,17 +61,16 @@ const RenameModal = ({ show, setShow, indexChannel, listNamesChannels, setIsHost
         },
       }).then(() => {
         formik.resetForm()
-        setShow(false)
+        dispatch(closeModal({ type: 'rename' }))
       })
         .catch((e) => {
+          setHostInTrue()
           if (e.code === 'ERR_NETWORK') {
             dispatch(setErrorNetwork({ error: 'errors.network' }))
           }
           else {
             dispatch(setErrorNetwork({ error: 'errors.unknow' }))
           }
-
-          setIsHost(false)
         })
         .finally(() => setSubmitting(false))
     },
@@ -76,7 +82,10 @@ const RenameModal = ({ show, setShow, indexChannel, listNamesChannels, setIsHost
   }
 
   return (
-    <Modal show={show} onHide={handleCloseModal}>
+    <Modal show
+      onHide={handleCloseModal}
+      backdrop="static"
+    >
       <Modal.Header closeButton>
         <Modal.Title>{t('modalActionName.rename')}</Modal.Title>
       </Modal.Header>
@@ -101,10 +110,10 @@ const RenameModal = ({ show, setShow, indexChannel, listNamesChannels, setIsHost
             </div>
             {(formik.touched.body && formik.errors.body) || isError
               ? (
-                  <div className="invalid-feedback">
-                    {formik.errors.body || t(error)}
-                  </div>
-                )
+                <div className="invalid-feedback">
+                  {formik.errors.body || t(error)}
+                </div>
+              )
               : null}
           </FormGroup>
         </form>

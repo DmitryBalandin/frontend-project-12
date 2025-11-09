@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext } from 'react'
 import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
 import { ToastContainer, toast } from 'react-toastify'
@@ -11,24 +11,26 @@ import Channels from '../../componenets/Channels/Channels'
 import MessagesCard from '../../componenets/MessagesCard/MessagesCard'
 import store from '../../slices/store'
 import { selectToken, selectUsername } from '../../slices/autxSlice'
-import { setUsersData,setTimeZona } from '../../slices/autxSlice'
+import { setUsersData, setTimeZona } from '../../slices/autxSlice'
 import routes from '../../routes'
 import socket from '../../socket'
 import { useTranslation } from 'react-i18next'
 import { selectErrorNetworks, setErrorNetwork, clearErrorNetwork } from '../../slices/errorsNetworkSlice'
 import dayjs from 'dayjs'
-import utc from "dayjs/plugin/utc"
-import timezone from "dayjs/plugin/timezone"
+import utc from 'dayjs/plugin/utc'
+import timezone from 'dayjs/plugin/timezone'
+import { HostContext } from '../../context'
 
 function MainPage() {
   const navigator = useNavigate()
   const dispatch = useDispatch()
   const { t } = useTranslation()
   const [activeChannel, setActiveChannel] = useState('1')
-  const [isHost, setIsHost] = useState(false)
   const { error } = selectErrorNetworks(store.getState())
-  dayjs.extend(utc);
-  dayjs.extend(timezone);
+  const { isHost, setHostInFalse } = useContext(HostContext)
+
+  dayjs.extend(utc)
+  dayjs.extend(timezone)
 
   useEffect(() => {
     if (error) {
@@ -54,6 +56,10 @@ function MainPage() {
     else {
       const { token } = userId
       try {
+        // channelsAPI.getAll()
+        //  .then((res) =>{
+        //   console.log(res)
+        //  })
         axios.get(routes.channels.allChannels(), {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -110,9 +116,9 @@ function MainPage() {
     dispatch(addChannel(payload))
     if (isHost) {
       setActiveChannel(id)
-      setIsHost(false)
       setPhraseToast(t('phrase.addChannel'))
     }
+    setHostInFalse()
   }
 
   useEffect(() => {
@@ -125,9 +131,9 @@ function MainPage() {
     dispatch(upsertChannel(payload))
     if (isHost) {
       setActiveChannel(id)
-      setIsHost(false)
       setPhraseToast(t('phrase.renameChannel'))
     }
+    setHostInFalse()
   }
 
   useEffect(() => {
@@ -142,8 +148,10 @@ function MainPage() {
     if (activeChannel === id) {
       setActiveChannel('1')
     }
-    setIsHost(false)
-    setPhraseToast(t('phrase.removeChannel'))
+    if (isHost) {
+      setPhraseToast(t('phrase.removeChannel'))
+    }
+    setHostInFalse()
   }
 
   useEffect(() => {
@@ -180,10 +188,8 @@ function MainPage() {
             channels={channels}
             activeChannel={activeChannel}
             setActiveChannel={setActiveChannel}
-            setIsHost={setIsHost}
           />
           <MessagesCard activeChannel={activeChannel} />
-
         </div>
       </div>
       <ToastContainer />

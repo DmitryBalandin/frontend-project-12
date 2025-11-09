@@ -3,7 +3,7 @@ import authReducer from './autxSlice'
 import channelsReducer from './channelsSlice'
 import messagesReducer from './messagesSlice'
 import errorNetworkReducer from './errorsNetworkSlice'
-import activeChannelReducer from './activeChannelSlice'
+import modalReducer from './modalSlice'
 
 export default configureStore({
   reducer: {
@@ -11,6 +11,6 @@ export default configureStore({
     channelsReducer,
     messagesReducer,
     errorNetworkReducer,
-    activeChannelReducer,
+    modalReducer,
   },
 })

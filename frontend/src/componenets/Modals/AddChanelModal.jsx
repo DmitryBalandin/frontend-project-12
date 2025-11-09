@@ -1,8 +1,8 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useContext } from 'react'
 import axios from 'axios'
 import { useFormik } from 'formik'
 import { Modal, FormGroup, FormControl } from 'react-bootstrap'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import store from '../../slices/store'
 import { selectToken } from '../../slices/autxSlice'
 import routes from '../../routes'
@@ -10,11 +10,15 @@ import * as Yup from 'yup'
 import { useTranslation } from 'react-i18next'
 import { selectErrorNetworks, setErrorNetwork, clearErrorNetwork } from '../../slices/errorsNetworkSlice'
 import LeoProfanity from 'leo-profanity'
+import { closeModal } from '../../slices/modalSlice'
+import { selectors as selectorsChannels } from '../../slices/channelsSlice'
+import { HostContext } from '../../context'
 
-const AddChanelModal = ({ show, setShow, listNamesChannels, setIsHost }) => {
+const AddChanelModal = ({ data }) => {
   const { t } = useTranslation()
   const inputRef = useRef()
   const { isError, error } = selectErrorNetworks(store.getState())
+  const { setHostInTrue, setHostInFalse } = useContext(HostContext)
 
   useEffect(() => {
     LeoProfanity.loadDictionary('en')
@@ -23,6 +27,8 @@ const AddChanelModal = ({ show, setShow, listNamesChannels, setIsHost }) => {
   useEffect(() => {
     inputRef.current?.focus()
   })
+  const listNamesChannels = useSelector(state => selectorsChannels.selectAll(state))
+    .map(({ name }) => name)
 
   const validationSchema = Yup.object().shape({
     body: Yup.string()
@@ -34,7 +40,7 @@ const AddChanelModal = ({ show, setShow, listNamesChannels, setIsHost }) => {
 
   const dispatch = useDispatch()
   const closeButton = () => {
-    setShow(false)
+    dispatch(closeModal({ type: 'add' }))
     dispatch(clearErrorNetwork())
   }
 
@@ -45,8 +51,7 @@ const AddChanelModal = ({ show, setShow, listNamesChannels, setIsHost }) => {
       dispatch(clearErrorNetwork())
       const token = selectToken(store.getState())
       const newChannel = { name: LeoProfanity.clean(body) }
-      setIsHost(true)
-
+      setHostInTrue()
       axios.post(routes.channels.allChannels(), newChannel, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -54,16 +59,16 @@ const AddChanelModal = ({ show, setShow, listNamesChannels, setIsHost }) => {
       })
         .then(() => {
           formik.resetForm()
-          setShow(false)
+          dispatch(closeModal({ type: 'add' }))
         })
         .catch((e) => {
+          setHostInFalse()
           if (e.code === 'ERR_NETWORK') {
             dispatch(setErrorNetwork({ error: 'errors.network' }))
           }
           else {
             dispatch(setErrorNetwork({ error: 'errors.unknow' }))
           }
-          setIsHost(false)
         })
         .finally(() => setSubmitting(false))
     },
@@ -71,7 +76,7 @@ const AddChanelModal = ({ show, setShow, listNamesChannels, setIsHost }) => {
   })
 
   return (
-    <Modal show={show} onHide={closeButton}>
+    <Modal show onHide={closeButton} backdrop="static">
       <Modal.Header closeButton>
         <Modal.Title>{t('modalActionName.add')}</Modal.Title>
       </Modal.Header>
@@ -94,10 +99,10 @@ const AddChanelModal = ({ show, setShow, listNamesChannels, setIsHost }) => {
             </div>
             {(formik.touched.body && formik.errors.body) || isError
               ? (
-                  <div className="invalid-feedback">
-                    {formik.errors.body || t(error)}
-                  </div>
-                )
+                <div className="invalid-feedback">
+                  {formik.errors.body || t(error)}
+                </div>
+              )
               : null}
           </FormGroup>
         </form>
