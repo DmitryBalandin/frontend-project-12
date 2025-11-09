@@ -2,7 +2,7 @@ import { Modal, FormGroup } from 'react-bootstrap'
 import axios from 'axios'
 import { useFormik } from 'formik'
 import store from '../../slices/store'
-import { useEffect, useRef,useContext } from 'react'
+import { useEffect, useRef, useContext } from 'react'
 import { selectToken } from '../../slices/autxSlice'
 import routes from '../../routes'
 import { useDispatch } from 'react-redux'
@@ -11,19 +11,19 @@ import { selectErrorNetworks, setErrorNetwork, clearErrorNetwork } from '../../s
 import { closeModal } from '../../slices/modalSlice'
 import { HostContext } from '../../context'
 
-const RemoveModal = ({data}) => {
+const RemoveModal = ({ data }) => {
   const inputRef = useRef()
-   const { setHostInTrue,setHostInFalse } = useContext(HostContext)
+  const { setHostInTrue, setHostInFalse } = useContext(HostContext)
   const { t } = useTranslation()
   const dispatch = useDispatch()
   const { isError, error } = selectErrorNetworks(store.getState())
   const indexChannel = data.id
- 
+
   useEffect(() => {
     inputRef.current?.focus()
   })
   const closeButton = () => {
-    dispatch(closeModal({type:'remove'}))
+    dispatch(closeModal({ type: 'remove' }))
     dispatch(clearErrorNetwork())
   }
   const formik = useFormik({
@@ -49,14 +49,13 @@ const RemoveModal = ({data}) => {
         else {
           dispatch(setErrorNetwork({ error: 'errors.unknow' }))
         }
-
       })
         .finally(() => setSubmitting(false))
     },
   })
 
   return (
-    <Modal show onHide={closeButton}  backdrop="static">
+    <Modal show onHide={closeButton} backdrop="static">
       <Modal.Header closeButton>
         <Modal.Title>{t('modalActionName.remove')}</Modal.Title>
       </Modal.Header>
@@ -70,10 +69,10 @@ const RemoveModal = ({data}) => {
             </div>
             {formik.status || isError
               ? (
-                  <div className="invalid-feedback">
-                    {formik.status || t(error)}
-                  </div>
-                )
+                <div className="invalid-feedback">
+                  {formik.status || t(error)}
+                </div>
+              )
               : null}
           </FormGroup>
         </form>

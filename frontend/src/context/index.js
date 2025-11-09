@@ -1,7 +1,7 @@
-import { createContext } from "react";
+import { createContext } from 'react'
 
 export const HostContext = createContext({
-    setHostInTrue: () => null,
-    setHostInFalse: () => null,
-    isHost: false,
+  setHostInTrue: () => null,
+  setHostInFalse: () => null,
+  isHost: false,
 })

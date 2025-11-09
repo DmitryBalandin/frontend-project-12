@@ -28,7 +28,7 @@
 
 // // Upload API
 // export const uploadAPI = {
-//   file: (formData, onUploadProgress) => 
+//   file: (formData, onUploadProgress) =>
 //     api.post('/upload', formData, {
 //       headers: {
 //         'Content-Type': 'multipart/form-data',

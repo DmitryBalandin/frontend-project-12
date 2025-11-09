@@ -22,7 +22,7 @@
 //   (config) => {
 //     // Увеличиваем счетчик активных запросов
 //     activeRequests++;
-    
+
 //     // Показываем индикатор загрузки если это первый запрос
 //     if (activeRequests === 1) {
 //     //   store.dispatch(setLoading());
@@ -132,7 +132,7 @@
 
 //   try {
 //     // const refreshTokenValue = store.getState().auth.refreshToken;
-    
+
 //     // Делаем запрос для обновления токена
 //     const response = await axios.post(
 //       `${process.env.REACT_APP_API_URL}/auth/refresh`,

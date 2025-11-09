@@ -17,8 +17,8 @@ import socket from '../../socket'
 import { useTranslation } from 'react-i18next'
 import { selectErrorNetworks, setErrorNetwork, clearErrorNetwork } from '../../slices/errorsNetworkSlice'
 import dayjs from 'dayjs'
-import utc from "dayjs/plugin/utc"
-import timezone from "dayjs/plugin/timezone"
+import utc from 'dayjs/plugin/utc'
+import timezone from 'dayjs/plugin/timezone'
 import { HostContext } from '../../context'
 
 function MainPage() {
@@ -29,9 +29,8 @@ function MainPage() {
   const { error } = selectErrorNetworks(store.getState())
   const { isHost, setHostInFalse } = useContext(HostContext)
 
-  dayjs.extend(utc);
-  dayjs.extend(timezone);
-
+  dayjs.extend(utc)
+  dayjs.extend(timezone)
 
   useEffect(() => {
     if (error) {

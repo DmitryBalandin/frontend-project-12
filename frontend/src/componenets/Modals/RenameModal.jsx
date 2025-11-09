@@ -1,7 +1,7 @@
 import { Modal, FormGroup, FormControl } from 'react-bootstrap'
 import { useFormik } from 'formik'
 import { useSelector } from 'react-redux'
-import { useEffect, useRef, useContext} from 'react'
+import { useEffect, useRef, useContext } from 'react'
 import { useDispatch } from 'react-redux'
 import * as Yup from 'yup'
 import axios from 'axios'
@@ -13,7 +13,6 @@ import { useTranslation } from 'react-i18next'
 import { selectErrorNetworks, setErrorNetwork, clearErrorNetwork } from '../../slices/errorsNetworkSlice'
 import { closeModal } from '../../slices/modalSlice'
 import { HostContext } from '../../context'
-
 
 const RenameModal = ({ data }) => {
   const indexChannel = data.id
@@ -72,7 +71,6 @@ const RenameModal = ({ data }) => {
           else {
             dispatch(setErrorNetwork({ error: 'errors.unknow' }))
           }
-
         })
         .finally(() => setSubmitting(false))
     },

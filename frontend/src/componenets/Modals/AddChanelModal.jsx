@@ -14,12 +14,11 @@ import { closeModal } from '../../slices/modalSlice'
 import { selectors as selectorsChannels } from '../../slices/channelsSlice'
 import { HostContext } from '../../context'
 
-
-const AddChanelModal = ({data}) => {
+const AddChanelModal = ({ data }) => {
   const { t } = useTranslation()
   const inputRef = useRef()
   const { isError, error } = selectErrorNetworks(store.getState())
-  const { setHostInTrue,setHostInFalse } = useContext(HostContext)
+  const { setHostInTrue, setHostInFalse } = useContext(HostContext)
 
   useEffect(() => {
     LeoProfanity.loadDictionary('en')
@@ -29,8 +28,7 @@ const AddChanelModal = ({data}) => {
     inputRef.current?.focus()
   })
   const listNamesChannels = useSelector(state => selectorsChannels.selectAll(state))
-        .map(({ name }) => name)
-
+    .map(({ name }) => name)
 
   const validationSchema = Yup.object().shape({
     body: Yup.string()
@@ -42,7 +40,7 @@ const AddChanelModal = ({data}) => {
 
   const dispatch = useDispatch()
   const closeButton = () => {
-    dispatch(closeModal({type:'add'}))
+    dispatch(closeModal({ type: 'add' }))
     dispatch(clearErrorNetwork())
   }
 
@@ -52,17 +50,16 @@ const AddChanelModal = ({data}) => {
     onSubmit: ({ body }, { setSubmitting }) => {
       dispatch(clearErrorNetwork())
       const token = selectToken(store.getState())
-      const newChannel = { name: LeoProfanity.clean(body)}
-        setHostInTrue()
+      const newChannel = { name: LeoProfanity.clean(body) }
+      setHostInTrue()
       axios.post(routes.channels.allChannels(), newChannel, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       })
         .then(() => {
-        
           formik.resetForm()
-          dispatch(closeModal({type:'add'}))
+          dispatch(closeModal({ type: 'add' }))
         })
         .catch((e) => {
           setHostInFalse()
@@ -102,10 +99,10 @@ const AddChanelModal = ({data}) => {
             </div>
             {(formik.touched.body && formik.errors.body) || isError
               ? (
-                  <div className="invalid-feedback">
-                    {formik.errors.body || t(error)}
-                  </div>
-                )
+                <div className="invalid-feedback">
+                  {formik.errors.body || t(error)}
+                </div>
+              )
               : null}
           </FormGroup>
         </form>

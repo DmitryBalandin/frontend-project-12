@@ -12,14 +12,11 @@ import { useTranslation } from 'react-i18next'
 import LeoProfanity from 'leo-profanity'
 import dayjs from 'dayjs'
 
-
 const MessagesCard = ({ activeChannel }) => {
   const [valueMessage, setValueMessage] = useState('')
   useEffect(() => {
     LeoProfanity.loadDictionary('ru')
   }, [])
-
-
 
   const channelSelected = useSelector(state => selectorsChannels.selectById(state, activeChannel))
   const { t } = useTranslation()
@@ -38,12 +35,12 @@ const MessagesCard = ({ activeChannel }) => {
   const handleSubmit = (e) => {
     e.preventDefault()
     if (valueMessage.length === 0) return
-    
+
     const timeNow = dayjs()
 
     const bodyMessage = {
       date: timeNow,
-      valueMessage
+      valueMessage,
     }
     const token = selectToken(store.getState())
     const newMessage = { body: bodyMessage, channelId: activeChannel, username }
@@ -89,7 +86,7 @@ const MessagesCard = ({ activeChannel }) => {
         {messages
           .filter(({ channelId }) => channelId === activeChannel)
           .map(({ body, username, id }) => {
-            const correctedTime = dayjs(body.date).format('HH:mm');
+            const correctedTime = dayjs(body.date).format('HH:mm')
             return (
               <div className="flex-grow-1  mb-2" key={id}>
                 <div className="bg-light rounded p-3">

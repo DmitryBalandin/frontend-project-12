@@ -8,7 +8,6 @@ import svgCross from '../../assets/cross.svg'
 import { openModal } from '../../slices/modalSlice'
 import Modal from '../Modals/Modal'
 
-
 const Channels = ({ channels, setActiveChannel, activeChannel }) => {
   const { t } = useTranslation()
 
@@ -22,11 +21,10 @@ const Channels = ({ channels, setActiveChannel, activeChannel }) => {
     dispatch(openModal({
       type,
       data: {
-        id
-      }
+        id,
+      },
     }))
   }
-
 
   return (
 
